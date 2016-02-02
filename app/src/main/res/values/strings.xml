@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Beygdu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="drawer_search">Search</string>
+    <string name="drawer_about">About Bin</string>
+    <string name="drawer_last_searches">Last Searches</string>
+    <string name="drawer_favorites">Favorites</string>
+    <string name="drawer_authors">Authors</string>
+    <string name="drawer_contact">Contact</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

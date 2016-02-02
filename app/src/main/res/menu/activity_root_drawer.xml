@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_search"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/drawer_search" />
+        <item
+            android:id="@+id/drawer_about"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/drawer_about" />
+        <item
+            android:id="@+id/drawer_last_searches"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/drawer_last_searches" />
+        <item
+            android:id="@+id/drawer_favorites"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/drawer_favorites" />
+        <item
+            android:id="@+id/drawer_authors"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/drawer_authors" />
+        <item
+            android:id="@+id/drawer_contact"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/drawer_contact" />
+    </group>
+
+
+</menu>
