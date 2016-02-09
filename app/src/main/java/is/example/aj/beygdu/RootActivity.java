@@ -1,13 +1,7 @@
 package is.example.aj.beygdu;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,13 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import is.example.aj.beygdu.Fragments.AboutFragment;
-import is.example.aj.beygdu.Fragments.FragmentObject;
 import is.example.aj.beygdu.Fragments.SearchFragment;
+import is.example.aj.beygdu.UIElements.CustomDialog;
 
 public class RootActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentObject.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener, CustomDialog.CustomDialogListener {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +36,8 @@ public class RootActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        selectItem(0);
     }
 
     @Override
@@ -85,19 +83,20 @@ public class RootActivity extends AppCompatActivity
         } else if (id == R.id.drawer_about) {
             selectItem(1);
         } else if (id == R.id.drawer_last_searches) {
-            selectItem(0);
+            selectItem(2);
         } else if (id == R.id.drawer_favorites) {
-            selectItem(1);
+
         } else if (id == R.id.drawer_authors) {
-            selectItem(0);
+
         } else if (id == R.id.drawer_contact) {
-            selectItem(1);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     private void selectItem(int position) {
 
@@ -106,15 +105,39 @@ public class RootActivity extends AppCompatActivity
         if(position == 0) {
             ft.replace(R.id.frame_layout, new SearchFragment());
         }
+        else if(position == 1) {
+           // ft.replace(R.id.frame_layout, new AboutFragment());
+        }
+        else if(position == 2) {
+
+        }
         else {
-            ft.replace(R.id.frame_layout, new AboutFragment());
+
         }
 
         ft.commit();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
+    private void makeToast(String o) {
+        Toast toast = Toast.makeText(getApplicationContext(), o, Toast.LENGTH_LONG);
+        toast.show();
+    }
 
+
+
+    @Override
+    public void onSearchFragmentInteraction(String s, boolean state) {
+        //makeToast("Test");
+        Bundle bundle = new Bundle();
+        bundle.putString("title", "I LIKE B..");
+        bundle.putStringArray("arguments", new String[] { "I", "like", "b...", "and", "e.." });
+        CustomDialog customDialog = new CustomDialog();
+        customDialog.setArguments(bundle);
+        customDialog.show(getFragmentManager(), "0");
+    }
+
+    @Override
+    public void onDialogClick(int position) {
+        makeToast(position + "");
     }
 }

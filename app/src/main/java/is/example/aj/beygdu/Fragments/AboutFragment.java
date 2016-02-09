@@ -20,7 +20,7 @@ import is.example.aj.beygdu.R;
  * Use the {@link AboutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AboutFragment extends FragmentObject {
+public class AboutFragment extends Fragment {
 
     public AboutFragment() {
         // Required empty public constructor

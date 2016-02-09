@@ -6,6 +6,7 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- Navigator Drawer Items  -->
     <string name="drawer_search">Search</string>
     <string name="drawer_about">About Bin</string>
     <string name="drawer_last_searches">Last Searches</string>
@@ -15,5 +16,26 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- RootActivity String constants -->
+
+    <!-- SearchFragment String constants -->
+    <string name="search_toolbar_title">PG-Toolbar_Title</string>
+    <string name="search_header_description">PH-Header_Description</string>
+    <string name="search_footer_description">PH-Footer_Description</string>
+    <string name="search_skrambi_banner">PH-Skrambi_Banner</string>
+    <string name="search_checkbox_description">PH-CheckBox_Description</string>
+    <string name="search_edittext_hint">PH-EditText_Hint</string>
+
+    <!-- AboutFragment String constants -->
+
+    <!-- CacheFragment String constants -->
+
+    <!-- FavoriteFragment String constants -->
+
+    <!-- AuthorFragment String constants -->
+
+    <!-- ContactFragment String constants -->
 
 </resources>
