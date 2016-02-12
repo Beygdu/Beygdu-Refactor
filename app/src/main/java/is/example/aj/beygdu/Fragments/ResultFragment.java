@@ -8,32 +8,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.List;
 
 import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.R;
 
-/**
- */
-public class CacheFragment extends Fragment {
+public class ResultFragment extends Fragment {
 
-    // Layout objects
-    private ListView listView;
-
-    // Fragment callback
     private FragmentCallback fragmentCallback;
 
-    public CacheFragment() {
+    public ResultFragment() {
         // Required empty public constructor
     }
 
 
-    public static CacheFragment newInstance() {
-        CacheFragment fragment = new CacheFragment();
+    public static ResultFragment newInstance() {
+        ResultFragment fragment = new ResultFragment();
         return fragment;
     }
 
@@ -46,37 +35,19 @@ public class CacheFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_cache, container, false);
+        View v = inflater.inflate(R.layout.fragment_result, container, false);
 
-        listView = (ListView) v.findViewById(R.id.cache_listview);
-        listView.setEmptyView(v.findViewById(R.id.cache_empty));
+        // TODO: Fragment title (searchwords)
 
-        String[] arr = getArguments().getStringArray("arguments");
+        // TODO: Warning (if needed)
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.cache_listview_item,
-                arr
-        );
-
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                fragmentCallback.onCacheCallback(null);
-            }
-
-        });
+        // TODO: Manage blocks
 
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onItemClick(Object o) {
-        if (fragmentCallback != null) {
-            fragmentCallback.onCacheCallback(o);
-        }
+    public void onLongClick() {
+        // TODO : implement some kind of long-click listener
     }
 
     @Override

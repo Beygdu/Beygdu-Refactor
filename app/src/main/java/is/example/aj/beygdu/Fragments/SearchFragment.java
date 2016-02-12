@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.R;
 
 /**
@@ -32,7 +33,7 @@ public class SearchFragment extends Fragment {
     private TextView textView;
 
     // Fragment callback
-    private SearchFragmentListener interactionListener;
+    private FragmentCallback fragmentCallback;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -47,7 +48,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
     }
 
@@ -84,20 +84,20 @@ public class SearchFragment extends Fragment {
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onSearch() {
-        if (interactionListener != null) {
+        if (fragmentCallback != null) {
             //
-            interactionListener.onSearchFragmentInteraction(editText.getText()+"", checkBox.isChecked());
+            fragmentCallback.onSearchCallback(editText.getText() + "", checkBox.isChecked());
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof SearchFragmentListener) {
-            interactionListener = (SearchFragmentListener) context;
+        if (context instanceof FragmentCallback) {
+            fragmentCallback = (FragmentCallback) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement FragmentCallback");
         }
     }
 
@@ -114,13 +114,8 @@ public class SearchFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        interactionListener = null;
+        fragmentCallback = null;
     }
 
-
-    public interface SearchFragmentListener {
-        // TODO: Update argument type and name
-        void onSearchFragmentInteraction(String s, boolean state);
-    }
 
 }

@@ -12,11 +12,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
+
+import is.example.aj.beygdu.Async.BinAsyncTask;
+import is.example.aj.beygdu.Fragments.CacheFragment;
 import is.example.aj.beygdu.Fragments.SearchFragment;
+import is.example.aj.beygdu.Parser.WordResult;
+import is.example.aj.beygdu.Skrambi.SkrambiWT;
 import is.example.aj.beygdu.UIElements.CustomDialog;
+import is.example.aj.beygdu.Utils.InputValidator;
 
 public class RootActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchFragment.SearchFragmentListener, CustomDialog.CustomDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentCallback, CustomDialog.CustomDialogListener {
 
 
 
@@ -84,9 +91,7 @@ public class RootActivity extends AppCompatActivity
             selectItem(1);
         } else if (id == R.id.drawer_last_searches) {
             selectItem(2);
-        } else if (id == R.id.drawer_favorites) {
-
-        } else if (id == R.id.drawer_authors) {
+        }  else if (id == R.id.drawer_authors) {
 
         } else if (id == R.id.drawer_contact) {
 
@@ -106,10 +111,17 @@ public class RootActivity extends AppCompatActivity
             ft.replace(R.id.frame_layout, new SearchFragment());
         }
         else if(position == 1) {
-           // ft.replace(R.id.frame_layout, new AboutFragment());
+           makeToast("AboutFragment");
         }
         else if(position == 2) {
+            CacheFragment cacheFragment = new CacheFragment();
 
+            Bundle bundle = new Bundle();
+            bundle.putStringArray("arguments", new String[] { "one", "two", "three", "four" });
+
+            cacheFragment.setArguments(bundle);
+
+            ft.replace(R.id.frame_layout, cacheFragment);
         }
         else {
 
@@ -124,7 +136,7 @@ public class RootActivity extends AppCompatActivity
     }
 
 
-
+/*
     @Override
     public void onSearchFragmentInteraction(String s, boolean state) {
         //makeToast("Test");
@@ -135,9 +147,56 @@ public class RootActivity extends AppCompatActivity
         customDialog.setArguments(bundle);
         customDialog.show(getFragmentManager(), "0");
     }
+*/
+
+    private void prepareResultFragment(String url) {
+
+        try {
+            WordResult wR = new BinAsyncTask(getApplicationContext()).execute(url).get();
+            makeToast(wR.getDescription());
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        catch (InterruptedException f) {
+            f.printStackTrace();
+        }
+        catch (NullPointerException g) {
+            g.printStackTrace();
+        }
+
+    }
 
     @Override
     public void onDialogClick(int position) {
         makeToast(position + "");
+    }
+
+    @Override
+    public void onSearchCallback(String input, boolean extended) {
+
+        SkrambiWT skrambiWT = new SkrambiWT(getApplicationContext(), input);
+        String[] arr = skrambiWT.extractCorrections();
+        Bundle bundle = new Bundle();
+        bundle.putString("title", "I LIKE B..");
+        bundle.putStringArray("arguments", arr);
+        CustomDialog customDialog = new CustomDialog();
+        customDialog.setArguments(bundle);
+        customDialog.show(getFragmentManager(), "0");
+        /*
+        InputValidator validator = new InputValidator();
+        if(validator.validate(input, extended)) prepareResultFragment(validator.createUrl(input, extended));
+        */
+        // TODO: errorhandling
+    }
+
+    @Override
+    public void onAboutCallback() {
+
+    }
+
+    @Override
+    public void onCacheCallback(Object item) {
+        makeToast("CacheCallback");
     }
 }

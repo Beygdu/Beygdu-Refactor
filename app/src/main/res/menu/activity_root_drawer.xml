@@ -15,10 +15,6 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/drawer_last_searches" />
         <item
-            android:id="@+id/drawer_favorites"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/drawer_favorites" />
-        <item
             android:id="@+id/drawer_authors"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/drawer_authors" />

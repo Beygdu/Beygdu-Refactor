@@ -10,7 +10,6 @@
     <string name="drawer_search">Search</string>
     <string name="drawer_about">About Bin</string>
     <string name="drawer_last_searches">Last Searches</string>
-    <string name="drawer_favorites">Favorites</string>
     <string name="drawer_authors">Authors</string>
     <string name="drawer_contact">Contact</string>
 
@@ -31,6 +30,7 @@
     <!-- AboutFragment String constants -->
 
     <!-- CacheFragment String constants -->
+    <string name="cache_empty_fragment">PH-No past searches</string>
 
     <!-- FavoriteFragment String constants -->
 
