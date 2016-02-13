@@ -16,6 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 import is.example.aj.beygdu.Async.BinAsyncTask;
 import is.example.aj.beygdu.Fragments.CacheFragment;
+import is.example.aj.beygdu.Fragments.ResultFragment;
 import is.example.aj.beygdu.Fragments.SearchFragment;
 import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.Skrambi.SkrambiWT;
@@ -153,13 +154,31 @@ public class RootActivity extends AppCompatActivity
 
         try {
             WordResult wR = new BinAsyncTask(getApplicationContext()).execute(url).get();
-            makeToast(wR.getDescription());
+
+            if(wR.getDescription().equals(WordResult.singleHit)) {
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("WordResult", wR);
+                ResultFragment fragment = new ResultFragment();
+                fragment.setArguments(bundle);
+                ft.replace(R.id.frame_layout, fragment);
+                ft.commit();
+            }
+            else if(wR.getDescription().equals(WordResult.multiHit)) {
+                //TODO: implementation
+            }
+            else {
+
+            }
+
+
+            //makeToast(wR.getDescription());
         }
         catch (ExecutionException e) {
             e.printStackTrace();
         }
-        catch (InterruptedException f) {
-            f.printStackTrace();
+        catch (InterruptedException e) {
+            e.printStackTrace();
         }
         catch (NullPointerException g) {
             g.printStackTrace();
@@ -174,7 +193,7 @@ public class RootActivity extends AppCompatActivity
 
     @Override
     public void onSearchCallback(String input, boolean extended) {
-
+        /*
         SkrambiWT skrambiWT = new SkrambiWT(getApplicationContext(), input);
         String[] arr = skrambiWT.extractCorrections();
         Bundle bundle = new Bundle();
@@ -183,10 +202,12 @@ public class RootActivity extends AppCompatActivity
         CustomDialog customDialog = new CustomDialog();
         customDialog.setArguments(bundle);
         customDialog.show(getFragmentManager(), "0");
-        /*
-        InputValidator validator = new InputValidator();
-        if(validator.validate(input, extended)) prepareResultFragment(validator.createUrl(input, extended));
         */
+        InputValidator validator = new InputValidator();
+        if(validator.validate(input, extended)) {
+            prepareResultFragment(validator.createUrl(input, extended));
+        }
+
         // TODO: errorhandling
     }
 
@@ -198,5 +219,10 @@ public class RootActivity extends AppCompatActivity
     @Override
     public void onCacheCallback(Object item) {
         makeToast("CacheCallback");
+    }
+
+    @Override
+    public void onDebugCallback(String debug) {
+        makeToast(debug);
     }
 }

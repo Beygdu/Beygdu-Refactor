@@ -1,20 +1,29 @@
 package is.example.aj.beygdu.Fragments;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import is.example.aj.beygdu.FragmentCallback;
+import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.R;
 
 public class ResultFragment extends Fragment {
 
     private FragmentCallback fragmentCallback;
+
+    private int[] blocksShown;
 
     public ResultFragment() {
         // Required empty public constructor
@@ -37,11 +46,37 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_result, container, false);
 
-        // TODO: Fragment title (searchwords)
+        Bundle bundle = getArguments();
+        WordResult result = new WordResult();
 
-        // TODO: Warning (if needed)
+        try {
+            result = (WordResult) bundle.getSerializable("WordResult");
+        }
+        catch (Exception e) {
+            fragmentCallback.onDebugCallback("try-catch failure in ResultFragment");
+        }
 
-        // TODO: Manage blocks
+        if(result == null) {
+            TextView titleTextView = (TextView) v.findViewById(R.id.result_textview);
+            titleTextView.setText("Failure occured");
+        }
+        else {
+            // TODO: Fragment title (searchwords)
+            //fragmentCallback.onDebugCallback("I am calling you from Result");
+
+            // TODO : uncommend and change?
+            //TextView titleTextView = (TextView) v.findViewById(R.id.result_textview);
+            //titleTextView.setText(result.getDescription());
+
+            // TODO: Warning (if needed)
+            if(result.getWarning() != null && result.getWarning().equals("") ) {
+                TextView alertTextview = (TextView) v.findViewById(R.id.result_textview);
+                alertTextview.setText(Html.fromHtml(result.getWarning()));
+            }
+
+            // TODO: Manage blocks
+        }
+
 
         return v;
     }
@@ -76,6 +111,18 @@ public class ResultFragment extends Fragment {
         super.onDetach();
         fragmentCallback = null;
     }
+
+    private TableRow createTableRow() {
+        TableRow tableRow = new TableRow(getActivity().getApplicationContext());
+        // TODO : Specific layoutparam instructions go here
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT
+        );
+
+        tableRow.setLayoutParams(params);
+        return tableRow;
+    }
+
 
 
 }

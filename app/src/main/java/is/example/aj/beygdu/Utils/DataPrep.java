@@ -782,8 +782,14 @@ public class DataPrep {
 
     }
 
-    private WordResult manageAlertNode(WordResult wordResult) {
-        //TODO : fix
+    private WordResult manageAlertNode(WordResult wordResult, ArrayList<Element> selected) {
+        //TODO : fix, i dont like this
+        for( Element element : selected ) {
+            if( element.toString().contains("Athugið:")) {
+                wordResult.setWarning(element.toString());
+                return wordResult;
+            }
+        }
         wordResult.setWarning("");
         return wordResult;
     }
@@ -795,7 +801,7 @@ public class DataPrep {
         String pageTitle = selectedElements.get(0).text();
         wR.setTitle(pageTitle);
 
-        wR = manageAlertNode(wR);
+        wR = manageAlertNode(wR, selectedElements);
 
         // Nafnord
         if( pageTitle.contains("Nafnorð") || pageTitle.contains("nafnorð") ) {
@@ -896,14 +902,14 @@ public class DataPrep {
         WordResult wR = new WordResult();
 
         if( bParser.containsNode("VO_beygingarmynd") ) {
-            wR.setDescription("SingleHit");
+            wR.setDescription(WordResult.singleHit);
             wR = constructSingleResults(wR);
         }
         else if( bParser.containsNode("alert") ) {
-            wR.setDescription("Miss");
+            wR.setDescription(WordResult.miss);
         }
         else {
-            wR.setDescription("MultiHit");
+            wR.setDescription(WordResult.multiHit);
             wR = constructMultiResults(wR);
         }
 

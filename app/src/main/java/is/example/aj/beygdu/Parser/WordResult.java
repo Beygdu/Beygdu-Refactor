@@ -13,6 +13,11 @@ import is.example.aj.beygdu.Utils.Bstring;
  */
 public class WordResult implements Serializable {
 
+    // Control strings
+    public static String singleHit = "Single-Hit";
+    public static String multiHit = "Multi-Hit";
+    public static String miss = "Miss";
+
     // Variables
     private String searchWord;
     private String description;

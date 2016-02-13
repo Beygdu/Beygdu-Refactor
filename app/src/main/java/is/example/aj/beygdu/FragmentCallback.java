@@ -8,5 +8,6 @@ public interface FragmentCallback {
     void onAboutCallback();
     void onCacheCallback(Object item);
 
+    void onDebugCallback(String debug);
 
 }

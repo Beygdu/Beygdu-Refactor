@@ -18,6 +18,7 @@
 
 
     <!-- RootActivity String constants -->
+    <string name="whitespace"> </string>
 
     <!-- SearchFragment String constants -->
     <string name="search_toolbar_title">PG-Toolbar_Title</string>
