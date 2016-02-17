@@ -85,6 +85,12 @@ public class TableFragment extends Fragment {
 
     public void createBlock() {
         tableLayout.addView(title);
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         //Iterate through sub-blocks and set title
         for (SubBlock sBlock : block.getSubBlocks()) {
 
@@ -139,9 +145,9 @@ public class TableFragment extends Fragment {
                 tableTitle.setTextSize(20);
                 tableTitle.setTypeface(LatoLight);
                 tableTitle.setTextColor(getResources().getColor(R.color.white));
-                tableTitle.setBackgroundResource(R.drawable.ic_menu_camera);
+                tableTitle.setBackgroundResource(R.drawable.top_border_orange);
                 tableTitle.setPadding(16, 10, 0, 10);
-                tableTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_menu_camera, 0);
+                tableTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_copy, 0);
 
                 tableLayout.addView(tableTitle);
                 createTable(tables);
@@ -155,13 +161,13 @@ public class TableFragment extends Fragment {
         cell.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
         cell.setPadding(20, 10, 0, 0);
         cell.setTextSize(20);
-        cell.setBackgroundResource(R.drawable.ic_menu_camera);
+        cell.setBackgroundResource(R.drawable.top_border_orange);
         cell.setTypeface(LatoLight);
         cell.setTextColor(getResources().getColor(R.color.white));
         cell.setClickable(true);
         //cell.setOnLongClickListener(new XLongClickListener(context, cell));
         cell.setText(table.getContent().get(0));
-        cell.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_menu_camera, 0);
+        cell.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_copy, 0);
 
 
         tr.addView(cell);
@@ -181,26 +187,26 @@ public class TableFragment extends Fragment {
 
             // For small tables like, nafnbót and sagnbót
             if (rowNum < 2) {
-                tr.setBackgroundResource(R.drawable.ic_menu_camera);
+                tr.setBackgroundResource(R.drawable.bottom_top_border_blue);
             }
 
             // Even numbers and not last row
             else if (row % 2 == 0 && (row != rowLast)) {
-                tr.setBackgroundResource(R.drawable.ic_menu_camera);
+                tr.setBackgroundResource(R.drawable.top_border_blue);
             }
 
 
             // Odd numbers and not last row
             else if ((row % 1 == 0) && (row != rowLast)) {
-                tr.setBackgroundResource(R.drawable.ic_menu_camera);
+                tr.setBackgroundResource(R.drawable.top_border_white);
             }
 
             // Last row
             else if (row == rowLast) {
                 if (row % 2 == 0) {
-                    tr.setBackgroundResource(R.drawable.ic_menu_camera);
+                    tr.setBackgroundResource(R.drawable.bottom_top_border_blue);
                 } else {
-                    tr.setBackgroundResource(R.drawable.ic_menu_camera);
+                    tr.setBackgroundResource(R.drawable.bottom_top_border_white);
                 }
             }
 

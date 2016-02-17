@@ -1,172 +1,159 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="is.example.aj.beygdu.Fragments.SearchFragment">
+    tools:context="is.arnastofnun.beygdu.Main"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-    <!--
-    TODO: Update blank fragment layout
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:background="@color/green" />
-    -->
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:text="@string/search_toolbar_title"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:textSize="30dp"
+        android:paddingTop="20dp"/>
 
 
-    <RelativeLayout
-        android:id="@+id/search_header"
-        android:layout_width="match_parent"
+
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@color/colorPrimary">
+        android:layout_marginTop="190dp">
 
-        <TextView
-            android:id="@+id/header_textview"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:text="@string/search_header_description"
-            android:textSize="20sp"
-            android:gravity="center"/>
-
-    </RelativeLayout>
-    <!--
-    <RelativeLayout
-        android:id="@+id/search_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_header"
-        android:layout_above="@id/search_footer"
-        android:background="@color/red"
-        android:gravity="center">
-
-        <EditText
-            android:id="@+id/search_input"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:textSize="24sp"
-            android:textColor="@color/red"
-            android:hint="@string/app_name"
-            android:inputType="text"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:textSize="20sp"
-            android:textColor="@color/red"
-            android:src="@drawable/ic_menu_manage"
-            android:layout_toRightOf="@id/search_input"
-            android:layout_toEndOf="@id/search_input"/>
-
-
-
-        <CheckBox
-            android:id="@+id/search_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/search_input"
-            android:gravity="center"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentLeft="false"
-            android:layout_centerVertical="true"
-            android:checked="false" />
-
-        <TextView
-            android:id="@+id/search_checkbox_description"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/search_checkbox_description"
-            android:layout_alignTop="@id/search_checkbox"
-            android:layout_toRightOf="@id/search_checkbox"
-            android:layout_toEndOf="@id/search_checkbox"
-            android:gravity="center"/>
-        
-    </RelativeLayout>
-    -->
-    <RelativeLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/search_header"
-        android:gravity="center">
-
-        <LinearLayout
-            android:id="@+id/search_first_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/red"
-            android:gravity="center">
-
+        <TableRow
+            android:id="@+id/search_row"
+            android:padding="10dp">
             <EditText
-                android:id="@+id/search_input"
-                android:layout_width="250dp"
+                android:id="@+id/search_edittext"
                 android:layout_height="50dp"
-                android:textSize="24sp"
-                android:textColor="@color/blue"
+                android:layout_weight="2"
+                android:background="@drawable/inputborder"
+                android:textColor="@color/font_light"
+                android:textSize="24dp"
                 android:hint="@string/search_edittext_hint"
+                android:digits="@string/allowed_characters"
                 android:inputType="text"
-                />
+                android:paddingLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
             <ImageButton
                 android:id="@+id/search_imagebutton"
-                android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:textSize="20sp"
-                android:textColor="@color/blue"
-                android:src="@drawable/ic_menu_manage"/>
+                android:layout_weight="1"
+                android:background="@drawable/button"
+                android:contentDescription="@string/search_button_description"
+                android:onClick="btnOnClick"
+                android:src="@drawable/ic_action_name2"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </TableRow>
 
-        </LinearLayout>
+        <TableRow
+            android:id="@+id/extended_row"
+            android:padding="10dp">
 
-        <LinearLayout
-            android:id="@+id/search_second_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/search_first_content"
-            android:background="@color/green"
-            android:gravity="center">
+            <LinearLayout
+                android:id="@+id/search_checkbox_description_fix">
 
-            <CheckBox
-                android:id="@+id/search_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:checked="false" />
+                <CheckBox
+                    android:id="@+id/search_checkbox"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
 
-            <TextView
-                android:id="@+id/search_checkbox_description"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:text="@string/search_checkbox_description"
-                android:gravity="center"/>
+                <EditText
+                    android:id="@+id/search_checkbox_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_checkbox_description"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </RelativeLayout>
+        </TableRow>
 
-    <RelativeLayout
-        android:id="@+id/search_footer"
+
+
+
+    </TableLayout>
+    <!--TableRow
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/toolbar_color">
+        android:background="@color/d_black">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cache"
+            android:layout_weight="1"
+            android:textColor="@color/font_default"
+            android:id="@+id/cache"
+            android:onClick="cacheClick"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Statistics"
+            android:textColor="@color/font_default"
+            android:layout_weight="1"
+            android:id="@+id/statisticsBtn"
+            android:onClick="statisticsClick"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Google Maps"
+            android:textColor="@color/font_default"
+            android:layout_weight="1"
+            android:id="@+id/mapBtn"
+            android:onClick="googleClick"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Authors"
+            android:textColor="@color/font_default"
+            android:layout_weight="1"
+            android:id="@+id/authors"
+            android:onClick="authorClick"/>
+    </TableRow-->
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:gravity="left" >
 
         <TextView
-            android:id="@+id/footer_textview"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:id="@+id/copyright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:text="@string/search_footer_description"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:gravity="center"/>
-        
+            android:textColor="#FFF"
+            android:textSize="12sp" />
+        <ImageButton
+            android:id="@+id/mapBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:onClick="googleClick"
+            android:textColor="#FFF"
+            android:background="@drawable/ic_launcher"/>
+        <ImageButton
+            android:id="@+id/statisticsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:onClick="phoneClick"
+            android:background="@drawable/ic_action_name"
+            android:layout_marginRight="40dp"/>
     </RelativeLayout>
+
 
 </RelativeLayout>

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import is.example.aj.beygdu.FragmentCallback;
@@ -49,6 +51,11 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(savedInstanceState != null) {
+            // Nothing needs to be saved/re-instantiated here
+            // Is here a a rule of thumb
+        }
+
     }
 
     @Override
@@ -57,9 +64,21 @@ public class SearchFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
+        int orientation = getActivity().getResources().getConfiguration().orientation;
+
 
         // Instantiate layout objects
-        editText = (EditText) v.findViewById(R.id.search_input);
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            TableLayout tableLayout = (TableLayout) v.findViewById(R.id.tableLayout1);
+            tableLayout.setLayoutParams(setTableLayoutParams());
+
+            TextView textView = (TextView) v.findViewById(R.id.title);
+            textView.setVisibility(View.GONE);
+
+            return v;
+        }
+
+        editText = (EditText) v.findViewById(R.id.search_edittext);
         imageButton = (ImageButton) v.findViewById(R.id.search_imagebutton);
         checkBox = (CheckBox) v.findViewById(R.id.search_checkbox);
         textView = (TextView) v.findViewById(R.id.search_checkbox_description);
@@ -101,10 +120,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
+
 
     @Override
     public void onLowMemory() {
@@ -116,6 +132,22 @@ public class SearchFragment extends Fragment {
         super.onDetach();
         fragmentCallback = null;
     }
+    /*
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+        //super.onSaveInstanceState(instanceState);
+    }
+    */
 
+    private RelativeLayout.LayoutParams setTableLayoutParams() {
 
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.FILL_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        params.setMargins(0, 20, 0, 0);
+
+        return params;
+    }
 }

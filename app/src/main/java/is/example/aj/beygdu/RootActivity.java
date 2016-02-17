@@ -31,6 +31,11 @@ public class RootActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            // Does nothing i think?
+        }
+
         setContentView(R.layout.activity_root);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -165,7 +170,13 @@ public class RootActivity extends AppCompatActivity
                 ft.commit();
             }
             else if(wR.getDescription().equals(WordResult.multiHit)) {
-                //TODO: implementation
+                Bundle bundle = new Bundle();
+                bundle.putString("title", R.string.multiHitPrefix + wR.getSearchWord() + R.string.multiHitPostFix);
+                bundle.putStringArray("arguments", wR.getMultiHitDescriptions());
+                bundle.putIntArray("responses", wR.getMultiHitIds());
+                CustomDialog customDialog = new CustomDialog();
+                customDialog.setArguments(bundle);
+                customDialog.show(getFragmentManager(), "0");
             }
             else {
 
@@ -187,8 +198,8 @@ public class RootActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDialogClick(int position) {
-        makeToast(position + "");
+    public void onDialogClick(int which) {
+        prepareResultFragment(new InputValidator().createUrl(which));
     }
 
     @Override
@@ -224,5 +235,10 @@ public class RootActivity extends AppCompatActivity
     @Override
     public void onDebugCallback(String debug) {
         makeToast(debug);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle instanceState) {
+        super.onSaveInstanceState(instanceState);
     }
 }

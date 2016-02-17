@@ -13,6 +13,7 @@ import android.os.Bundle;
 public class CustomDialog extends DialogFragment {
 
     CustomDialogListener dialogListener;
+    private int[] responseIds;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -20,10 +21,12 @@ public class CustomDialog extends DialogFragment {
 
         builder.setTitle(getArguments().getString("title"));
 
+        responseIds = getArguments().getIntArray("responses");
+
         builder.setItems(getArguments().getStringArray("arguments"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialogListener.onDialogClick(which);
+                dialogListener.onDialogClick(responseIds[which]);
             }
         });
 
@@ -49,7 +52,7 @@ public class CustomDialog extends DialogFragment {
     }
 
     public interface CustomDialogListener {
-        public void onDialogClick(int position);
+        void onDialogClick(int position);
     }
 
 }
