@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by arnar on 2/9/2016.
  */
-public class Table implements Serializable {
+public class Table implements Parcelable {
 
     private String title;
     private String[] columnNames;
@@ -22,6 +22,25 @@ public class Table implements Serializable {
         this.rowNames = rowNames;
         this.content = content;
     }
+
+    protected Table(Parcel in) {
+        title = in.readString();
+        columnNames = in.createStringArray();
+        rowNames = in.createStringArray();
+        content = in.createStringArrayList();
+    }
+
+    public static final Creator<Table> CREATOR = new Creator<Table>() {
+        @Override
+        public Table createFromParcel(Parcel in) {
+            return new Table(in);
+        }
+
+        @Override
+        public Table[] newArray(int size) {
+            return new Table[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -51,4 +70,16 @@ public class Table implements Serializable {
         return !title.equals("");
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeStringArray(columnNames);
+        dest.writeStringArray(rowNames);
+        dest.writeStringList(content);
+    }
 }

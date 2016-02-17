@@ -11,7 +11,7 @@ import is.example.aj.beygdu.Utils.Bstring;
 /**
  * Created by arnar on 2/9/2016.
  */
-public class WordResult implements Serializable {
+public class WordResult implements Parcelable {
 
     // Control strings
     public static String singleHit = "Single-Hit";
@@ -37,6 +37,28 @@ public class WordResult implements Serializable {
     public WordResult() {
         // Empty
     }
+
+    protected WordResult(Parcel in) {
+        searchWord = in.readString();
+        description = in.readString();
+        multiHitDescriptions = in.createStringArray();
+        multiHitIds = in.createIntArray();
+        title = in.readString();
+        warning = in.readString();
+        result = in.createTypedArrayList(Block.CREATOR);
+    }
+
+    public static final Creator<WordResult> CREATOR = new Creator<WordResult>() {
+        @Override
+        public WordResult createFromParcel(Parcel in) {
+            return new WordResult(in);
+        }
+
+        @Override
+        public WordResult[] newArray(int size) {
+            return new WordResult[size];
+        }
+    };
 
     public String getSearchWord() {
         return searchWord;
@@ -100,5 +122,21 @@ public class WordResult implements Serializable {
 
     public void setDebug(ArrayList<Bstring> debug) {
         this.debug = debug;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(searchWord);
+        dest.writeString(description);
+        dest.writeStringArray(multiHitDescriptions);
+        dest.writeIntArray(multiHitIds);
+        dest.writeString(title);
+        dest.writeString(warning);
+        dest.writeTypedList(result);
     }
 }

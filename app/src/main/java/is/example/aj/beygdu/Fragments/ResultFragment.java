@@ -75,7 +75,7 @@ public class ResultFragment extends Fragment {
         tableLayout = (TableLayout) v.findViewById(R.id.data_table);
 
         try {
-            wordResult = (WordResult) getArguments().getSerializable("WordResult");
+            wordResult =  getArguments().getParcelable("WordResult");
         } catch (Exception e) {
             e.printStackTrace();
             return v;

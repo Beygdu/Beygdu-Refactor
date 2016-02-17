@@ -163,7 +163,7 @@ public class RootActivity extends AppCompatActivity
             if(wR.getDescription().equals(WordResult.singleHit)) {
                 android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("WordResult", wR);
+                bundle.putParcelable("WordResult", wR);
                 ResultFragment fragment = new ResultFragment();
                 fragment.setArguments(bundle);
                 ft.replace(R.id.frame_layout, fragment);
