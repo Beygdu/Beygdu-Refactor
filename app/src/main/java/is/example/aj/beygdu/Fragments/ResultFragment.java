@@ -121,12 +121,12 @@ public class ResultFragment extends Fragment {
                     + " must implement FragmentCallback");
         }
     }
-
+/*
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
-
+*/
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -185,5 +185,12 @@ public class ResultFragment extends Fragment {
             }
         }
         return  v;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+
+        super.onSaveInstanceState(instanceState);
     }
 }

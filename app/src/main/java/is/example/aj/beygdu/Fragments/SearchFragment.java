@@ -132,12 +132,12 @@ public class SearchFragment extends Fragment {
         super.onDetach();
         fragmentCallback = null;
     }
-    /*
+
     @Override
     public void onSaveInstanceState(Bundle instanceState) {
-        //super.onSaveInstanceState(instanceState);
+        super.onSaveInstanceState(instanceState);
     }
-    */
+
 
     private RelativeLayout.LayoutParams setTableLayoutParams() {
 
