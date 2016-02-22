@@ -48,6 +48,9 @@ public class TableFragment extends Fragment {
         // Empty Constructor
     }
 
+    // TODO : Fragments with these kinds of constructors are bad
+    // TODO : Implement regular bundle argument passing, find fix for layouts
+    // TODO : Fix fonts, remember that there is no specified folder for em
     public TableFragment(Context context, TableLayout tableLayout, Block block, TextView title, String wordTitle, String blockTitle) {
         this.context = context;
         this.tableLayout = tableLayout;
@@ -332,12 +335,11 @@ public class TableFragment extends Fragment {
             tableLayout.addView(tr);
         }
     }
-/*
+
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    public void onLowMemory() {
+        super.onLowMemory();
     }
-    */
 
     @Override
     public void onSaveInstanceState(Bundle instanceState) {

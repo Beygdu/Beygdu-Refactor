@@ -10,17 +10,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AboutFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AboutFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A simple fragment
  */
+// TODO: Implement
 public class AboutFragment extends Fragment {
+
+    // For the implementation of a "fake" back button
+    private FragmentCallback fragmentCallback;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -29,8 +29,7 @@ public class AboutFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      */
-    // TODO: Rename and change types and number of parameters
-    public static AboutFragment newInstance(String param1, String param2) {
+    public static AboutFragment newInstance() {
         AboutFragment fragment = new AboutFragment();
         return fragment;
     }
@@ -38,7 +37,13 @@ public class AboutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: Implement a "back" button
         setHasOptionsMenu(true);
+
+        if(savedInstanceState != null) {
+            // (Probably) Nothing needs to be saved/re=instantiated here
+            // Is here as a rule of thumb
+        }
     }
 
     @Override
@@ -55,5 +60,34 @@ public class AboutFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentCallback) {
+            fragmentCallback = (FragmentCallback) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement FragmentCallback");
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentCallback = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+
+        // (Probably) Nothing needs to be saved before orientation switch
+
+        super.onSaveInstanceState(instanceState);
+    }
 
 }

@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.R;
 
-
+// TODO : implement
 public class MapFragment extends Fragment {
 
-    private FragmentCallback callback;
+    private FragmentCallback fragmentCallback;
 
     public MapFragment() {
         // Required empty public constructor
@@ -30,6 +30,11 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            // (Probably) Nothing needs to be saved/re-instantiated here
+            // Is here as a rule of thumb
+        }
     }
 
     @Override
@@ -44,17 +49,30 @@ public class MapFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof FragmentCallback) {
-            callback = (FragmentCallback) context;
+            fragmentCallback = (FragmentCallback) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement FragmentCallback");
         }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        callback = null;
+        fragmentCallback = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+
+        // (Probably) Nothing needs to be saved before orientation switch
+
+        super.onSaveInstanceState(instanceState);
     }
 
 }

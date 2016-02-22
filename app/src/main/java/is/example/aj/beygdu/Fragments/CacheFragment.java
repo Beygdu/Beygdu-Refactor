@@ -19,6 +19,7 @@ import is.example.aj.beygdu.R;
 
 /**
  */
+// TODO: implement
 public class CacheFragment extends Fragment {
 
     // Layout objects
@@ -40,6 +41,10 @@ public class CacheFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            // TODO: manage state of listview
+        }
     }
 
     @Override
@@ -53,6 +58,7 @@ public class CacheFragment extends Fragment {
 
         String[] arr = getArguments().getStringArray("arguments");
 
+        // TODO: Implement a custom ArrayAdapter for the fragment
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.cache_listview_item,
@@ -60,7 +66,7 @@ public class CacheFragment extends Fragment {
         );
 
         listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -72,12 +78,6 @@ public class CacheFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onItemClick(Object o) {
-        if (fragmentCallback != null) {
-            fragmentCallback.onCacheCallback(o);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -90,10 +90,6 @@ public class CacheFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 
     @Override
     public void onLowMemory() {
@@ -106,5 +102,12 @@ public class CacheFragment extends Fragment {
         fragmentCallback = null;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+
+        // TODO : Save state involving the listview
+
+        super.onSaveInstanceState(instanceState);
+    }
 
 }

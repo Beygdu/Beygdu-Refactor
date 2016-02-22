@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.R;
 
-
+// TODO: implement
 public class AuthorFragment extends Fragment {
 
-    private FragmentCallback callback;
+    // Fake back button
+    private FragmentCallback fragmentCallback;
 
     public AuthorFragment() {
         // Required empty public constructor
@@ -29,6 +30,11 @@ public class AuthorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            // (Probably) Nothing needs to be saved/re-instantiated here
+            // Is here as a rule of thumb
+        }
     }
 
     @Override
@@ -44,7 +50,7 @@ public class AuthorFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof FragmentCallback) {
-            callback = (FragmentCallback) context;
+            fragmentCallback = (FragmentCallback) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -52,10 +58,21 @@ public class AuthorFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        callback = null;
+    public void onLowMemory() {
+        super.onLowMemory();
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentCallback = null;
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+
+        // (Probably) Nothing needs to be saved before orientation switch
+
+        super.onSaveInstanceState(instanceState);
+    }
 }
