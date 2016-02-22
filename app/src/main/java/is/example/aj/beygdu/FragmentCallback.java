@@ -7,7 +7,7 @@ public interface FragmentCallback {
     void onSearchCallback(String input, boolean extended);
     void onAboutCallback();
     void onCacheCallback(Object item);
-
+    void onFragmentSwitch(int state);
     void onDebugCallback(String debug);
 
 }

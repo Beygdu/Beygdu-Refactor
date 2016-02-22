@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import is.example.aj.beygdu.Async.SkrambiAsyncTask;
+import is.example.aj.beygdu.Utils.OutputValidator;
 
 /**
  * Created by arnar on 2/11/2016.
@@ -25,7 +26,7 @@ public class SkrambiWT {
 
     public String[] extractCorrections() {
         try {
-           return new String[] { new SkrambiAsyncTask(context).execute(searchWord).get(), "" };
+           return OutputValidator.createSkrambiOutput( new SkrambiAsyncTask(context).execute(searchWord).get() );
         }
         catch (ExecutionException e) {
             e.printStackTrace();

@@ -15,7 +15,11 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 import is.example.aj.beygdu.Async.BinAsyncTask;
+import is.example.aj.beygdu.Fragments.AboutFragment;
+import is.example.aj.beygdu.Fragments.AuthorFragment;
 import is.example.aj.beygdu.Fragments.CacheFragment;
+import is.example.aj.beygdu.Fragments.MailFragment;
+import is.example.aj.beygdu.Fragments.MapFragment;
 import is.example.aj.beygdu.Fragments.ResultFragment;
 import is.example.aj.beygdu.Fragments.SearchFragment;
 import is.example.aj.beygdu.Parser.WordResult;
@@ -26,7 +30,11 @@ import is.example.aj.beygdu.Utils.InputValidator;
 public class RootActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentCallback, CustomDialog.CustomDialogListener {
 
+    private boolean isCorrection = false;
 
+    private void toggleCorrectionState() {
+        isCorrection = !isCorrection;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +125,7 @@ public class RootActivity extends AppCompatActivity
             ft.replace(R.id.frame_layout, new SearchFragment());
         }
         else if(position == 1) {
-           makeToast("AboutFragment");
+           ft.replace(R.id.frame_layout, new AboutFragment());
         }
         else if(position == 2) {
             CacheFragment cacheFragment = new CacheFragment();
@@ -129,8 +137,15 @@ public class RootActivity extends AppCompatActivity
 
             ft.replace(R.id.frame_layout, cacheFragment);
         }
-        else {
-
+        else if(position == 3) {
+            ft.replace(R.id.frame_layout, new AuthorFragment());
+        }
+        else if(position == 4) {
+            ft.replace(R.id.frame_layout, new MailFragment());
+        }
+        // Map
+        else if(position == 5) {
+            ft.replace(R.id.frame_layout, new MapFragment());
         }
 
         ft.commit();
@@ -179,7 +194,30 @@ public class RootActivity extends AppCompatActivity
                 customDialog.show(getFragmentManager(), "0");
             }
             else {
+                if(!isCorrection) {
+                    // TODO : Fix Searchword == null
+                    SkrambiWT skrambiWT = new SkrambiWT(getApplicationContext(), wR.getSearchWord());
+                    String[] arr = skrambiWT.extractCorrections();
+                    if(arr == null) {
+                        makeToast("Skrambi Fail");
+                        return;
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("state", 1);
+                    bundle.putString("title",
+                            getResources().getString(R.string.multiHitPrefix)
+                                    + " " + wR.getSearchWord() + " " +
+                                    getResources().getString(R.string.multiHitPostFix));
+                    bundle.putStringArray("arguments", arr);
+                    CustomDialog customDialog = new CustomDialog();
+                    customDialog.setArguments(bundle);
+                    customDialog.show(getFragmentManager(), "0");
+                }
+                else {
+                    makeToast("Not Found");
+                }
 
+                toggleCorrectionState();
             }
 
 
@@ -203,6 +241,14 @@ public class RootActivity extends AppCompatActivity
     }
 
     @Override
+    public void onDialogClick(String str) {
+        InputValidator validator = new InputValidator();
+        if(validator.validate(str, false)) {
+            prepareResultFragment(validator.createUrl(str, false));
+        }
+    }
+
+    @Override
     public void onSearchCallback(String input, boolean extended) {
         /*
         SkrambiWT skrambiWT = new SkrambiWT(getApplicationContext(), input);
@@ -213,12 +259,12 @@ public class RootActivity extends AppCompatActivity
         CustomDialog customDialog = new CustomDialog();
         customDialog.setArguments(bundle);
         customDialog.show(getFragmentManager(), "0");
+
         */
         InputValidator validator = new InputValidator();
         if(validator.validate(input, extended)) {
             prepareResultFragment(validator.createUrl(input, extended));
         }
-
         // TODO: errorhandling
     }
 
@@ -230,6 +276,11 @@ public class RootActivity extends AppCompatActivity
     @Override
     public void onCacheCallback(Object item) {
         makeToast("CacheCallback");
+    }
+
+    @Override
+    public void onFragmentSwitch(int state) {
+        selectItem(state);
     }
 
     @Override

@@ -47,7 +47,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:contentDescription="@string/search_button_description"
-                android:onClick="btnOnClick"
                 android:src="@drawable/ic_action_name2"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -79,45 +78,7 @@
 
 
     </TableLayout>
-    <!--TableRow
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/d_black">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cache"
-            android:layout_weight="1"
-            android:textColor="@color/font_default"
-            android:id="@+id/cache"
-            android:onClick="cacheClick"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Statistics"
-            android:textColor="@color/font_default"
-            android:layout_weight="1"
-            android:id="@+id/statisticsBtn"
-            android:onClick="statisticsClick"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Google Maps"
-            android:textColor="@color/font_default"
-            android:layout_weight="1"
-            android:id="@+id/mapBtn"
-            android:onClick="googleClick"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Authors"
-            android:textColor="@color/font_default"
-            android:layout_weight="1"
-            android:id="@+id/authors"
-            android:onClick="authorClick"/>
-    </TableRow-->
+
     <RelativeLayout
         android:id="@+id/search_imageBox"
         android:layout_width="match_parent"
@@ -129,6 +90,7 @@
             android:layout_margin="5dp"
             android:layout_width="80dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/search_BinBanner_description"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_menu_camera"/>
@@ -138,6 +100,7 @@
             android:layout_margin="5dp"
             android:layout_width="80dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/search_SkrambiBanner_description"
             android:layout_toLeftOf="@+id/search_imageBox_right"
             android:layout_toStartOf="@+id/search_imageBox_right"
             android:src="@drawable/ic_menu_camera"/>
@@ -153,7 +116,7 @@
         android:gravity="left" >
 
         <TextView
-            android:id="@+id/copyright"
+            android:id="@+id/search_footer_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -161,21 +124,23 @@
             android:textColor="#FFF"
             android:textSize="12sp" />
         <ImageButton
-            android:id="@+id/mapBtn"
+            android:id="@+id/search_footer_map"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:contentDescription="@string/search_footer_mapbutton"
             android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
-            android:onClick="googleClick"
+            android:layout_alignParentEnd="true"
             android:textColor="#FFF"
             android:background="@drawable/ic_launcher"/>
         <ImageButton
-            android:id="@+id/statisticsBtn"
+            android:id="@+id/search_footer_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/search_footer_contactbutton"
             android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
-            android:onClick="phoneClick"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/ic_action_name"
             android:layout_marginRight="40dp"/>
     </RelativeLayout>

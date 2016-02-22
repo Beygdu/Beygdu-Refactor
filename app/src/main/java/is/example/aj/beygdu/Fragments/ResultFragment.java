@@ -63,13 +63,22 @@ public class ResultFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO : implement
+        // TODO : implement a better solution
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Orientation change //
+        if(savedInstanceState != null) {
+            blockNames = savedInstanceState.getStringArrayList("blockNames");
+            selectedItems = savedInstanceState.getIntegerArrayList("selectedItems");
+            width = savedInstanceState.getFloat("width");
+            height = savedInstanceState.getFloat("height");
+            wordResult = savedInstanceState.getParcelable("WordResult");
+        }
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_result, container, false);
         tableLayout = (TableLayout) v.findViewById(R.id.data_table);
@@ -89,11 +98,11 @@ public class ResultFragment extends Fragment {
 
         width = DisplayUtilities.convertPixelsToDp(size.x, activity);
         height = DisplayUtilities.convertPixelsToDp(size.y, activity);
-        /*
-        LatoBold = Typeface.createFromAsset(activity.getAssets(), "fonts/Lato-Bold.ttf");
-        LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "fonts/Lato-Semibold.ttf");
-        LatoLight = Typeface.createFromAsset(activity.getAssets(), "fonts/Lato-Light.ttf");
-        */
+
+        LatoBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Bold.ttf");
+        LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Semibold.ttf");
+        LatoLight = Typeface.createFromAsset(activity.getAssets(), "Lato-Light.ttf");
+
         for (int i = 0; i < wordResult.getResult().size(); i++) {
             selectedItems.add(i);
             blockNames.add(wordResult.getResult().get(i).getTitle());
@@ -121,12 +130,7 @@ public class ResultFragment extends Fragment {
                     + " must implement FragmentCallback");
         }
     }
-/*
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-*/
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -153,7 +157,7 @@ public class ResultFragment extends Fragment {
         } else if (width > 600) {
             titleDesc.setTextSize(35);
         }
-        //titleDesc.setTypeface(LatoLight);
+        titleDesc.setTypeface(LatoLight);
 
         if (!wordResult.getWarning().equals("")) {
             // TODO : implement
@@ -190,7 +194,11 @@ public class ResultFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle instanceState) {
-
+        instanceState.putStringArrayList("blockNames", blockNames);
+        instanceState.putIntegerArrayList("selectedItems", selectedItems);
+        instanceState.putFloat("width", width);
+        instanceState.putFloat("height", height);
+        instanceState.putParcelable("WordResult", wordResult);
         super.onSaveInstanceState(instanceState);
     }
 }

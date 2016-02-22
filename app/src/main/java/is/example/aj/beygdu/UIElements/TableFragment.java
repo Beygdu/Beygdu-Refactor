@@ -1,15 +1,20 @@
 package is.example.aj.beygdu.UIElements;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Config;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import is.example.aj.beygdu.Parser.Block;
 import is.example.aj.beygdu.Parser.SubBlock;
 import is.example.aj.beygdu.Parser.Table;
 import is.example.aj.beygdu.R;
+import is.example.aj.beygdu.Utils.DisplayUtilities;
 
 /**
  * Created by arnar on 2/14/2016.
@@ -45,8 +51,10 @@ public class TableFragment extends Fragment {
     public TableFragment(Context context, TableLayout tableLayout, Block block, TextView title, String wordTitle, String blockTitle) {
         this.context = context;
         this.tableLayout = tableLayout;
+        generateViewId(this.tableLayout);
         this.block = block;
         this.title = title;
+        generateViewId(this.title);
 
 
         /* Fonts
@@ -59,6 +67,7 @@ public class TableFragment extends Fragment {
     public TableFragment(Context context, TableLayout tableLayout, Table table, String wordTitle) {
         this.context = context;
         this.tableLayout = tableLayout;
+        generateViewId(this.tableLayout);
         this.table = table;
 
         /* Fonts
@@ -73,8 +82,23 @@ public class TableFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstaceState) {
+        super.onCreate(savedInstaceState);
+        //setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         View rootView = inflater.inflate(R.layout.item_table, container, false);
+
+        if(savedInstanceState != null) {
+            title = (TextView) rootView.findViewById(R.id.search_result);
+            tableLayout = (TableLayout) rootView.findViewById(R.id.data_table);
+            block = savedInstanceState.getParcelable("block");
+            table = savedInstanceState.getParcelable("table");
+        }
 
         createBlock();
 
@@ -83,6 +107,29 @@ public class TableFragment extends Fragment {
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        setRetainInstance(true);
+    }
+/*
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(getView() != null) {
+            ViewGroup parent = (ViewGroup) getView().getParent();
+            if(parent != null) {
+                parent.removeAllViews();
+            }
+        }
+    }
+*/
     public void createBlock() {
         tableLayout.addView(title);
         title.setOnClickListener(new View.OnClickListener() {
@@ -285,5 +332,29 @@ public class TableFragment extends Fragment {
             tableLayout.addView(tr);
         }
     }
+/*
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+    */
 
+    @Override
+    public void onSaveInstanceState(Bundle instanceState) {
+
+        instanceState.putParcelable("block", block);
+        instanceState.putParcelable("table", table);
+        instanceState.putString("titleTextView", title.getText().toString());
+        super.onSaveInstanceState(instanceState);
+    }
+
+
+    private void generateViewId(View v) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            v.setId(DisplayUtilities.generateViewId());
+        }
+        else {
+            //v.setId(View.generateViewId());
+        }
+    }
 }

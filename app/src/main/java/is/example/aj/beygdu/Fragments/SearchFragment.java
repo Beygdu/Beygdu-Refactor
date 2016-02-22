@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
 
         if(savedInstanceState != null) {
             // Nothing needs to be saved/re-instantiated here
-            // Is here a a rule of thumb
+            // Is here as a rule of thumb
         }
 
     }
@@ -75,7 +75,6 @@ public class SearchFragment extends Fragment {
             TextView textView = (TextView) v.findViewById(R.id.title);
             textView.setVisibility(View.GONE);
 
-            return v;
         }
 
         editText = (EditText) v.findViewById(R.id.search_edittext);
@@ -90,21 +89,29 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        ImageButton mapButton = (ImageButton) v.findViewById(R.id.search_footer_map);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentCallback.onFragmentSwitch(5);
+            }
+        });
+
+        ImageButton contactButton = (ImageButton) v.findViewById(R.id.search_footer_contact);
+        contactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentCallback.onFragmentSwitch(4);
+            }
+        });
+
         return v;
     }
 
-    /* Not Needed here
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_about_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-    */
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onSearch() {
         if (fragmentCallback != null) {
-            //
             fragmentCallback.onSearchCallback(editText.getText() + "", checkBox.isChecked());
         }
     }
@@ -135,6 +142,9 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle instanceState) {
+
+        // Nothing needs to be saved before orientation switch
+
         super.onSaveInstanceState(instanceState);
     }
 
@@ -150,4 +160,6 @@ public class SearchFragment extends Fragment {
 
         return params;
     }
+
+
 }
