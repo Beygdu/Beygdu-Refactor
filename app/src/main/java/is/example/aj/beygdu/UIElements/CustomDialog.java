@@ -32,7 +32,7 @@ public class CustomDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(state == 0) {
-                    dialogListener.onDialogClick(responseIds[which]);
+                    dialogListener.onDialogClick(arguments[which], responseIds[which]);
                 }
                 else {
                     dialogListener.onDialogClick(arguments[which]);
@@ -62,7 +62,7 @@ public class CustomDialog extends DialogFragment {
     }
 
     public interface CustomDialogListener {
-        void onDialogClick(int position);
+        void onDialogClick(String str, int id);
         void onDialogClick(String str);
     }
 

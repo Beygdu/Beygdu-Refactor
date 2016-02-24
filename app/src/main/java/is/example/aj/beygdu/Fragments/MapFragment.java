@@ -16,6 +16,12 @@ public class MapFragment extends Fragment {
 
     private FragmentCallback fragmentCallback;
 
+    private static final double longitude = -21.931015;
+    private static final double latitude = 64.146077;
+
+    //MapView mapView;
+    //private GoogleMap googleMap;
+
     public MapFragment() {
         // Required empty public constructor
     }

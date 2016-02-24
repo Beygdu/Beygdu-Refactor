@@ -12,9 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import is.example.aj.beygdu.Async.BinAsyncTask;
+import is.example.aj.beygdu.Async.CacheAsyncTask;
+import is.example.aj.beygdu.Async.SkrambiAsyncTask;
 import is.example.aj.beygdu.Fragments.AboutFragment;
 import is.example.aj.beygdu.Fragments.AuthorFragment;
 import is.example.aj.beygdu.Fragments.CacheFragment;
@@ -106,9 +110,9 @@ public class RootActivity extends AppCompatActivity
         } else if (id == R.id.drawer_last_searches) {
             selectItem(2);
         }  else if (id == R.id.drawer_authors) {
-
+            selectItem(3);
         } else if (id == R.id.drawer_contact) {
-
+            selectItem(4);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -131,7 +135,7 @@ public class RootActivity extends AppCompatActivity
             CacheFragment cacheFragment = new CacheFragment();
 
             Bundle bundle = new Bundle();
-            bundle.putStringArray("arguments", new String[] { "one", "two", "three", "four" });
+            bundle.putParcelableArrayList("arguments", getCacheList());
 
             cacheFragment.setArguments(bundle);
 
@@ -170,82 +174,38 @@ public class RootActivity extends AppCompatActivity
     }
 */
 
-    private void prepareResultFragment(String url) {
 
+    private ArrayList<WordResult> getCacheList() {
         try {
-            WordResult wR = new BinAsyncTask(getApplicationContext()).execute(url).get();
-
-            if(wR.getDescription().equals(WordResult.singleHit)) {
-                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("WordResult", wR);
-                ResultFragment fragment = new ResultFragment();
-                fragment.setArguments(bundle);
-                ft.replace(R.id.frame_layout, fragment);
-                ft.commit();
-            }
-            else if(wR.getDescription().equals(WordResult.multiHit)) {
-                Bundle bundle = new Bundle();
-                bundle.putString("title", R.string.multiHitPrefix + wR.getSearchWord() + R.string.multiHitPostFix);
-                bundle.putStringArray("arguments", wR.getMultiHitDescriptions());
-                bundle.putIntArray("responses", wR.getMultiHitIds());
-                CustomDialog customDialog = new CustomDialog();
-                customDialog.setArguments(bundle);
-                customDialog.show(getFragmentManager(), "0");
-            }
-            else {
-                if(!isCorrection) {
-                    // TODO : Fix Searchword == null
-                    SkrambiWT skrambiWT = new SkrambiWT(getApplicationContext(), wR.getSearchWord());
-                    String[] arr = skrambiWT.extractCorrections();
-                    if(arr == null) {
-                        makeToast("Skrambi Fail");
-                        return;
-                    }
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("state", 1);
-                    bundle.putString("title",
-                            getResources().getString(R.string.multiHitPrefix)
-                                    + " " + wR.getSearchWord() + " " +
-                                    getResources().getString(R.string.multiHitPostFix));
-                    bundle.putStringArray("arguments", arr);
-                    CustomDialog customDialog = new CustomDialog();
-                    customDialog.setArguments(bundle);
-                    customDialog.show(getFragmentManager(), "0");
-                }
-                else {
-                    makeToast("Not Found");
-                }
-
-                toggleCorrectionState();
-            }
-
-
-            //makeToast(wR.getDescription());
+            return (ArrayList<WordResult>) new CacheAsyncTask(this).execute("1").get();
         }
-        catch (ExecutionException e) {
+        catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException g) {
-            g.printStackTrace();
-        }
-
     }
 
     @Override
-    public void onDialogClick(int which) {
-        prepareResultFragment(new InputValidator().createUrl(which));
+    public void onDialogClick(String str, int id) {
+
+        try {
+            WordResult wR = new BinAsyncTask(this).execute(InputValidator.createUrl(id)).get();
+            if(wR != null) {
+                wR.setSearchWord(str);
+                prepareSingleHitSearch(wR);
+            }
+            else {
+                makeToast("onDialogClick - Wordresult is null");
+            }
+        }
+        catch (Exception e) {
+            makeToast("onDialogClick - Failed to create WordResult from id");
+        }
     }
 
     @Override
     public void onDialogClick(String str) {
-        InputValidator validator = new InputValidator();
-        if(validator.validate(str, false)) {
-            prepareResultFragment(validator.createUrl(str, false));
-        }
+        prepareSearchCallback(str, false);
     }
 
     @Override
@@ -261,11 +221,7 @@ public class RootActivity extends AppCompatActivity
         customDialog.show(getFragmentManager(), "0");
 
         */
-        InputValidator validator = new InputValidator();
-        if(validator.validate(input, extended)) {
-            prepareResultFragment(validator.createUrl(input, extended));
-        }
-        // TODO: errorhandling
+        prepareSearchCallback(input, extended);
     }
 
     @Override
@@ -291,5 +247,94 @@ public class RootActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle instanceState) {
         super.onSaveInstanceState(instanceState);
+    }
+
+    //////
+    //
+    //////
+
+    private void prepareSkrambiErrorCheck(String str) {
+
+        try {
+            SkrambiWT skrambiWT = new SkrambiWT(this, str);
+            String[] possibleCorrections = skrambiWT.extractCorrections();
+            if(possibleCorrections != null) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("state", 1);
+                bundle.putString("title", "I LIKE B..");
+                bundle.putStringArray("arguments", possibleCorrections);
+                bundle.putIntArray("responses", null);
+                CustomDialog customDialog = new CustomDialog();
+                customDialog.setArguments(bundle);
+                customDialog.show(getFragmentManager(), "1");
+            }
+            else {
+                makeToast("prepareSkrambiErrorCheck - no corrections found");
+            }
+        }
+        catch (Exception e) {
+
+        }
+
+    }
+
+    private void prepareMultiHitSearch(WordResult wordResult) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", R.string.multiHitPrefix + wordResult.getSearchWord() + R.string.multiHitPostFix);
+        bundle.putStringArray("arguments", wordResult.getMultiHitDescriptions());
+        bundle.putIntArray("responses", wordResult.getMultiHitIds());
+        CustomDialog customDialog = new CustomDialog();
+        customDialog.setArguments(bundle);
+        customDialog.show(getFragmentManager(), "0");
+    }
+
+    private void prepareSingleHitSearch(WordResult wordResult) {
+
+        try {
+            String cache = (String) new CacheAsyncTask(this).execute("0", wordResult).get();
+            makeToast(cache);
+        }
+        catch (Exception e) {
+            makeToast("prepareSingleHitSearch - failed to save result to cache");
+        }
+
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("WordResult", wordResult);
+        ResultFragment fragment = new ResultFragment();
+        fragment.setArguments(bundle);
+        ft.replace(R.id.frame_layout, fragment);
+        ft.commit();
+    }
+
+    private void prepareSearchCallback(String str, boolean extended) {
+        if(InputValidator.validate(str, extended)) {
+            try {
+                WordResult wR = new BinAsyncTask(this).execute(InputValidator.createUrl(str, extended)).get();
+                if(wR != null) {
+                    if(wR.getDescription().equals(WordResult.singleHit)) {
+                        wR.setSearchWord(str);
+                        prepareSingleHitSearch(wR);
+                    }
+                    else if(wR.getDescription().equals(WordResult.multiHit)) {
+                        wR.setSearchWord(str);
+                        prepareMultiHitSearch(wR);
+                    }
+                    else {
+                        prepareSkrambiErrorCheck(str);
+                    }
+                }
+                else {
+                    makeToast("prepareSearchCallback - wR is null");
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                makeToast("prepareSearchCallback try-catch failed");
+            }
+        }
+        else {
+            makeToast("prepareSearchCallback - input illegal");
+        }
     }
 }

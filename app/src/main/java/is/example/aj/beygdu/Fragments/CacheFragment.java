@@ -12,10 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import is.example.aj.beygdu.FragmentCallback;
+import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.R;
+import is.example.aj.beygdu.UIElements.CacheAdapter;
 
 /**
  */
@@ -54,18 +57,18 @@ public class CacheFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_cache, container, false);
 
         listView = (ListView) v.findViewById(R.id.cache_listview);
-        listView.setEmptyView(v.findViewById(R.id.cache_empty));
+        //listView.setEmptyView(v.findViewById(R.id.cache_empty));
 
-        String[] arr = getArguments().getStringArray("arguments");
-
+        ArrayList<WordResult> wordResults = getArguments().getParcelableArrayList("arguments");
+        /*
         // TODO: Implement a custom ArrayAdapter for the fragment
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.cache_listview_item,
                 arr
         );
-
-        listView.setAdapter(arrayAdapter);
+        */
+        listView.setAdapter(new CacheAdapter(getContext(), R.layout.cache_item, wordResults));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

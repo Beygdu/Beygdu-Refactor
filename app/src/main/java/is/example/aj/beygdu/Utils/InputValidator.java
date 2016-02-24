@@ -8,16 +8,17 @@ import java.net.URLEncoder;
  */
 public class InputValidator {
 
-    private String[] legalPrefixes = { "að ",
-            "ég ", "þú ", "hann ", "hún ", "það ",
-            "við ", "þið ", "þeir ", "þær ", "þau ",
-    };
 
-    public boolean validate(String input, boolean extended) {
+    public static boolean validate(String input, boolean extended) {
 
         if (!input.contains(" ")) {
             return true;
         }
+
+        String[] legalPrefixes = { "að ",
+                "ég ", "þú ", "hann ", "hún ", "það ",
+                "við ", "þið ", "þeir ", "þær ", "þau ",
+        };
 
         if( (input.length() - input.replace(" ", "").length() > 1) ) {
             return false;
@@ -33,7 +34,7 @@ public class InputValidator {
         return false;
     }
 
-    public String createUrl(String input, boolean extended) {
+    public static String createUrl(String input, boolean extended) {
         String prefix = "http://dev.phpBin.ja.is/ajax_leit.php/?q=";
         String postfix = "&ordmyndir=on";
 
@@ -41,11 +42,11 @@ public class InputValidator {
         return prefix + input;
     }
 
-    public String createUrl(int id) {
+    public static String createUrl(int id) {
         return "http://dev.phpBin.ja.is/ajax_leit.php/?id=" + id;
     }
 
-    private String convertToUTF8(String convert) {
+    public static String convertToUTF8(String convert) {
         try {
             return URLEncoder.encode(convert, "UTF-8");
         }
