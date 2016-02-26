@@ -62,8 +62,12 @@ public class RootActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Shit-fix for orientation handling
+        int state = 0;
+
         // Handle orientation change
         if(savedInstanceState != null) {
+            state = 9;
             // (Probably) Nothing needs to be saved/re-instantiated here
             // Is here as a rule of thumb
         }
@@ -86,7 +90,7 @@ public class RootActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Open the "home" fragment of the application
-        selectItem(0);
+        selectItem(state);
     }
 
     // TODO : (if desired) change application quit from one back-press (if the user is

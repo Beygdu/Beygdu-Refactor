@@ -41,6 +41,13 @@ public class DisplayUtilities {
         return width;
     }
 
+    public static int getScreenHeigth(Display display) {
+        Point size = new Point();
+        display.getSize(size);
+        int heigth = size.y;
+        return heigth;
+    }
+
     // Helper for view id generation
     private static final AtomicInteger nextGeneratedId = new AtomicInteger(1);
 
