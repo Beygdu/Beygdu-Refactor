@@ -9,7 +9,12 @@ import android.view.Display;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by arnar on 2/14/2016.
+ * @author Arnar
+ * @since 01.16
+ * @version 1.0
+ *
+ * Houses useful methods that where housed originally in their respected activities
+ *
  */
 public class DisplayUtilities {
     /**
@@ -24,6 +29,11 @@ public class DisplayUtilities {
         return dp;
     }
 
+    /**
+     *
+     * @param display Display
+     * @return width of the display
+     */
     public static int getScreenWidth(Display display) {
         Point size = new Point();
         display.getSize(size);
@@ -31,15 +41,22 @@ public class DisplayUtilities {
         return width;
     }
 
-    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+    // Helper for view id generation
+    private static final AtomicInteger nextGeneratedId = new AtomicInteger(1);
 
+    /**
+     * Creates a valid ID for a view subclass object
+     * Needed due to the fact that the targeted API of the application is 15
+     * In never versions this can be replaced by the call View.SetId()
+     * @return a valid id for a view subclass
+     */
     public static int generateViewId() {
         for (;;) {
-            final int result = sNextGeneratedId.get();
+            final int result = nextGeneratedId.get();
             // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
             int newValue = result + 1;
             if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
-            if (sNextGeneratedId.compareAndSet(result, newValue)) {
+            if (nextGeneratedId.compareAndSet(result, newValue)) {
                 return result;
             }
         }

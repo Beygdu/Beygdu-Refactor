@@ -5,7 +5,15 @@ import android.util.Log;
 import java.io.Serializable;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar
+ * @since 05.15
+ * @version 1.0
+ *
+ * Bstring - A special string designed to prevent application crash while parsing results from
+ * the BIN search.
+ *
+ * Mostly used as a debugging tool if (when?) things go wrong
+ * Dumps errors in Log.w()
  */
 public class Bstring implements Serializable {
 

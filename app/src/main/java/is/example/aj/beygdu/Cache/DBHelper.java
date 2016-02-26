@@ -16,6 +16,9 @@ import java.io.InputStreamReader;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
+    // This
+    private static DBHelper instance;
+
     //Context
     private Context context;
 
@@ -33,7 +36,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_BLOCK = "block";
     public static final String TABLE_SUBBLOCK = "subblock";
     public static final String TABLE_TABLES = "tables";
-    public static final String TABLE_STATISTICS = "statistics";
     public static final String TABLE_OBEYGJANLEG = "obeygjanleg";
 
     // Table columns
@@ -93,14 +95,19 @@ public class DBHelper extends SQLiteOpenHelper {
                     "REFERENCES " + DBHelper.TABLE_SUBBLOCK + "("+ DBHelper.SUBBLOCKID + ") " +
                     "ON DELETE CASCADE " +
                     ");";
-
-
     private static final String CREATE_OBEYGJANLEG_TABLE =
             "CREATE TABLE " + TABLE_OBEYGJANLEG + " (" +
                     WORDID + " TEXT" +
                     ");";
 
-    public DBHelper(Context context) {
+    public static synchronized DBHelper getInstance(Context context) {
+        if( instance == null ) {
+            instance = new DBHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    private DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
     }
@@ -124,12 +131,18 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_WORDRESULT_TABLE);
-        db.execSQL(CREATE_BLOCK_TABLE);
-        db.execSQL(CREATE_SUBBLOCK_TABLE);
-        db.execSQL(CREATE_TABLES_TABLE);
-        db.execSQL(CREATE_OBEYGJANLEG_TABLE);
-        insertIntoObeygjanlegTable(db);
+        try {
+            db.execSQL(CREATE_WORDRESULT_TABLE);
+            db.execSQL(CREATE_BLOCK_TABLE);
+            db.execSQL(CREATE_SUBBLOCK_TABLE);
+            db.execSQL(CREATE_TABLES_TABLE);
+            //db.execSQL(CREATE_OBEYGJANLEG_TABLE);
+            // TODO : implement
+            //insertIntoObeygjanlegTable(db);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void insertIntoObeygjanlegTable(SQLiteDatabase db) {
@@ -173,8 +186,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BLOCK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBBLOCK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TABLES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STATISTICS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBEYGJANLEG);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBEYGJANLEG);
         onCreate(db);
     }
 

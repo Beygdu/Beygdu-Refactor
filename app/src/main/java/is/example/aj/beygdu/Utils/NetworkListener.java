@@ -5,7 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by arnar on 2/10/2016.
+ * @author Arnar
+ * @since ??.??
+ * @version 1.0
+ *
+ * A simple helper class that handles network checks
  */
 public class NetworkListener {
 

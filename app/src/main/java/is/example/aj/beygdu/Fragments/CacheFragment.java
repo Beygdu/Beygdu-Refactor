@@ -59,25 +59,23 @@ public class CacheFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.cache_listview);
         //listView.setEmptyView(v.findViewById(R.id.cache_empty));
 
-        ArrayList<WordResult> wordResults = getArguments().getParcelableArrayList("arguments");
-        /*
-        // TODO: Implement a custom ArrayAdapter for the fragment
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.cache_listview_item,
-                arr
-        );
-        */
-        listView.setAdapter(new CacheAdapter(getContext(), R.layout.cache_item, wordResults));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ArrayList<String> wordResults = getArguments().getStringArrayList("arguments");
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                fragmentCallback.onCacheCallback(null);
-            }
 
-        });
+        if(wordResults != null) {
+            listView.setAdapter(new CacheAdapter(getContext(), R.layout.cache_item, wordResults));
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    fragmentCallback.onCacheCallback(null);
+                }
+
+            });
+        }
+        else {
+            listView.setEmptyView(v.findViewById(R.id.cache_empty));
+        }
         return v;
     }
 

@@ -7,7 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by arnar on 2/11/2016.
+ * @author Arnar
+ * @since 02.16
+ * @version 0.1
+ *
+ * A helper class that prepares possible word corrections from the SKRAMBI post request
  */
 public class OutputValidator {
 
@@ -28,7 +32,7 @@ public class OutputValidator {
     }
 
     private static boolean isCorrect(String str) {
-        return str.contains("suggestions");
+        return !str.contains("[]");
     }
 
     public static String[] createSkrambiOutput(String str) {

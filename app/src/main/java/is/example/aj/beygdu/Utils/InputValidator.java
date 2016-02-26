@@ -4,7 +4,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar
+ * @since 05.15
+ * @version 1.0
+ *
+ * Refactored 01.16 - author
+ *
+ * Houses function for BIN-URL search construction
  */
 public class InputValidator {
 

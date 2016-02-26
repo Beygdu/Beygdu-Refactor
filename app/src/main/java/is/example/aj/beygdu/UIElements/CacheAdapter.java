@@ -17,11 +17,11 @@ import is.example.aj.beygdu.R;
 /**
  * Created by arnar on 2/23/2016.
  */
-public class CacheAdapter extends ArrayAdapter<WordResult> {
+public class CacheAdapter extends ArrayAdapter<String> {
 
     private LayoutInflater inflater;
 
-    public CacheAdapter(Context context, int resource, List<WordResult> objects) {
+    public CacheAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
     }
@@ -35,9 +35,9 @@ public class CacheAdapter extends ArrayAdapter<WordResult> {
         TextView textView = (TextView) v.findViewById(R.id.cache_item_textview);
         ImageView imageView = (ImageView) v.findViewById(R.id.cache_item_imageview);
 
-        WordResult wR = this.getItem(position);
+        String str = this.getItem(position);
 
-        textView.setText(wR.getSearchWord());
+        textView.setText(str);
         imageView.setImageResource(R.drawable.ic_menu_camera);
 
         return v;

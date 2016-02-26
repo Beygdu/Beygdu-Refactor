@@ -1,7 +1,11 @@
 package is.example.aj.beygdu;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar
+ * @since 01.16
+ * @version 1.0
+ *
+ * An interface that handles all callbacks from fragments to the root activity
  */
 public interface FragmentCallback {
     void onSearchCallback(String input, boolean extended);

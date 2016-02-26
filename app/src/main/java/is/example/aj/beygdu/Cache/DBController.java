@@ -33,7 +33,7 @@ public class DBController {
     }
 
     private DBController open() throws SQLException {
-        dbHelper = new DBHelper(context);
+        dbHelper = DBHelper.getInstance(context);
         dB = dbHelper.getWritableDatabase();
         return this;
     }

@@ -14,7 +14,12 @@ import is.example.aj.beygdu.Parser.Table;
 import is.example.aj.beygdu.Parser.WordResult;
 
 /**
- * Created by arnar on 2/10/2016.
+ * @author Arnar
+ * @since 05.15
+ * @version 1.0
+ *
+ * DataPrep - Prepares parsed data for display
+ * The ugliest part of the application, if examined do not judge >D
  */
 public class DataPrep {
 

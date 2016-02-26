@@ -3,6 +3,7 @@ package is.example.aj.beygdu;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,50 +30,81 @@ import is.example.aj.beygdu.Fragments.SearchFragment;
 import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.Skrambi.SkrambiWT;
 import is.example.aj.beygdu.UIElements.CustomDialog;
+import is.example.aj.beygdu.UIElements.NotificationDialog;
 import is.example.aj.beygdu.Utils.InputValidator;
 
+/**
+ * @author Snær, Jón Friðrik, Daníel, Arnar,
+ * @since 05.11.14
+ * @version 2.0
+ *
+ * Refactored 01.16 - Arnar
+ *
+ * The initial and only activity of the application. Holds a navigation drawer and a frame layout.
+ * The frame layout is populated by the desired fragment selected by the user.
+ *
+ * The activity handles EVERY logic AND data changes/transactions***, the fragments are only for
+ * displaying content and grabbing user input
+ *
+ * *** With the exception of the ResultFragment - it needs to handle its own logic changes
+ * for result-filtering purposes. The fragment can be implemented to let the activity handle the
+ * changes, but that requires all fragment to use the same (dynamically changing) menu, which
+ * is (probably) redundant
+ *
+ */
 public class RootActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentCallback, CustomDialog.CustomDialogListener {
 
-    private boolean isCorrection = false;
-
-    private void toggleCorrectionState() {
-        isCorrection = !isCorrection;
-    }
+    // Control of FragmentManager.addToBackStack(String tag)
+    private final String backStackTracer = "SearchFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Handle orientation change
         if(savedInstanceState != null) {
-            // Does nothing i think?
+            // (Probably) Nothing needs to be saved/re-instantiated here
+            // Is here as a rule of thumb
         }
 
         setContentView(R.layout.activity_root);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Open the "home" fragment of the application
         selectItem(0);
     }
 
+    // TODO : (if desired) change application quit from one back-press (if the user is
+    // TODO : located at the "home" fragment) to two back-presses
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            // Only the "home" fragment is in the stack
+            finish();
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     @Override
@@ -84,23 +116,26 @@ public class RootActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        // The activity does not need to handle any menu item selection,
+        // although, in some cases, it handles logic from fragment
+        // menu item clicks
 
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * A middleman in the applications fragment transactions
+     * Not used for direct transactions due to support fragments not
+     * found in the navigation drawer (MapFragment,...)
+     *
+     * @param item position of the item clicked in the nav-drawer
+     * @return true for all instances
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.drawer_search) {
@@ -120,64 +155,86 @@ public class RootActivity extends AppCompatActivity
         return true;
     }
 
-
+    /**
+     * 0 = SearchFragment
+     * 1 = AboutFragment
+     * 2 = CacheFragment
+     * 3 = AuthorFragment
+     * 4 = MailFragment (a badly named Contact-fragment)
+     * 5 = MapFragment (not in drawer)
+     *
+     * @param position Position id for the desired fragment to be shown
+     */
     private void selectItem(int position) {
 
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+        makeToast("SupportFragment holds : " + getSupportFragmentManager().getBackStackEntryCount() + " fragments");
+
         if(position == 0) {
-            ft.replace(R.id.frame_layout, new SearchFragment());
+            /*
+            ft.replace(R.id.frame_layout, SearchFragment.newInstance());
+            if(getFragmentManager().getBackStackEntryCount() != 0) {
+                // TODO : clear the stack
+                makeToast("Stack is not empty");
+            }
+            ft.addToBackStack(backStackTracer);
+            */
+            if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                ft.replace(R.id.frame_layout, SearchFragment.newInstance());
+                ft.addToBackStack(backStackTracer);
+            }
+            else {
+                getSupportFragmentManager().popBackStack(backStackTracer, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                ft.replace(R.id.frame_layout, SearchFragment.newInstance());
+                ft.addToBackStack(backStackTracer);
+            }
         }
         else if(position == 1) {
-           ft.replace(R.id.frame_layout, new AboutFragment());
+            ft.replace(R.id.frame_layout, AboutFragment.newInstance());
+            ft.addToBackStack(null);
         }
         else if(position == 2) {
-            CacheFragment cacheFragment = new CacheFragment();
+            CacheFragment cacheFragment = CacheFragment.newInstance();
 
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("arguments", getCacheList());
+            bundle.putStringArrayList("arguments", getCacheList());
 
             cacheFragment.setArguments(bundle);
 
             ft.replace(R.id.frame_layout, cacheFragment);
+            ft.addToBackStack(null);
         }
         else if(position == 3) {
-            ft.replace(R.id.frame_layout, new AuthorFragment());
+            ft.replace(R.id.frame_layout, AuthorFragment.newInstance());
+            ft.addToBackStack(null);
         }
         else if(position == 4) {
-            ft.replace(R.id.frame_layout, new MailFragment());
+            ft.replace(R.id.frame_layout, MailFragment.newInstance());
+            ft.addToBackStack(null);
         }
         // Map
         else if(position == 5) {
-            ft.replace(R.id.frame_layout, new MapFragment());
+            ft.replace(R.id.frame_layout, MapFragment.newInstance());
+            ft.addToBackStack(null);
         }
 
         ft.commit();
     }
 
+    // For Debug purposes
     private void makeToast(String o) {
         Toast toast = Toast.makeText(getApplicationContext(), o, Toast.LENGTH_LONG);
         toast.show();
     }
 
-
-/*
-    @Override
-    public void onSearchFragmentInteraction(String s, boolean state) {
-        //makeToast("Test");
-        Bundle bundle = new Bundle();
-        bundle.putString("title", "I LIKE B..");
-        bundle.putStringArray("arguments", new String[] { "I", "like", "b...", "and", "e.." });
-        CustomDialog customDialog = new CustomDialog();
-        customDialog.setArguments(bundle);
-        customDialog.show(getFragmentManager(), "0");
-    }
-*/
-
-
-    private ArrayList<WordResult> getCacheList() {
+    /**
+     *
+     * @return A list of result names gotten from the in-app database
+     */
+    private ArrayList<String> getCacheList() {
         try {
-            return (ArrayList<WordResult>) new CacheAsyncTask(this).execute("1").get();
+            return (ArrayList<String>) new CacheAsyncTask(this).execute("1").get();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -185,6 +242,13 @@ public class RootActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Handles CustomDialog callback on BIN ID search
+     * This happens when multiple results are found on the initial search
+     *
+     * @param str Search-word corresponding to the id in question
+     * @param id The id of the selected search-word
+     */
     @Override
     public void onDialogClick(String str, int id) {
 
@@ -195,57 +259,91 @@ public class RootActivity extends AppCompatActivity
                 prepareSingleHitSearch(wR);
             }
             else {
-                makeToast("onDialogClick - Wordresult is null");
+                // TODO : manage string resource
+                //makeToast("onDialogClick - Wordresult is null");
+                showNotification("onDialogClick (id) - BinAsync returns null", true);
             }
         }
         catch (Exception e) {
-            makeToast("onDialogClick - Failed to create WordResult from id");
+            // TODO : manage string resource
+            //makeToast("onDialogClick - Failed to create WordResult from id");
+            showNotification("onDialogClick (id) - BinAsync crashed", true);
         }
     }
 
+    /**
+     * Handles CustomDialog callback on SKRAMBI correction search
+     * This happens when the user selects a correction gotten from the SKRAMBI
+     * POST call
+     *
+     * @param str The desired search-word
+     */
     @Override
     public void onDialogClick(String str) {
         prepareSearchCallback(str, false);
     }
 
+    /**
+     * Handles a normal SearchFragment callback
+     * Passes user input from a desired search
+     *
+     * @param input The desired search-word
+     * @param extended control tag - TRUE for extended search, false otherwise
+     */
     @Override
     public void onSearchCallback(String input, boolean extended) {
-        /*
-        SkrambiWT skrambiWT = new SkrambiWT(getApplicationContext(), input);
-        String[] arr = skrambiWT.extractCorrections();
-        Bundle bundle = new Bundle();
-        bundle.putString("title", "I LIKE B..");
-        bundle.putStringArray("arguments", arr);
-        CustomDialog customDialog = new CustomDialog();
-        customDialog.setArguments(bundle);
-        customDialog.show(getFragmentManager(), "0");
 
-        */
         prepareSearchCallback(input, extended);
     }
 
+    /**
+     * This serves no purpose what-so-ever
+     * Is here if callback is needed from AboutFragment
+     */
     @Override
     public void onAboutCallback() {
-
     }
 
+    /**
+     * Handles callback from CacheFragment
+     * Open the desired result chosen by the user
+     *
+     * @param item item to be displayed by a ResultFragment
+     */
     @Override
     public void onCacheCallback(Object item) {
+        // TODO : implement
         makeToast("CacheCallback");
     }
 
+    /**
+     * Handles non-direct fragment transactions
+     *
+     * @param state Integer id for the desired fragment to be displayed
+     */
     @Override
     public void onFragmentSwitch(int state) {
         selectItem(state);
     }
 
+    /**
+     * See function name
+     *
+     * @param debug String to be toasted
+     */
     @Override
     public void onDebugCallback(String debug) {
         makeToast(debug);
     }
 
+    /**
+     * Saves states for CORRECT orientation changes
+     * @param instanceState Activity state
+     */
     @Override
     protected void onSaveInstanceState(Bundle instanceState) {
+        // (Probably) Nothing needs to be saved/re-instantiated here
+        // Is here as a rule of thumb
         super.onSaveInstanceState(instanceState);
     }
 
@@ -269,11 +367,14 @@ public class RootActivity extends AppCompatActivity
                 customDialog.show(getFragmentManager(), "1");
             }
             else {
-                makeToast("prepareSkrambiErrorCheck - no corrections found");
+                // TODO : manage string resource
+                //makeToast("prepareSkrambiErrorCheck - no corrections found");
+                showNotification("prepareSkrambi.. - No corrections found", false);
             }
         }
         catch (Exception e) {
-
+            e.printStackTrace();
+            showNotification("prepareSkrambi.. - SkrambiAsync crashed", true);
         }
 
     }
@@ -325,16 +426,35 @@ public class RootActivity extends AppCompatActivity
                     }
                 }
                 else {
-                    makeToast("prepareSearchCallback - wR is null");
+                    // TODO : manage string resource
+                    //makeToast("prepareSearchCallback - wR is null");
+                    showNotification("prepareSearchCallback - wR is null", true);
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
-                makeToast("prepareSearchCallback try-catch failed");
+                // TODO : manage string resource
+                //makeToast("prepareSearchCallback try-catch failed");
+                showNotification("prepareSearchCallback - BinAsync crashed", true);
             }
         }
         else {
-            makeToast("prepareSearchCallback - input illegal");
+            // TODO : manage string resource
+            //makeToast("prepareSearchCallback - input illegal");
+            showNotification("Illegal input", false);
         }
     }
+
+    private void showNotification(String message, boolean isError) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isError", isError);
+        bundle.putString("message", message);
+
+        String tag = isError ? "1" : "0";
+
+        NotificationDialog dialog = new NotificationDialog();
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), tag);
+    }
+
 }
