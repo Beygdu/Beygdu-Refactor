@@ -11,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -114,6 +117,25 @@ public class ResultFragment extends Fragment {
         // TODO : manage funnel? filter?
 
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_result_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.fragment_result_filter:
+                fragmentCallback.onDebugCallback("MenuItem Selected");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     public void onLongClick() {
