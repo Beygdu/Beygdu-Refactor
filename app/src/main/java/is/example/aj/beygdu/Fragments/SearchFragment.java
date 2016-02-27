@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment {
         super.onSaveInstanceState(instanceState);
     }
 
-
+    // TODO : Move to DisplayUtilities
     private RelativeLayout.LayoutParams setTableLayoutParams() {
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(

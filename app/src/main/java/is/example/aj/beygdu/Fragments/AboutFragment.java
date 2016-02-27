@@ -37,8 +37,6 @@ public class AboutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: Implement a "back" button
-        setHasOptionsMenu(true);
 
         if(savedInstanceState != null) {
             // (Probably) Nothing needs to be saved/re=instantiated here
@@ -54,11 +52,6 @@ public class AboutFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_about_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public void onAttach(Context context) {
