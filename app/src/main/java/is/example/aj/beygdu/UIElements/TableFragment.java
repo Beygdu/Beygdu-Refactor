@@ -48,16 +48,21 @@ public class TableFragment extends Fragment {
         // Empty Constructor
     }
 
+    public static TableFragment newInstance() {
+        TableFragment fragment = new TableFragment();
+        return fragment;
+    }
+
     // TODO : Fragments with these kinds of constructors are bad
     // TODO : Implement regular bundle argument passing, find fix for layouts
     // TODO : Fix fonts, remember that there is no specified folder for em
     public TableFragment(Context context, TableLayout tableLayout, Block block, TextView title, String wordTitle, String blockTitle) {
         this.context = context;
         this.tableLayout = tableLayout;
-        generateViewId(this.tableLayout);
+        //generateViewId(this.tableLayout);
         this.block = block;
         this.title = title;
-        generateViewId(this.title);
+        //generateViewId(this.title);
 
 
         /* Fonts
@@ -70,7 +75,7 @@ public class TableFragment extends Fragment {
     public TableFragment(Context context, TableLayout tableLayout, Table table, String wordTitle) {
         this.context = context;
         this.tableLayout = tableLayout;
-        generateViewId(this.tableLayout);
+        //generateViewId(this.tableLayout);
         this.table = table;
 
         /* Fonts
@@ -90,21 +95,36 @@ public class TableFragment extends Fragment {
         //setRetainInstance(true);
     }
 
+/*
+    TableFragment tFragment = TableFragment.newInstance();
+    Bundle bundle = new Bundle();
+    bundle.putParcelable("Block", block);
+    bundle.putString("wordTitle", firstWord);
+    bundle.putString("blockTitle", block.getTitle());
+    tFragment.setArguments(bundle);
+*/
+
+    //TableFragment tFragment = new TableFragment(getContext(), tableLayout, block, blockTitle, firstWord, block.getTitle());
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         View rootView = inflater.inflate(R.layout.item_table, container, false);
+        /*
+        //ViewGroup parentLayout = ((ViewGroup) getView().getParent());
+        tableLayout = (TableLayout) getParentFragment().getView().findViewById(R.id.data_table);
+        title = (TextView) getParentFragment().getView().findViewById(R.id.search_result);
 
         if(savedInstanceState != null) {
-            title = (TextView) rootView.findViewById(R.id.search_result);
-            tableLayout = (TableLayout) rootView.findViewById(R.id.data_table);
+            //title = (TextView) rootView.findViewById(R.id.search_result);
+            //tableLayout = (TableLayout) rootView.findViewById(R.id.data_table);
             block = savedInstanceState.getParcelable("block");
             table = savedInstanceState.getParcelable("table");
         }
 
         createBlock();
-
+*/
         return rootView;
         //Set typeface for fonts
 

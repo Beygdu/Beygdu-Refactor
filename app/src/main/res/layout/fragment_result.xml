@@ -16,6 +16,14 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp"/>
 
+    <ListView
+        android:id="@+id/result_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null">
+    </ListView>
+
+    <!--
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
@@ -23,21 +31,22 @@
         android:paddingBottom="10dp"
         android:fillViewport="true"
         android:background="@color/blue"
-        android:scrollbars="horizontal|vertical">
+        android:scrollbars="horizontal|vertical"> -->
         <!--HorizontalScrollView
             android:id="@+id/horizontalView"
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
             android:fillViewport="true"
             android:scrollbars="horizontal|vertical"-->
+    <!--
         <TableLayout
             android:id="@+id/data_table"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp">
-        </TableLayout>
+        </TableLayout> -->
         <!--/HorizontalScrollView-->
 
-    </ScrollView>
+   <!-- </ScrollView> -->
 
 </LinearLayout>

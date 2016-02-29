@@ -67,5 +67,11 @@ public class DisplayUtilities {
                 return result;
             }
         }
+
+    }
+
+    public static int integerToDp(Context context, int dpValue) {
+        float d = context.getResources().getDisplayMetrics().density;
+        return (int)(dpValue * d); // margin in pixels
     }
 }

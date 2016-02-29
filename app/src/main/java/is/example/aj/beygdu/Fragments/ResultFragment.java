@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,12 +27,18 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.Parser.Block;
+import is.example.aj.beygdu.Parser.SubBlock;
+import is.example.aj.beygdu.Parser.Table;
 import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.R;
 import is.example.aj.beygdu.RootActivity;
+import is.example.aj.beygdu.UIElements.ResultAdapter;
+import is.example.aj.beygdu.UIElements.ResultObject;
+import is.example.aj.beygdu.UIElements.ResultTitle;
 import is.example.aj.beygdu.UIElements.TableFragment;
 import is.example.aj.beygdu.Utils.DisplayUtilities;
 
@@ -74,6 +83,35 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Screen W/H
+        width = DisplayUtilities.getScreenWidth(
+                getActivity().getWindowManager().getDefaultDisplay());
+        height = DisplayUtilities.getScreenHeigth(
+                getActivity().getWindowManager().getDefaultDisplay());
+
+        // Typefaces
+        LatoBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Bold.ttf");
+        LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Semibold.ttf");
+        LatoLight = Typeface.createFromAsset(activity.getAssets(), "Lato-Light.ttf");
+
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_result, container, false);
+        //tableLayout = (TableLayout) v.findViewById(R.id.data_table);
+
+        try {
+            wordResult =  getArguments().getParcelable("WordResult");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return v;
+        }
+
+        ArrayList<ResultObject> objects = createObjectArray();
+
+        ListView listView = (ListView) v.findViewById(R.id.result_listview);
+        listView.setAdapter(new ResultAdapter(getContext(), R.layout.result_title, objects));
+
+        return v;
+    /*
         // Orientation change //
         if(savedInstanceState != null) {
             blockNames = savedInstanceState.getStringArrayList("blockNames");
@@ -117,6 +155,50 @@ public class ResultFragment extends Fragment {
         // TODO : manage funnel? filter?
 
         return v;
+        */
+    }
+
+    private ArrayList<ResultObject> createObjectArray() {
+        if(wordResult == null) {
+            // TODO errorhandling
+            ResultTitle errorObject = ResultTitle.create("This is an error");
+            ArrayList<ResultObject> list = new ArrayList<>();
+            list.add(errorObject);
+            return list;
+        }
+        else {
+            ArrayList<ResultObject> list = new ArrayList<>();
+
+            list.add(ResultTitle.create(wordResult.getTitle()));
+
+            // TODO : implement the warning
+
+            for(Block block : wordResult.getResult()) {
+
+                if(block.getTitle() == null || !block.getTitle().equals("")) {
+                    list.add(ResultTitle.create(block.getTitle()));
+                }
+
+                for(SubBlock subBlock : block.getSubBlocks()) {
+
+                    if(subBlock.getTitle() == null || !subBlock.getTitle().equals("")) {
+                        list.add(ResultTitle.create(subBlock.getTitle()));
+                    }
+
+                    for(Table table : subBlock.getTables()) {
+
+                        if(table.getTitle() == null || !table.getTitle().equals("")) {
+                            list.add(ResultTitle.create(table.getTitle()));
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return list;
+        }
     }
 
     @Override
@@ -205,7 +287,16 @@ public class ResultFragment extends Fragment {
                 blockTitle.setTextColor(getResources().getColor(R.color.white));
                 blockTitle.setPadding(0, 10, 0, 10);
 
-                TableFragment tFragment = new TableFragment(getContext(), tableLayout, block, blockTitle, firstWord, block.getTitle());
+
+                TableFragment tFragment = TableFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Block", block);
+                bundle.putString("wordTitle", firstWord);
+                bundle.putString("blockTitle", block.getTitle());
+                tFragment.setArguments(bundle);
+
+
+                //TableFragment tFragment = new TableFragment(getContext(), tableLayout, block, blockTitle, firstWord, block.getTitle());
                 getFragmentManager().beginTransaction().add(tableLayout.getId(), tFragment).commit();
                 tables.add(tFragment);
             }
@@ -213,7 +304,7 @@ public class ResultFragment extends Fragment {
         return  v;
     }
 
-
+/*
     @Override
     public void onSaveInstanceState(Bundle instanceState) {
         instanceState.putStringArrayList("blockNames", blockNames);
@@ -222,5 +313,125 @@ public class ResultFragment extends Fragment {
         instanceState.putFloat("height", height);
         instanceState.putParcelable("WordResult", wordResult);
         super.onSaveInstanceState(instanceState);
+    }*/
+
+    /////
+    //
+    /////
+
+    private RelativeLayout.LayoutParams createTextViewLP(int controlId) {
+
+        switch (controlId) {
+            // Page Header
+            case 0:
+                RelativeLayout.LayoutParams header =
+                        new RelativeLayout.LayoutParams(
+                                RelativeLayout.LayoutParams.MATCH_PARENT,
+                                100);
+                int hM = DisplayUtilities.integerToDp(getContext(), 20);
+                header.setMargins(hM, hM, hM, hM);
+                return header;
+            // Word Warning
+            case 1:
+                // TODO : implement
+                return null;
+            // Block Title
+            case 2:
+                return null;
+            // SubBlock Title
+            case 3:
+                return null;
+            // Table title
+            case 4:
+                return null;
+            default:
+                return null;
+        }
+
+    }
+
+    private TextView manageTitleLayoutParams(TextView textView, int controlId) {
+
+        switch (controlId) {
+            // Header TextView
+            case 0:
+                textView.setTextSize(35);
+                textView.setTypeface(LatoLight);
+                textView.setTextColor(
+                        getResources().getColor(R.color.header_title));
+                return textView;
+            // Warning TextView
+            case 1:
+                // TODO : implement
+                return null;
+            // Block TextView
+            case 2:
+                if (320 > width && width < 384) {
+                    textView.setTextSize(22);
+                }
+                else if(384 > width && width < 600) {
+                    textView.setTextSize(28);
+                }
+                else if(width > 600){
+                    textView.setTextSize(42);
+                }
+                textView.setMinHeight(
+                        DisplayUtilities.integerToDp(
+                                getContext(), 80));
+                textView.setTypeface(LatoLight);
+                textView.setTextColor(
+                        getResources().getColor(R.color.block_title));
+                int bP = DisplayUtilities.integerToDp(getContext(), 10);
+                textView.setPadding(0, bP, 0, bP);
+                return textView;
+            // SubBlock TextView
+            case 3:
+                if (320 > width && width < 384) {
+                    textView.setTextSize(20);
+                }
+                else {
+                    textView.setTextSize(22);
+                }
+                textView.setTypeface(LatoLight);
+                textView.setTextColor(
+                        getResources().getColor(R.color.subblock_title));
+                int bSP = DisplayUtilities.integerToDp(getContext(), 10);
+                textView.setPadding(0, bSP, 0, bSP);
+                return textView;
+            // Table TestView
+            case 4:
+                if (320 > width && width < 384) {
+                    textView.setTextSize(18);
+                }
+                else {
+                    textView.setTextSize(20);
+                }
+                textView.setTypeface(LatoLight);
+                textView.setTextColor(
+                        getResources().getColor(R.color.table_title));
+                int tP = DisplayUtilities.integerToDp(getContext(), 10);
+                textView.setPadding(0, tP, 0, tP);
+                textView.setBackgroundResource(
+                        R.drawable.top_border_orange);
+                return textView;
+            // Cell TextView
+            case 5:
+                textView.setGravity(Gravity.LEFT);
+                textView.setTextSize(16);
+                textView.setTypeface(LatoLight);
+                textView.setTextColor(
+                        getResources().getColor(R.color.table_cell));
+                int tabP = DisplayUtilities.integerToDp(getContext(), 10);
+                textView.setPadding(tabP/2, tabP, tabP, tabP);
+                // TODO : implement clicklistener
+                return textView;
+            default:
+                return textView;
+        }
+    }
+
+    private TextView setCellBackroundResource(TextView textView) {
+        // TODO : implement
+        return null;
     }
 }
