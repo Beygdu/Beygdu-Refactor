@@ -38,6 +38,7 @@ import is.example.aj.beygdu.R;
 import is.example.aj.beygdu.RootActivity;
 import is.example.aj.beygdu.UIElements.ResultAdapter;
 import is.example.aj.beygdu.UIElements.ResultObject;
+import is.example.aj.beygdu.UIElements.ResultTable;
 import is.example.aj.beygdu.UIElements.ResultTitle;
 import is.example.aj.beygdu.UIElements.TableFragment;
 import is.example.aj.beygdu.Utils.DisplayUtilities;
@@ -82,7 +83,7 @@ public class ResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+    /*
         // Screen W/H
         width = DisplayUtilities.getScreenWidth(
                 getActivity().getWindowManager().getDefaultDisplay());
@@ -93,7 +94,7 @@ public class ResultFragment extends Fragment {
         LatoBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Bold.ttf");
         LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Semibold.ttf");
         LatoLight = Typeface.createFromAsset(activity.getAssets(), "Lato-Light.ttf");
-
+    */
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_result, container, false);
         //tableLayout = (TableLayout) v.findViewById(R.id.data_table);
@@ -161,7 +162,7 @@ public class ResultFragment extends Fragment {
     private ArrayList<ResultObject> createObjectArray() {
         if(wordResult == null) {
             // TODO errorhandling
-            ResultTitle errorObject = ResultTitle.create("This is an error");
+            ResultTitle errorObject = ResultTitle.create("This is an error", -1);
             ArrayList<ResultObject> list = new ArrayList<>();
             list.add(errorObject);
             return list;
@@ -169,27 +170,36 @@ public class ResultFragment extends Fragment {
         else {
             ArrayList<ResultObject> list = new ArrayList<>();
 
-            list.add(ResultTitle.create(wordResult.getTitle()));
+            list.add(ResultTitle.create(wordResult.getTitle(), 0));
 
             // TODO : implement the warning
 
             for(Block block : wordResult.getResult()) {
 
                 if(block.getTitle() == null || !block.getTitle().equals("")) {
-                    list.add(ResultTitle.create(block.getTitle()));
+                    list.add(ResultTitle.create(block.getTitle(), 2));
                 }
 
                 for(SubBlock subBlock : block.getSubBlocks()) {
 
                     if(subBlock.getTitle() == null || !subBlock.getTitle().equals("")) {
-                        list.add(ResultTitle.create(subBlock.getTitle()));
+                        list.add(ResultTitle.create(subBlock.getTitle(), 3));
                     }
 
                     for(Table table : subBlock.getTables()) {
 
                         if(table.getTitle() == null || !table.getTitle().equals("")) {
-                            list.add(ResultTitle.create(table.getTitle()));
+                            list.add(ResultTitle.create(table.getTitle(), 4));
                         }
+
+                        list.add(ResultTable.create(
+                                table.getTitle(),
+                                table.getColumnNames(),
+                                table.getRowNames(),
+                                table.getContent(),
+                                0,
+                                0
+                        ));
 
                     }
 
@@ -318,7 +328,7 @@ public class ResultFragment extends Fragment {
     /////
     //
     /////
-
+    /*
     private RelativeLayout.LayoutParams createTextViewLP(int controlId) {
 
         switch (controlId) {
@@ -432,6 +442,6 @@ public class ResultFragment extends Fragment {
 
     private TextView setCellBackroundResource(TextView textView) {
         // TODO : implement
-        return null;
-    }
+        return textView;
+    }*/
 }

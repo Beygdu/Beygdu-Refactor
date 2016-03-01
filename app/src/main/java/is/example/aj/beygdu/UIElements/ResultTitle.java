@@ -8,14 +8,16 @@ public class ResultTitle implements ResultObject {
     public static final int item_Type = 0;
 
     private String title;
+    private int layoutId;
 
     private ResultTitle() {
 
     }
 
-    public static ResultTitle create(String title) {
+    public static ResultTitle create(String title, int layoutId) {
         ResultTitle rTitle = new ResultTitle();
         rTitle.setTitle(title);
+        rTitle.setLayoutId(layoutId);
         return rTitle;
     }
 
@@ -31,5 +33,14 @@ public class ResultTitle implements ResultObject {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    private void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return layoutId;
     }
 }

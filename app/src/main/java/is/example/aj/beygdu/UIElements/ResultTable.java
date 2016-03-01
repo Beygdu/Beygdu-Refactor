@@ -8,23 +8,28 @@ import java.util.ArrayList;
 public class ResultTable implements ResultObject {
 
     public static final int item_Type = 1;
+    private int table_Type;
 
     private String title;
     private String[] columnNames;
     private String[] rowNames;
     private ArrayList<String> content;
 
+    private int layoutId;
+
 
     private ResultTable() {
 
     }
 
-    public static ResultTable create(String title, String[] columnNames, String[] rowNames, ArrayList<String> content) {
+    public static ResultTable create(String title, String[] columnNames, String[] rowNames, ArrayList<String> content, int layoutId, int table_Type) {
         ResultTable rTable = new ResultTable();
         rTable.setTitle(title);
         rTable.setColumnNames(columnNames);
         rTable.setRowNames(rowNames);
         rTable.setContent(content);
+        rTable.setLayoutId(layoutId);
+        rTable.setTableType(table_Type);
         return rTable;
     }
 
@@ -66,5 +71,20 @@ public class ResultTable implements ResultObject {
         this.content = content;
     }
 
+    private void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
+    }
 
+    @Override
+    public int getLayoutId() {
+        return layoutId;
+    }
+
+    private void setTableType(int table_Type) {
+        this.table_Type = table_Type;
+    }
+
+    public int getTableType() {
+        return table_Type;
+    }
 }

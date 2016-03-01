@@ -7,5 +7,6 @@ public interface ResultObject {
 
     int getType();
     String getTitle();
+    int getLayoutId();
 
 }
