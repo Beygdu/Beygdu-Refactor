@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -97,7 +98,7 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
 
         if(view == null) {
             view = inflater.inflate(R.layout.result_table, parent, false);
-            TableLayout tableLayout = (TableLayout) view.findViewById(R.id.result_tablelayout);
+            LinearLayout tableLayout = (LinearLayout) view.findViewById(R.id.result_tablelayout);
 
             tableLayout = createTableLayouts(tableLayout, table);
 
@@ -119,10 +120,10 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
     }
 
     private static class ResultTableContainer {
-        private TableLayout tableLayout;
+        private LinearLayout tableLayout;
     }
 
-    private TableLayout createTableLayouts(TableLayout layout, ResultTable item) {
+    private LinearLayout createTableLayouts(LinearLayout layout, ResultTable item) {
 
         int rowCount = item.getRowNames().length;
         int columnCount = item.getColumnNames().length;
@@ -133,81 +134,60 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
 
         ArrayList<String> content = item.getContent();
 
-        TextView title = new TextView(getContext());
-        title.setText(item.getTitle());
+        LinearLayout[] tableRows = new LinearLayout[rowCount];
 
-        TableRow titleRow = new TableRow(getContext());
-        titleRow.addView(title);
-        layout.addView(titleRow);
+        for(int q = 0; q < tableRows.length; q++) {
+            tableRows[q] = new LinearLayout(getContext());
+        }
 
         int rowCounter = 1;
         int contentCounter = 0;
         switch (item.getTableType()) {
             // case default
             case 0:
-                for(int i = 0; i < rowCount; i++) {
+                /*
+                for(int i=0; i < tableRows.length; i++) {
 
-                    TableRow tableRow = new TableRow(getContext());
-                    /*
-                    if(i == 0) {
-                        for(int j = 0; j < columnCount; j++) {
-                            TextView textView = new TextView(getContext());
-                            textView = manageTitleLayoutParams(textView, 5);
-                            textView.setText(columnHeaders[j]);
-                            tableRow.addView(textView);
-                        }
-                        //layout.addView(tableRow);
-                    }
-                    else {
-                        for(int j = 1; j < rowCount; j++) {
-                            TextView textView = new TextView(getContext());
-                            textView = manageTitleLayoutParams(textView, 5);
-                            textView.setText(rowHeaders[j]);
-                            tableRow.addView(textView);
-
-                            for(int k = 0; k < columnCount-1; k++) {
-                                TextView cellView = new TextView(getContext());
-                                cellView = manageTitleLayoutParams(cellView, 5);
-                                try {
-                                    cellView.setText(content.get(contentCounter++));
-                                }
-                                catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                tableRow.addView(cellView);
-                            }
-//                            layout.addView(tableRow);
-                        }
-                        //layout.addView(tableRow);
-                    }
-                    layout.addView(tableRow);
-                    */
-
-                    if(i == 0) {
-                        for(int j = 0; j < columnCount; j++) {
-                            TextView tV = new TextView(getContext());
-                            tV.setText(columnHeaders[j]);
-                            tableRow.addView(tV);
-                        }
-                    }
-                    else {
+                    if(i==0) {
+                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
                         TextView tV = new TextView(getContext());
-                        tV.setText(rowHeaders[i]);
-                        tableRow.addView(tV);
-                        for(int j = 1; j < columnCount; j++) {
-                            TextView cV = new TextView(getContext());
-                            try {
-                                cV.setText(content.get(contentCounter++));
-                            }
-                            catch (Exception e) {
-                                cV.setText("Exc.Catch");
-                            }
-                            tableRow.addView(cV);
+                        tV.setText(item.getTitle());
+                        tableRows[i].addView(tV);
+                    }
+                    else if(i==1) {
+                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
+                        TextView[] tVs = createTextViews(columnCount);
+                        for(int j = 0; j < tVs.length; j++) {
+                            tVs[j].setText(columnHeaders[j]);
+                            tableRows[i].addView(tVs[j]);
                         }
                     }
-                    layout.addView(tableRow);
+                    else {
+                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
+                        TextView[] tVs = createTextViews(columnCount);
+                        for(int j = 0; j < tVs.length; j++) {
+
+                            if(j==0) {
+                                tVs[j].setText(rowHeaders[i-1]); //Offset
+                                tableRows[i].addView(tVs[j]);
+                            }
+                            else {
+                                tVs[j].setText(content.get(contentCounter++));
+                                tableRows[i].addView(tVs[j]);
+                            }
+//                            tableRows[i].addView(tVs[j]);
+
+                        }
+
+                    }
+                    layout.addView(tableRows[i]);
+
                 }
-                return layout;
+                */
+                CrapTable cp = new CrapTable(getContext(), layout, rowCount, columnCount);
+                return cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
+
+                //return layout;
             // case special
             case 1:
                 return layout;
@@ -331,5 +311,13 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
             default:
                 return textView;
         }
+    }
+
+    private TextView[] createTextViews(int cellCount) {
+        TextView[] textViews = new TextView[cellCount];
+        for(int i=0; i < cellCount; i++) {
+            textViews[i] = new TextView(getContext());
+        }
+        return textViews;
     }
 }

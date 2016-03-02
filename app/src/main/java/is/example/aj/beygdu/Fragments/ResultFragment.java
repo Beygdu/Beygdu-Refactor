@@ -90,7 +90,7 @@ public class ResultFragment extends Fragment {
         height = DisplayUtilities.getScreenHeigth(
                 getActivity().getWindowManager().getDefaultDisplay());
 
-        // Typefaces
+        // Typefaces sdsd
         LatoBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Bold.ttf");
         LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Semibold.ttf");
         LatoLight = Typeface.createFromAsset(activity.getAssets(), "Lato-Light.ttf");
@@ -187,10 +187,6 @@ public class ResultFragment extends Fragment {
                     }
 
                     for(Table table : subBlock.getTables()) {
-
-                        if(table.getTitle() == null || !table.getTitle().equals("")) {
-                            list.add(ResultTitle.create(table.getTitle(), 4));
-                        }
 
                         list.add(ResultTable.create(
                                 table.getTitle(),
