@@ -84,7 +84,7 @@ public class CrapTable {
 
 
 
-    public LinearLayout getInstance(LinearLayout view, String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content) {
+    public LinearLayout[] getInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content) {
 
         // TODO : special cases
         // if(???} -> ???
@@ -180,8 +180,8 @@ public class CrapTable {
 
         }
 
-        addViews(view ,tableRows);
-        return view;
+        //addViews(view ,tableRows);
+        return tableRows;
     }
 
     private void addViews(LinearLayout view, LinearLayout[] linearLayouts) {

@@ -41,9 +41,17 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
     private float width;
     private float height;
 
+    private ArrayList<ResultObject> objs;
+
     public ResultAdapter(Context context, int resource, List<ResultObject> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
+        objs = (ArrayList<ResultObject>) objects;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return objs.get(position).getType();
     }
 
     @Override
@@ -61,7 +69,7 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
         LatoLight = Typeface.createFromAsset(getContext().getAssets(), "Lato-Light.ttf");
 
         ResultObject object = getItem(position);
-        if(object.getType() == ResultTitle.item_Type) return getTitleView(position, convertView, parent, object);
+        if(getItemViewType(position) == ResultTitle.item_Type) return getTitleView(position, convertView, parent, object);
         return getTableView(position, convertView, parent, object);
     }
 
@@ -198,7 +206,13 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
                 }
                 */
                 CrapTable cp = new CrapTable(getContext());
-                return cp.getInstance(view, item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
+                LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
+
+                for(LinearLayout layout : views) {
+                    view.addView(layout);
+                }
+
+                return view;
 
                 //return layout;
             // case special

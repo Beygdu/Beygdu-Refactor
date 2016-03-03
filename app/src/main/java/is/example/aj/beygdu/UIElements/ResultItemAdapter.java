@@ -1,0 +1,209 @@
+package is.example.aj.beygdu.UIElements;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
+
+import is.example.aj.beygdu.R;
+import is.example.aj.beygdu.Utils.DisplayUtilities;
+
+/**
+ * Created by arnar on 3/3/2016.
+ */
+public class ResultItemAdapter extends BaseAdapter {
+
+    private static final int TYPE_TITLE = 0;
+    private static final int TYPE_TABLE = 1;
+    private static final int TYPE_COUNT = 2;
+
+    private Context context;
+    private ArrayList<ResultObject> objects;
+    private int[] itemTypes;
+    private int[] hiddenViews;
+    private LayoutInflater inflater;
+
+    public ResultItemAdapter(Context context) {
+        this.context = context;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void addItems(ArrayList<ResultObject> objects) {
+        this.objects = objects;
+        itemTypes = new int[this.objects.size()];
+        for(int i = 0; i < this.objects.size(); i++) {
+            if(this.objects.get(i).getType() == ResultTitle.item_Type) itemTypes[i] = TYPE_TITLE;
+            else itemTypes[i] = TYPE_TABLE;
+        }
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return itemTypes[position];
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return TYPE_COUNT;
+    }
+
+    @Override
+    public ResultObject getItem(int position) {
+        return objects.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getCount() {
+        return objects.size();
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewContainer container = null;
+        int type = getItemViewType(position);
+        if(convertView == null) {
+            container = new ViewContainer();
+
+            switch (type) {
+                case TYPE_TITLE:
+                    convertView = inflater.inflate(R.layout.result_title, null);
+                    container.textView = (TextView) convertView.findViewById(R.id.result_textview);
+                    convertView.setTag(container);
+                    break;
+                case TYPE_TABLE:
+                    convertView = inflater.inflate(R.layout.result_table, null);
+                    container.linearLayout = (LinearLayout) convertView.findViewById(R.id.result_tablelayout);
+                    convertView.setTag(container);
+                    break;
+            }
+            //convertView.setTag(container);
+        }
+        else {
+            container = (ViewContainer) convertView.getTag();
+        }
+
+        switch (type) {
+            case TYPE_TITLE:
+                container.textView.setText(objects.get(position).getTitle());
+                //notifyDataSetChanged();
+                return convertView;
+            case TYPE_TABLE:
+                createTableLayouts(container.linearLayout, (ResultTable) objects.get(position));
+                //notifyDataSetChanged();
+                return convertView;
+            default:
+                return null;
+        }
+
+    }
+
+    private void createTableLayouts(LinearLayout view, ResultTable item) {
+
+        if(view.getChildCount() > 0) {
+            view.removeAllViews();
+        }
+
+        int rowCount = item.getRowNames().length;
+        int columnCount = item.getColumnNames().length;
+
+        Log.w("createTableLayouts", "Rows are :" + rowCount + " Cols are :" + columnCount);
+        String[] rowHeaders = item.getRowNames();
+        String[] columnHeaders = item.getColumnNames();
+
+        ArrayList<String> content = item.getContent();
+
+        LinearLayout[] tableRows = new LinearLayout[rowCount];
+
+        for(int q = 0; q < tableRows.length; q++) {
+            tableRows[q] = new LinearLayout(context);
+        }
+
+        int rowCounter = 1;
+        int contentCounter = 0;
+        switch (item.getTableType()) {
+            // case default
+            case 0:
+                /*
+                for(int i=0; i < tableRows.length; i++) {
+
+                    if(i==0) {
+                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
+                        TextView tV = new TextView(getContext());
+                        tV.setText(item.getTitle());
+                        tableRows[i].addView(tV);
+                    }
+                    else if(i==1) {
+                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
+                        TextView[] tVs = createTextViews(columnCount);
+                        for(int j = 0; j < tVs.length; j++) {
+                            tVs[j].setText(columnHeaders[j]);
+                            tableRows[i].addView(tVs[j]);
+                        }
+                    }
+                    else {
+                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
+                        TextView[] tVs = createTextViews(columnCount);
+                        for(int j = 0; j < tVs.length; j++) {
+
+                            if(j==0) {
+                                tVs[j].setText(rowHeaders[i-1]); //Offset
+                                tableRows[i].addView(tVs[j]);
+                            }
+                            else {
+                                tVs[j].setText(content.get(contentCounter++));
+                                tableRows[i].addView(tVs[j]);
+                            }
+//                            tableRows[i].addView(tVs[j]);
+
+                        }
+
+                    }
+                    layout.addView(tableRows[i]);
+
+                }
+                */
+                CrapTable cp = new CrapTable(context);
+                LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
+
+                Log.w("Number of layouts : ", ""+views.length);
+
+                for(LinearLayout layout : views) {
+                    view.addView(layout);
+                }
+
+                break;
+            //return layout;
+            // case special
+            case 1:
+                break;
+            // case special
+            case 2:
+                break;
+            // case special
+            case 3:
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    static class ViewContainer {
+        TextView textView;
+        LinearLayout linearLayout;
+    }
+}

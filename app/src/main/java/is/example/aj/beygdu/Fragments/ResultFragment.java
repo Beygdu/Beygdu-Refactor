@@ -37,6 +37,7 @@ import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.R;
 import is.example.aj.beygdu.RootActivity;
 import is.example.aj.beygdu.UIElements.ResultAdapter;
+import is.example.aj.beygdu.UIElements.ResultItemAdapter;
 import is.example.aj.beygdu.UIElements.ResultObject;
 import is.example.aj.beygdu.UIElements.ResultTable;
 import is.example.aj.beygdu.UIElements.ResultTitle;
@@ -109,7 +110,9 @@ public class ResultFragment extends Fragment {
         ArrayList<ResultObject> objects = createObjectArray();
 
         ListView listView = (ListView) v.findViewById(R.id.result_listview);
-        listView.setAdapter(new ResultAdapter(getContext(), R.layout.result_title, objects));
+        ResultItemAdapter itemAdapter = new ResultItemAdapter(getContext());
+        itemAdapter.addItems(objects);
+        listView.setAdapter(itemAdapter);
 
         return v;
     /*
