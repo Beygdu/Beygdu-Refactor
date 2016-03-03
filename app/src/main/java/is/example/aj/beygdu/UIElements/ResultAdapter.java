@@ -2,6 +2,7 @@ package is.example.aj.beygdu.UIElements;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.Display;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,6 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
 
         WindowManager wManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wManager.getDefaultDisplay();
@@ -58,72 +60,83 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
         LatoSemiBold = Typeface.createFromAsset(getContext().getAssets(), "Lato-Semibold.ttf");
         LatoLight = Typeface.createFromAsset(getContext().getAssets(), "Lato-Light.ttf");
 
-        ResultObject item = this.getItem(position);
-        if(item.getType() == ResultTitle.item_Type) {
-            view = getTitleView(convertView, parent, item);
+        ResultObject object = getItem(position);
+        if(object.getType() == ResultTitle.item_Type) return getTitleView(position, convertView, parent, object);
+        return getTableView(position, convertView, parent, object);
+    }
+
+    private View getTitleView(int position, View convertView, ViewGroup parent, ResultObject item) {
+        ViewContainer container;
+
+        if(convertView == null) {
+            convertView = inflater.inflate(R.layout.result_title, null);
+
+            container = new ViewContainer(item.getType());
+            container.textView = (TextView) convertView.findViewById(R.id.result_textview);
+
+            convertView.setTag(container);
         }
         else {
-            view = getTableView(convertView, parent, item);
+            container = (ViewContainer) convertView.getTag();
         }
-        return view;
-    }
 
-    private View getTitleView(View view, ViewGroup parent, ResultObject item) {
         ResultTitle title = (ResultTitle) item;
-        ResultTitleContainer itemContainer = null;
 
-        if(view == null) {
-            view = inflater.inflate(R.layout.result_title, parent, false);
-            TextView textView = (TextView) view.findViewById(R.id.result_textview);
+        container.textView.setText(title.getTitle());
+        // TODO : manage LayoutParams
 
-            itemContainer = new ResultTitleContainer();
-            itemContainer.textView = textView;
-
-            view.setTag(itemContainer);
-        }
-
-        if(itemContainer == null) {
-            itemContainer = (ResultTitleContainer) view.getTag();
-        }
-
-        itemContainer.textView.setText(item.getTitle());
-
-
-        return view;
+        return convertView;
     }
 
-    private View getTableView(View view, ViewGroup parent, ResultObject item) {
+    private View getTableView(int position, View convertView, ViewGroup parent, ResultObject item) {
+        ViewContainer container;
+
+        if(convertView == null) {
+            convertView = inflater.inflate(R.layout.result_table, null);
+
+            container = new ViewContainer(item.getType());
+            container.linearLayout = (LinearLayout) convertView.findViewById(R.id.result_tablelayout);
+
+            convertView.setTag(container);
+        }
+        else {
+            container = (ViewContainer) convertView.getTag();
+        }
+
+
         ResultTable table = (ResultTable) item;
-        ResultTableContainer itemContainer = null;
 
-        if(view == null) {
-            view = inflater.inflate(R.layout.result_table, parent, false);
-            LinearLayout tableLayout = (LinearLayout) view.findViewById(R.id.result_tablelayout);
+        createTableLayouts(container.linearLayout, table);
 
-            tableLayout = createTableLayouts(tableLayout, table);
+        return convertView;
 
-            itemContainer = new ResultTableContainer();
-            itemContainer.tableLayout = tableLayout;
+    }
 
-            view.setTag(itemContainer);
+    private static class ResultObjectContainer {
+        private View view;
+    }
+
+    static class ViewContainer {
+
+        int type;
+        TextView textView;
+        LinearLayout linearLayout;
+
+        ViewContainer(int type) {
+            this.type = type;
         }
 
-        if(itemContainer == null) {
-            //itemContainer = (ResultTableContainer) view.getTag();
-        }
-
-        return view;
     }
 
-    private static class ResultTitleContainer {
-        private TextView textView;
+    private static class ResultTitleContainer extends  ResultObjectContainer {
+        private View view;
     }
 
-    private static class ResultTableContainer {
-        private LinearLayout tableLayout;
+    private static class ResultTableContainer extends ResultObjectContainer {
+        private View view;
     }
 
-    private LinearLayout createTableLayouts(LinearLayout layout, ResultTable item) {
+    private LinearLayout createTableLayouts(LinearLayout view, ResultTable item) {
 
         int rowCount = item.getRowNames().length;
         int columnCount = item.getColumnNames().length;
@@ -184,21 +197,21 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
 
                 }
                 */
-                CrapTable cp = new CrapTable(getContext(), layout, rowCount, columnCount);
-                return cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
+                CrapTable cp = new CrapTable(getContext());
+                return cp.getInstance(view, item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
 
                 //return layout;
             // case special
             case 1:
-                return layout;
+                return view;
             // case special
             case 2:
-                return layout;
+                return view;
             // case special
             case 3:
-                return layout;
+                return view;
             default:
-                return layout;
+               return view;
         }
     }
 

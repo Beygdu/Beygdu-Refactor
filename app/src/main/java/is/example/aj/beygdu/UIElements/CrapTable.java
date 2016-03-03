@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.hardware.display.DisplayManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,15 +24,8 @@ public class CrapTable {
     // Application context
     private Context context;
 
-    // this
-    private LinearLayout layout;
-
-    private LinearLayout[] tableRows;
     private int tableMargins;
     private int tablePadding;
-
-    private int rowCount;
-    private int columnCount;
 
     private int screenWidth;
 
@@ -40,7 +34,6 @@ public class CrapTable {
     private int headerLayoutWidth;
     private int headerLayoutPadding;
 
-    private int cellLayoutWidth;
     private int cellLayoutPadding;
 
     private int titleTextSize = 20;
@@ -49,21 +42,9 @@ public class CrapTable {
     private boolean hasTitle, hasRowHeaders, hasColumnHeaders = true;
 
 
-    public CrapTable(Context context, LinearLayout layout, int rowCount, int columnCount) {
+    public CrapTable(Context context) {
 
         this.context = context;
-        this.layout = layout;
-
-        this.rowCount = rowCount+1; // +1 for title
-        this.columnCount = columnCount;
-
-        tableRows = new LinearLayout[rowCount+1];
-
-        for(int i = 0; i < this.rowCount; i++) {
-            LinearLayout lL = new LinearLayout(context);
-            lL.setOrientation(LinearLayout.HORIZONTAL);
-            tableRows[i] = lL;
-        }
 
         WindowManager wM = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         screenWidth = DisplayUtilities.getScreenWidth(wM.getDefaultDisplay());
@@ -82,7 +63,6 @@ public class CrapTable {
 
         headerLayoutPadding = getDp(5);
 
-        cellLayoutWidth = calculateCellLayoutWith();
         cellLayoutPadding = getDp(5);
 
 
@@ -104,7 +84,27 @@ public class CrapTable {
 
 
 
-    public LinearLayout getInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content) {
+    public LinearLayout getInstance(LinearLayout view, String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content) {
+
+        // TODO : special cases
+        // if(???} -> ???
+
+        int rowCount = rowHeaders.length+1; // +1 for title
+        int columnCount = columnHeaders.length;
+
+        LinearLayout[] tableRows = new LinearLayout[rowCount];
+
+        for(int l = 0; l < rowCount; l++) {
+            LinearLayout linearLayout = new LinearLayout(context);
+            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            linearLayout.setGravity(Gravity.CENTER);
+            tableRows[l] = linearLayout;
+        }
+
+        int cellLayoutWidth = calculateCellLayoutWith(screenWidth, columnCount);
 
         int contentCounter = 0;
         for(int j = 0; j < tableRows.length; j++) {
@@ -141,7 +141,7 @@ public class CrapTable {
                         ));
                         //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
                         tVs[i].setTextSize(headerTextSize);
-                        tVs[i].setText(columnHeaders[i]);
+                        tVs[i].setText(columnHeaders[i]); // first header is blank so no need for offset
                         tVs[i].setBackgroundColor(context.getResources().getColor(R.color.green));
                     }
                 }
@@ -159,7 +159,7 @@ public class CrapTable {
                         ));
                         //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
                         tVs[i].setTextSize(headerTextSize);
-                        tVs[i].setText(rowHeaders[j - 1]); // offsetg
+                        tVs[i].setText(rowHeaders[j - 1]); // offset
                         tVs[i].setBackgroundColor(context.getResources().getColor(R.color.blue));
                     }
                     // Manage content
@@ -180,15 +180,14 @@ public class CrapTable {
 
         }
 
-        addViews(layout ,tableRows);
-
-        return layout;
+        addViews(view ,tableRows);
+        return view;
     }
 
-    private void addViews(LinearLayout linearLayout, LinearLayout[] linearLayouts) {
+    private void addViews(LinearLayout view, LinearLayout[] linearLayouts) {
         for(LinearLayout layout : linearLayouts) {
             layout.setGravity(Gravity.CENTER);
-            linearLayout.addView(layout);
+            view.addView(layout);
         }
     }
 
@@ -211,7 +210,7 @@ public class CrapTable {
         return DisplayUtilities.integerToDp(context, i);
     }
 
-    private int calculateCellLayoutWith() {
+    private int calculateCellLayoutWith(int screenWidth, int columnCount) {
         return (screenWidth - (2*tableMargins) - headerLayoutWidth )/ (columnCount-1);
     }
 }
