@@ -54,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLHEADERS = "colheaders";
     public static final String ROWHEADERS = "rowheaders";
     public static final String CONTENT = "content";
+    public static final String LAYOUTID = "layoutid";
 
 
     // Creating table queries
@@ -91,6 +92,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     COLHEADERS + " TEXT , " +
                     ROWHEADERS + " TEXT , " +
                     CONTENT + " TEXT, " +
+                    LAYOUTID + " INT, " +
                     "FOREIGN KEY(" + DBHelper.SUBBLOCKID + ")" +
                     "REFERENCES " + DBHelper.TABLE_SUBBLOCK + "("+ DBHelper.SUBBLOCKID + ") " +
                     "ON DELETE CASCADE " +

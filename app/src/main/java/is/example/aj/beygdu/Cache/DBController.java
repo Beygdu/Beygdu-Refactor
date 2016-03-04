@@ -127,6 +127,7 @@ public class DBController {
         tableContent.put(DBHelper.COLHEADERS, arrToString(table.getColumnNames()));
         tableContent.put(DBHelper.ROWHEADERS, arrToString(table.getRowNames()));
         tableContent.put(DBHelper.CONTENT, arrToString(table.getContent().toArray()));
+        tableContent.put(DBHelper.LAYOUTID, table.getLayoutId());
         dB.insert(DBHelper.TABLE_TABLES, null, tableContent);
 
         dbHelper.close();
@@ -261,8 +262,9 @@ public class DBController {
             cursor.moveToPosition(i);
             if(cursor.getInt(12) != tableID && cursor.getInt(11) == subBlockID) {
                 tableID = cursor.getInt(12);
+                // TODO :
                 tables.add(new Table(cursor.getString(13), stringToArr(cursor.getString(14)),
-                        stringToArr(cursor.getString(15)), new ArrayList<String>(Arrays.asList(stringToArr(cursor.getString(16))))));
+                        stringToArr(cursor.getString(15)), new ArrayList<String>(Arrays.asList(stringToArr(cursor.getString(16)))), cursor.getInt(17)));
             }
         }
         return tables;
