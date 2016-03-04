@@ -33,6 +33,25 @@ public class DataPrep {
         return createWordResult();
     }
 
+    // TODO : FIX (MAKE STATIC FINAL INT IN TABLE)
+    private int createLayoutId(String pageTitle, String blockTitle, String subBlockTitle) {
+        if(pageTitle.contains("Atviksorð")) {
+            return Table.LAYOUT_ACTION;
+        }
+        else if(subBlockTitle.contains("Nafnháttur") || blockTitle.contains("Lýsingarháttur nútíðar")) {
+            return Table.LAYOUT_VERB_SINGLEBLOCK;
+        }
+        else if( blockTitle.contains("Boðháttur") || blockTitle.contains("Sagnbót")) {
+            return Table.LAYOUT_VERB_SMALLBLOCK;
+        }
+        else if( blockTitle.contains("Persónuleg notkun") || blockTitle.contains("Ópersónuleg notkun")) {
+            return Table.LAYOUT_VERB_BIGBLOCK;
+        }
+        else {
+            return Table.LAYOUT_NORMAL;
+        }
+    }
+
     private String[] manageMultiResult(Bstring str) {
 
         String[] split = str.get().split("");
@@ -278,7 +297,7 @@ public class DataPrep {
             return new String[] { "", "Eintala", "Fleirtala" };
         }
         if( pageTitle.contains("Sagnorð") ) {
-            if( subBlockTitle.contains("Nafnháttur") || blockTitle.contains("Lýsingarháttur nútíðar") ) {
+            if(subBlockTitle.contains("Nafnháttur") || blockTitle.contains("Lýsingarháttur nútíðar")  ) {
                 return new String[] { "" };
             }
             if( blockTitle.contains("Persónuleg notkun - Germynd") || blockTitle.contains("Ópersónuleg notkun - Germynd (Gervifrumlag)") ) {
@@ -361,7 +380,7 @@ public class DataPrep {
         String[] columnNames = getColumnNames(pageTitle, blockTitle, subBlockTitle, tableTitle);
         String[] rowNames = getRowNames(pageTitle, blockTitle, subBlockTitle, tableTitle);
 
-        return new Table(tableTitle, rowNames, columnNames, results);
+        return new Table(tableTitle, rowNames, columnNames, results, createLayoutId(pageTitle, blockTitle, subBlockTitle));
 
     }
 
@@ -642,7 +661,7 @@ public class DataPrep {
         String[] columnNames = getColumnNames(wR.getTitle(), null, null, null);
         String[] rowNames = getRowNames(wR.getTitle(), null, null, null);
 
-        Table table = new Table("", rowNames, columnNames, content);
+        Table table = new Table("", rowNames, columnNames, content, createLayoutId(wR.getTitle(), null, null));
         ArrayList<Table> tbls = new ArrayList<Table>();
         tbls.add(table);
 

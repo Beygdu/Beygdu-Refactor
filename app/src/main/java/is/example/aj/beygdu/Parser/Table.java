@@ -11,16 +11,25 @@ import java.util.ArrayList;
  */
 public class Table implements Parcelable {
 
+    // LayoutId for special cases
+    public static final int LAYOUT_NORMAL = 0;
+    public static final int LAYOUT_VERB_BIGBLOCK = 1;
+    public static final int LAYOUT_VERB_SMALLBLOCK = 2;
+    public static final int LAYOUT_VERB_SINGLEBLOCK = 3;
+    public static final int LAYOUT_ACTION = 4;
+
     private String title;
     private String[] columnNames;
     private String[] rowNames;
     private ArrayList<String> content;
+    private int layoutId;
 
-    public Table(String title, String[] columnNames, String[] rowNames, ArrayList<String> content) {
+    public Table(String title, String[] columnNames, String[] rowNames, ArrayList<String> content, int layoutId) {
         this.title = title;
         this.columnNames = columnNames;
         this.rowNames = rowNames;
         this.content = content;
+        this.layoutId = layoutId;
     }
 
     protected Table(Parcel in) {
@@ -28,6 +37,7 @@ public class Table implements Parcelable {
         columnNames = in.createStringArray();
         rowNames = in.createStringArray();
         content = in.createStringArrayList();
+        layoutId = in.readInt();
     }
 
     public static final Creator<Table> CREATOR = new Creator<Table>() {
@@ -58,6 +68,10 @@ public class Table implements Parcelable {
         return content;
     }
 
+    public int getLayoutId() {
+        return layoutId;
+    }
+
     public int getColumnCount() {
         return columnNames.length;
     }
@@ -81,5 +95,6 @@ public class Table implements Parcelable {
         dest.writeStringArray(columnNames);
         dest.writeStringArray(rowNames);
         dest.writeStringList(content);
+        dest.writeInt(layoutId);
     }
 }
