@@ -263,11 +263,11 @@ public class DataPrep {
                 return new String[] { "" };
             }
 
-            if( blockTitle.contains("Persónuleg notkun - Germynd") ) {
-                return new String[] { "", "1. pers.", "2. pers.", "3. pers." };
-            }
             if( blockTitle.contains("Ópersónuleg notkun - Germynd (Gervifrumlag)") ) {
                 return new String[] { "", "3. pers." };
+            }
+            if( blockTitle.contains("Persónuleg notkun") || blockTitle.contains("Ópersónuleg notkun") ) {
+                return new String[] { "", "1. pers.", "2. pers.", "3. pers." };
             }
             if( blockTitle.contains("Boðháttur") ) {
                 return new String[] { "", "Stýfður", "Et.", "Ft." };
@@ -300,7 +300,7 @@ public class DataPrep {
             if(subBlockTitle.contains("Nafnháttur") || blockTitle.contains("Lýsingarháttur nútíðar")  ) {
                 return new String[] { "" };
             }
-            if( blockTitle.contains("Persónuleg notkun - Germynd") || blockTitle.contains("Ópersónuleg notkun - Germynd (Gervifrumlag)") ) {
+            if( blockTitle.contains("Persónuleg notkun") || blockTitle.contains("Ópersónuleg notkun") ) {
                 return new String[] { "", "Et.", "Ft." };
             }
             if( blockTitle.contains("Boðháttur") || blockTitle.contains("Sagnbót") ) {

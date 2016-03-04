@@ -183,6 +183,19 @@ public class CrapTable {
             // Verb small-block
             case Table.LAYOUT_VERB_SMALLBLOCK:
 
+                Log.w("SpecialSmall", "rowHeaders are :"+rowHeaders.length);
+                Log.w("SpecialSmall", "columnHeaders are :"+columnHeaders.length);
+                Log.w("SpecialSmall", "content length is :"+content.size());
+
+                // TODO : fix for real in data preparation
+                if(content.size() == 1) {
+                    ArrayList<String> newContent = new ArrayList<>();
+                    String[] notASingleLine = content.get(0).split(" ");
+                    newContent.add(notASingleLine[0]);
+                    newContent.add(notASingleLine[1] == null ? "--" : notASingleLine[1]);
+                    content = newContent;
+                }
+
                 tableRows = new LinearLayout[2];
                 for(int i = 0; i < 2; i++) {
                     tableRows[i] = new LinearLayout(context);
