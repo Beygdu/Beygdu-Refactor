@@ -82,9 +82,9 @@ public class ResultItemAdapter extends BaseAdapter {
             switch (type) {
                 case TYPE_TITLE:
                     convertView = inflater.inflate(R.layout.result_title, null);
-                    convertView.setLayoutParams(getLinearLayoutParams());
+                    //convertView.setLayoutParams(getLinearLayoutParams());
                     container.textView = (TextView) convertView.findViewById(R.id.result_textview);
-                    container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
+                    //container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
                     convertView.setTag(container);
                     break;
                 case TYPE_TABLE:
