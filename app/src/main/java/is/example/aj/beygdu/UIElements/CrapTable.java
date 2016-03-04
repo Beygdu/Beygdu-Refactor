@@ -92,6 +92,8 @@ public class CrapTable {
         int rowCount = rowHeaders.length+1; // +1 for title
         int columnCount = columnHeaders.length;
 
+        Log.w("Content size:", ""+content.size());
+
         LinearLayout[] tableRows = new LinearLayout[rowCount];
 
         for(int l = 0; l < rowCount; l++) {
@@ -211,6 +213,6 @@ public class CrapTable {
     }
 
     private int calculateCellLayoutWith(int screenWidth, int columnCount) {
-        return (screenWidth - (2*tableMargins) - headerLayoutWidth )/ (columnCount-1);
+        return (screenWidth - (2*tableMargins) - headerLayoutWidth )/ (columnCount == 1 ? 1 : columnCount-1);
     }
 }

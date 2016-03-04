@@ -180,13 +180,13 @@ public class ResultFragment extends Fragment {
             for(Block block : wordResult.getResult()) {
 
                 if(block.getTitle() == null || !block.getTitle().equals("")) {
-                    list.add(ResultTitle.create(block.getTitle(), 2));
+                    list.add(ResultTitle.create(block.getTitle(), 1));
                 }
 
                 for(SubBlock subBlock : block.getSubBlocks()) {
 
                     if(subBlock.getTitle() == null || !subBlock.getTitle().equals("")) {
-                        list.add(ResultTitle.create(subBlock.getTitle(), 3));
+                        list.add(ResultTitle.create(subBlock.getTitle(), 2));
                     }
 
                     for(Table table : subBlock.getTables()) {
@@ -256,7 +256,7 @@ public class ResultFragment extends Fragment {
     }
 
     private View initTables(View v) {
-
+/*
         TextView titleDesc = (TextView) v.findViewById(R.id.search_result);
         String[] titleArr = wordResult.getTitle().split(" ", 2);
         String firstWord = titleArr[0];
@@ -310,7 +310,8 @@ public class ResultFragment extends Fragment {
                 tables.add(tFragment);
             }
         }
-        return  v;
+        return  v;*/
+        return null;
     }
 
 /*

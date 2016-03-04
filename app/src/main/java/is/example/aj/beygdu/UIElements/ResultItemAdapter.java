@@ -15,6 +15,7 @@ import java.util.TreeSet;
 
 import is.example.aj.beygdu.R;
 import is.example.aj.beygdu.Utils.DisplayUtilities;
+import is.example.aj.beygdu.Utils.FontManager;
 
 /**
  * Created by arnar on 3/3/2016.
@@ -81,7 +82,9 @@ public class ResultItemAdapter extends BaseAdapter {
             switch (type) {
                 case TYPE_TITLE:
                     convertView = inflater.inflate(R.layout.result_title, null);
+                    convertView.setLayoutParams(getLinearLayoutParams());
                     container.textView = (TextView) convertView.findViewById(R.id.result_textview);
+                    container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
                     convertView.setTag(container);
                     break;
                 case TYPE_TABLE:
@@ -99,7 +102,6 @@ public class ResultItemAdapter extends BaseAdapter {
         switch (type) {
             case TYPE_TITLE:
                 container.textView.setText(objects.get(position).getTitle());
-                //notifyDataSetChanged();
                 return convertView;
             case TYPE_TABLE:
                 createTableLayouts(container.linearLayout, (ResultTable) objects.get(position));
@@ -199,6 +201,55 @@ public class ResultItemAdapter extends BaseAdapter {
             default:
                 break;
         }
+    }
+
+    private TextView manageTextViewParams(TextView textView, int layoutId) {
+
+        textView.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+        switch (layoutId) {
+            // Page title
+            case 0:
+                textView.setTypeface(FontManager.getFont(context, FontManager.LATO_BOLD));
+                textView.setTextSize(DisplayUtilities.integerToDp(context, 14));
+                break;
+            // Block title
+            case 1:
+                textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
+                textView.setTextSize(DisplayUtilities.integerToDp(context, 10));
+                break;
+            // SubBlock title
+            case 2:
+                textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
+                textView.setTextSize(DisplayUtilities.integerToDp(context, 8));
+                break;
+            // case note
+            case 3:
+                // TODO : implement
+                break;
+            default:
+                // Do nothing
+        }
+
+        return textView;
+    }
+
+    private RelativeLayout.LayoutParams getLinearLayoutParams() {
+
+        RelativeLayout.LayoutParams params;
+        int lrMargin = DisplayUtilities.integerToDp(context, 2);
+        int tbMargin = DisplayUtilities.integerToDp(context, 4);
+
+        params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(lrMargin, tbMargin, lrMargin, tbMargin);
+        return params;
+
     }
 
 
