@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import is.example.aj.beygdu.Parser.Table;
 import is.example.aj.beygdu.R;
 import is.example.aj.beygdu.Utils.DisplayUtilities;
 
@@ -83,11 +84,221 @@ public class CrapTable {
 
 
 
+    private LinearLayout[] getSpecialInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content, int layoutId) {
 
-    public LinearLayout[] getInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content) {
+        LinearLayout[] tableRows;
+        int cellLayoutWidth;
+
+        switch (layoutId) {
+            // Verb big-block
+            case Table.LAYOUT_VERB_BIGBLOCK:
+                Log.w("SpecialBIG", "Content length is " + content.size());
+                Log.w("SpecialBig", "rowHeaders are :"+rowHeaders.length);
+                Log.w("SpecialBIg", "columnHeaders are :"+columnHeaders.length);
+                int contentCounter = 0;
+
+                tableRows = new LinearLayout[rowHeaders.length+1]; // +1 for title
+                for(int i = 0; i < rowHeaders.length+1; i++) {
+                    tableRows[i] = new LinearLayout(context);
+                    tableRows[i].setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                }
+
+                cellLayoutWidth = calculateCellLayoutWith(screenWidth, columnHeaders.length);
+
+                for(int j = 0; j < tableRows.length; j++) {
+                    // Title
+                    if(j == 0) {
+                        TextView tV = new TextView(context);
+                        tV.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        ));
+                        tV.setPadding(titleLayoutPadding, titleLayoutPadding, titleLayoutPadding, titleLayoutPadding);
+                        tV.setTextSize(titleTextSize);
+                        tV.setText(title);
+                        tableRows[j].addView(tV);
+
+                    }
+                    // Column headers
+                    else if(j == 1) {
+                        TextView[] tVs = createTextViews(columnHeaders.length);
+                        for(int i = 0; i < columnHeaders.length; i++) {
+                            // Empty header
+                            if(i==0) {
+                                tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
+                                        headerLayoutWidth,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                ));
+
+                            }
+                            //columnHeaders
+                            else {
+                                tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
+                                        cellLayoutWidth,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                ));
+                                //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                                tVs[i].setTextSize(headerTextSize);
+                                tVs[i].setText(columnHeaders[i]); // first header is blank so no need for offset
+                                tVs[i].setBackgroundColor(context.getResources().getColor(R.color.green));
+                            }
+                        }
+                        addViews(tableRows[j], tVs);
+                    }
+                    // Rows and content
+                    else {
+                        TextView[] tVs = createTextViews(columnHeaders.length);
+                        for(int i = 0; i < columnHeaders.length; i++) {
+                            // Manage row header
+                            if(i==0) {
+                                tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
+                                        headerLayoutWidth,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                ));
+                                //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                                tVs[i].setTextSize(headerTextSize);
+                                tVs[i].setText(rowHeaders[j - 1]); // offset
+                                tVs[i].setBackgroundColor(context.getResources().getColor(R.color.blue));
+                            }
+                            // Manage content
+                            else {
+                                tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
+                                        cellLayoutWidth,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                ));
+                                //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                                tVs[i].setTextSize(cellTextSize);
+                                tVs[i].setText(content.get(contentCounter++));
+                            }
+                            //addViews(tableRows[j], tVs);
+                        }
+                        addViews(tableRows[j], tVs);
+
+                    }
+                }
+                return tableRows;
+            // Verb small-block
+            case Table.LAYOUT_VERB_SMALLBLOCK:
+
+                tableRows = new LinearLayout[2];
+                for(int i = 0; i < 2; i++) {
+                    tableRows[i] = new LinearLayout(context);
+                    tableRows[i].setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                }
+
+                cellLayoutWidth = calculateCellLayoutWith(screenWidth, content.size()+1); // +1 for offset
+
+                for(int j = 0; j < 2; j++) {
+                    TextView[] tVs = new TextView[content.size()];
+                    if(j == 0) {
+                        for(int k = 1; k < content.size()+1; k++) { // start 1 and +1 for offset
+                            tVs[k-1] = new TextView(context);
+                            tVs[k-1].setLayoutParams(new LinearLayout.LayoutParams(
+                                    cellLayoutWidth,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                            ));
+                            tVs[k-1].setTextSize(headerTextSize);
+                            tVs[k-1].setText(columnHeaders[k]);
+                        }
+                    }
+                    else {
+                        for(int k = 0; k < content.size(); k++) {
+                            tVs[k] = new TextView(context);
+                            tVs[k].setLayoutParams(new LinearLayout.LayoutParams(
+                                    cellLayoutWidth,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                            ));
+                            tVs[k].setTextSize(headerTextSize);
+                            tVs[k].setText(content.get(k));
+                        }
+                    }
+                    addViews(tableRows[j], tVs);
+
+                }
+
+                return tableRows;
+            // Verb singleBlock
+            case Table.LAYOUT_VERB_SINGLEBLOCK:
+
+                tableRows = new LinearLayout[1];
+                tableRows[0] = new LinearLayout(context);
+                tableRows[0].setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                ));
+
+                cellLayoutWidth = calculateCellLayoutWith(screenWidth, content.size()); // +1 for offset
+
+                TextView tV = new TextView(context);
+                tV.setLayoutParams(new LinearLayout.LayoutParams(
+                    cellLayoutWidth,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ));
+                tV.setText(content.get(0));
+                tV.setTextSize(headerTextSize);
+
+                tableRows[0].addView(tV);
+
+                return tableRows;
+            // Adverb
+            case Table.LAYOUT_ACTION:
+
+                tableRows = new LinearLayout[2];
+                for(int i = 0; i < 2; i++) {
+                    tableRows[i] = new LinearLayout(context);
+                    tableRows[i].setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                }
+
+                cellLayoutWidth = calculateCellLayoutWith(screenWidth, content.size()+1); // +1 for offset
+
+                for(int j = 0; j < 2; j++) {
+                    TextView[] tVs = new TextView[content.size()];
+                    if(j == 0) {
+                        for(int k = 1; k < content.size()+1; k++) { // start 1 and +1 for offset
+                            tVs[k-1] = new TextView(context);
+                            tVs[k-1].setLayoutParams(new LinearLayout.LayoutParams(
+                                    cellLayoutWidth,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                            ));
+                            tVs[k-1].setTextSize(headerTextSize);
+                            tVs[k-1].setText(columnHeaders[k]);
+                        }
+                    }
+                    else {
+                        for(int k = 0; k < content.size(); k++) {
+                            tVs[k] = new TextView(context);
+                            tVs[k].setLayoutParams(new LinearLayout.LayoutParams(
+                                    cellLayoutWidth,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                            ));
+                            tVs[k].setTextSize(headerTextSize);
+                            tVs[k].setText(content.get(k));
+                        }
+                    }
+                    addViews(tableRows[j], tVs);
+
+                }
+                return tableRows;
+        }
+
+        return null;
+    }
+
+    public LinearLayout[] getInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content, int layoutId) {
 
         // TODO : special cases
-        // if(???} -> ???
+        if(layoutId != 0) {
+            return getSpecialInstance(title, rowHeaders, columnHeaders, content, layoutId);
+        }
 
         int rowCount = rowHeaders.length+1; // +1 for title
         int columnCount = columnHeaders.length;

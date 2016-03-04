@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class ResultTable implements ResultObject {
 
     public static final int item_Type = 1;
-    private int table_Type;
 
     private String title;
     private String[] columnNames;
@@ -22,14 +21,13 @@ public class ResultTable implements ResultObject {
 
     }
 
-    public static ResultTable create(String title, String[] columnNames, String[] rowNames, ArrayList<String> content, int layoutId, int table_Type) {
+    public static ResultTable create(String title, String[] columnNames, String[] rowNames, ArrayList<String> content, int layoutId) {
         ResultTable rTable = new ResultTable();
         rTable.setTitle(title);
         rTable.setColumnNames(columnNames);
         rTable.setRowNames(rowNames);
         rTable.setContent(content);
         rTable.setLayoutId(layoutId);
-        rTable.setTableType(table_Type);
         return rTable;
     }
 
@@ -78,13 +76,5 @@ public class ResultTable implements ResultObject {
     @Override
     public int getLayoutId() {
         return layoutId;
-    }
-
-    private void setTableType(int table_Type) {
-        this.table_Type = table_Type;
-    }
-
-    public int getTableType() {
-        return table_Type;
     }
 }

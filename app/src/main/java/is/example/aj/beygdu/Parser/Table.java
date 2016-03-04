@@ -16,7 +16,7 @@ public class Table implements Parcelable {
     public static final int LAYOUT_VERB_BIGBLOCK = 1;
     public static final int LAYOUT_VERB_SMALLBLOCK = 2;
     public static final int LAYOUT_VERB_SINGLEBLOCK = 3;
-    public static final int LAYOUT_ACTION = 4;
+    public static final int LAYOUT_ACTION = 4; // adverb
 
     private String title;
     private String[] columnNames;

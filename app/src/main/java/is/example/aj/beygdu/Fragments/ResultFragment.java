@@ -196,8 +196,7 @@ public class ResultFragment extends Fragment {
                                 table.getColumnNames(),
                                 table.getRowNames(),
                                 table.getContent(),
-                                0,
-                                0
+                                table.getLayoutId()
                         ));
 
                     }

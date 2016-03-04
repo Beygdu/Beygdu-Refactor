@@ -163,7 +163,7 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
 
         int rowCounter = 1;
         int contentCounter = 0;
-        switch (item.getTableType()) {
+        switch (item.getLayoutId()) {
             // case default
             case 0:
                 /*
@@ -206,7 +206,7 @@ public class ResultAdapter extends ArrayAdapter<ResultObject> {
                 }
                 */
                 CrapTable cp = new CrapTable(getContext());
-                LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
+                LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent(), 0);
 
                 for(LinearLayout layout : views) {
                     view.addView(layout);

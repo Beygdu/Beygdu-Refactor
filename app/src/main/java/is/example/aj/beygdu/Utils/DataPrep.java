@@ -41,7 +41,7 @@ public class DataPrep {
         else if(subBlockTitle.contains("Nafnháttur") || blockTitle.contains("Lýsingarháttur nútíðar")) {
             return Table.LAYOUT_VERB_SINGLEBLOCK;
         }
-        else if( blockTitle.contains("Boðháttur") || blockTitle.contains("Sagnbót")) {
+        else if( blockTitle.contains("Sagnbót")) {
             return Table.LAYOUT_VERB_SMALLBLOCK;
         }
         else if( blockTitle.contains("Persónuleg notkun") || blockTitle.contains("Ópersónuleg notkun")) {

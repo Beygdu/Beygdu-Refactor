@@ -119,6 +119,7 @@ public class ResultItemAdapter extends BaseAdapter {
             view.removeAllViews();
         }
 
+
         int rowCount = item.getRowNames().length;
         int columnCount = item.getColumnNames().length;
 
@@ -136,71 +137,17 @@ public class ResultItemAdapter extends BaseAdapter {
 
         int rowCounter = 1;
         int contentCounter = 0;
-        switch (item.getTableType()) {
-            // case default
-            case 0:
-                /*
-                for(int i=0; i < tableRows.length; i++) {
 
-                    if(i==0) {
-                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
-                        TextView tV = new TextView(getContext());
-                        tV.setText(item.getTitle());
-                        tableRows[i].addView(tV);
-                    }
-                    else if(i==1) {
-                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
-                        TextView[] tVs = createTextViews(columnCount);
-                        for(int j = 0; j < tVs.length; j++) {
-                            tVs[j].setText(columnHeaders[j]);
-                            tableRows[i].addView(tVs[j]);
-                        }
-                    }
-                    else {
-                        tableRows[i].setOrientation(LinearLayout.HORIZONTAL);
-                        TextView[] tVs = createTextViews(columnCount);
-                        for(int j = 0; j < tVs.length; j++) {
+        CrapTable cp = new CrapTable(context);
+        LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent(), item.getLayoutId());
 
-                            if(j==0) {
-                                tVs[j].setText(rowHeaders[i-1]); //Offset
-                                tableRows[i].addView(tVs[j]);
-                            }
-                            else {
-                                tVs[j].setText(content.get(contentCounter++));
-                                tableRows[i].addView(tVs[j]);
-                            }
-//                            tableRows[i].addView(tVs[j]);
+        Log.w("Number of layouts : ", ""+views.length);
 
-                        }
-
-                    }
-                    layout.addView(tableRows[i]);
-
-                }
-                */
-                CrapTable cp = new CrapTable(context);
-                LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent());
-
-                Log.w("Number of layouts : ", ""+views.length);
-
-                for(LinearLayout layout : views) {
-                    view.addView(layout);
-                }
-
-                break;
-            //return layout;
-            // case special
-            case 1:
-                break;
-            // case special
-            case 2:
-                break;
-            // case special
-            case 3:
-                break;
-            default:
-                break;
+        for(LinearLayout layout : views) {
+            view.addView(layout);
         }
+
+
     }
 
     private TextView manageTextViewParams(TextView textView, int layoutId) {
