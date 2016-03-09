@@ -27,6 +27,7 @@ import is.example.aj.beygdu.Utils.DisplayUtilities;
 
 /**
  * Created by arnar on 2/14/2016.
+ * @deprecated
  */
 public class TableFragment extends Fragment {
 
@@ -371,12 +372,4 @@ public class TableFragment extends Fragment {
     }
 
 
-    private void generateViewId(View v) {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            v.setId(DisplayUtilities.generateViewId());
-        }
-        else {
-            //v.setId(View.generateViewId());
-        }
-    }
 }
