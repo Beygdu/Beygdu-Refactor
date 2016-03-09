@@ -7,7 +7,11 @@ import is.example.aj.beygdu.Skrambi.RequestHandler;
 import is.example.aj.beygdu.Utils.NetworkListener;
 
 /**
- * Created by arnar on 2/11/2016.
+ * @author Arnar Jonsson
+ * @version 0.1
+ * @since 14.4.2015.
+ *
+ * SkrambiAsyncTask - Handles POST requests to the Skrambi spellcheck service
  */
 public class SkrambiAsyncTask extends AsyncTask<String, Void, String> {
 

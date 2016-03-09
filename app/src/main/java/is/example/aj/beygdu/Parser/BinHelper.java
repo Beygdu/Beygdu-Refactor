@@ -3,7 +3,13 @@ package is.example.aj.beygdu.Parser;
 import is.example.aj.beygdu.Utils.DataPrep;
 
 /**
- * Created by arnar on 2/10/2016.
+ * @author Arnar Jonsson
+ * @version 0.2
+ * @since 13.3.2015
+ *
+ * Refactored 1.2016
+ *
+ * A helper class from BParser.class.
  */
 public class BinHelper {
 

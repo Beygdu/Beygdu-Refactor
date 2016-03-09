@@ -12,7 +12,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by arnar on 2/23/2016.
+ * @author Jón Friðrik
+ * @since 14.02.15
+ * @version 1.0
+ *
+ *
+ * A helper class for the DBController. The DBHelper creates the DB the
+ * first time it is constructed. It also reconstructs the DB if it has
+ * been updated (In future versions the update function would be used to
+ * migrate data from old tables to new one and then delete the old tables).
+ * It also contains useful  static variables which are constantly being
+ * used in the DB, such as the CREATE queries the table and column names
+ * and the max size of the DB.
+ *
  */
 public class DBHelper extends SQLiteOpenHelper {
 

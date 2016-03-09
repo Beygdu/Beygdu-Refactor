@@ -44,6 +44,15 @@ import is.example.aj.beygdu.UIElements.ResultTitle;
 import is.example.aj.beygdu.UIElements.TableFragment;
 import is.example.aj.beygdu.Utils.DisplayUtilities;
 
+/**
+ * @author Jón Friðrik Jónatansson, Daniel Pall
+ * @since 25.10.14
+ * @version 1.0
+ *
+ * Refactored by Aranr Jonsson 2.2016
+ *
+ * A fragment that houses result from the BIN search
+ */
 public class ResultFragment extends Fragment {
 
     private FragmentCallback fragmentCallback;
@@ -84,21 +93,8 @@ public class ResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-    /*
-        // Screen W/H
-        width = DisplayUtilities.getScreenWidth(
-                getActivity().getWindowManager().getDefaultDisplay());
-        height = DisplayUtilities.getScreenHeigth(
-                getActivity().getWindowManager().getDefaultDisplay());
 
-        // Typefaces sdsd
-        LatoBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Bold.ttf");
-        LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Semibold.ttf");
-        LatoLight = Typeface.createFromAsset(activity.getAssets(), "Lato-Light.ttf");
-    */
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_result, container, false);
-        //tableLayout = (TableLayout) v.findViewById(R.id.data_table);
 
         try {
             wordResult =  getArguments().getParcelable("WordResult");
@@ -115,51 +111,7 @@ public class ResultFragment extends Fragment {
         listView.setAdapter(itemAdapter);
 
         return v;
-    /*
-        // Orientation change //
-        if(savedInstanceState != null) {
-            blockNames = savedInstanceState.getStringArrayList("blockNames");
-            selectedItems = savedInstanceState.getIntegerArrayList("selectedItems");
-            width = savedInstanceState.getFloat("width");
-            height = savedInstanceState.getFloat("height");
-            wordResult = savedInstanceState.getParcelable("WordResult");
-        }
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_result, container, false);
-        tableLayout = (TableLayout) v.findViewById(R.id.data_table);
 
-        try {
-            wordResult =  getArguments().getParcelable("WordResult");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return v;
-        }
-
-        activity = (RootActivity) getActivity();
-
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        width = DisplayUtilities.convertPixelsToDp(size.x, activity);
-        height = DisplayUtilities.convertPixelsToDp(size.y, activity);
-
-        LatoBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Bold.ttf");
-        LatoSemiBold = Typeface.createFromAsset(activity.getAssets(), "Lato-Semibold.ttf");
-        LatoLight = Typeface.createFromAsset(activity.getAssets(), "Lato-Light.ttf");
-
-        for (int i = 0; i < wordResult.getResult().size(); i++) {
-            selectedItems.add(i);
-            blockNames.add(wordResult.getResult().get(i).getTitle());
-        }
-        v = initTables(v);
-
-        // TODO : implement cache memory
-
-        // TODO : manage funnel? filter?
-
-        return v;
-        */
     }
 
     private ArrayList<ResultObject> createObjectArray() {
@@ -254,193 +206,5 @@ public class ResultFragment extends Fragment {
         fragmentCallback = null;
     }
 
-    private View initTables(View v) {
-/*
-        TextView titleDesc = (TextView) v.findViewById(R.id.search_result);
-        String[] titleArr = wordResult.getTitle().split(" ", 2);
-        String firstWord = titleArr[0];
-        String rest = titleArr[1];
-        titleDesc.setText(Html.fromHtml("<b><big>" + firstWord + "</big></b>" + "\n" + "<small>" + rest + "</small>"));
 
-        if (320 > width && width < 384) {
-            titleDesc.setTextSize(35);
-        } else if (384 > width && width < 600) {
-            titleDesc.setTextSize(35);
-        } else if (width > 600) {
-            titleDesc.setTextSize(35);
-        }
-        titleDesc.setTypeface(LatoLight);
-
-        if (!wordResult.getWarning().equals("")) {
-            // TODO : implement
-        }
-
-        tables.clear();
-        for (int i = 0; i < wordResult.getResult().size(); i++){
-            if (selectedItems.contains(i)) {
-                Block block = wordResult.getResult().get(i);
-                TextView blockTitle = new TextView(activity);
-                if (320 > width && width < 384) {
-                    blockTitle.setTextSize(20);
-                }
-                else if(384 > width && width < 600) {
-                    blockTitle.setTextSize(28);
-                }
-                else if(width > 600){
-                    blockTitle.setTextSize(42);
-                }
-                blockTitle.setMinHeight(100);
-                blockTitle.setText(block.getTitle());
-                blockTitle.setTypeface(LatoLight);
-                blockTitle.setTextColor(getResources().getColor(R.color.white));
-                blockTitle.setPadding(0, 10, 0, 10);
-
-
-                TableFragment tFragment = TableFragment.newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("Block", block);
-                bundle.putString("wordTitle", firstWord);
-                bundle.putString("blockTitle", block.getTitle());
-                tFragment.setArguments(bundle);
-
-
-                //TableFragment tFragment = new TableFragment(getContext(), tableLayout, block, blockTitle, firstWord, block.getTitle());
-                getFragmentManager().beginTransaction().add(tableLayout.getId(), tFragment).commit();
-                tables.add(tFragment);
-            }
-        }
-        return  v;*/
-        return null;
-    }
-
-/*
-    @Override
-    public void onSaveInstanceState(Bundle instanceState) {
-        instanceState.putStringArrayList("blockNames", blockNames);
-        instanceState.putIntegerArrayList("selectedItems", selectedItems);
-        instanceState.putFloat("width", width);
-        instanceState.putFloat("height", height);
-        instanceState.putParcelable("WordResult", wordResult);
-        super.onSaveInstanceState(instanceState);
-    }*/
-
-    /////
-    //
-    /////
-    /*
-    private RelativeLayout.LayoutParams createTextViewLP(int controlId) {
-
-        switch (controlId) {
-            // Page Header
-            case 0:
-                RelativeLayout.LayoutParams header =
-                        new RelativeLayout.LayoutParams(
-                                RelativeLayout.LayoutParams.MATCH_PARENT,
-                                100);
-                int hM = DisplayUtilities.integerToDp(getContext(), 20);
-                header.setMargins(hM, hM, hM, hM);
-                return header;
-            // Word Warning
-            case 1:
-                // TODO : implement
-                return null;
-            // Block Title
-            case 2:
-                return null;
-            // SubBlock Title
-            case 3:
-                return null;
-            // Table title
-            case 4:
-                return null;
-            default:
-                return null;
-        }
-
-    }
-
-    private TextView manageTitleLayoutParams(TextView textView, int controlId) {
-
-        switch (controlId) {
-            // Header TextView
-            case 0:
-                textView.setTextSize(35);
-                textView.setTypeface(LatoLight);
-                textView.setTextColor(
-                        getResources().getColor(R.color.header_title));
-                return textView;
-            // Warning TextView
-            case 1:
-                // TODO : implement
-                return null;
-            // Block TextView
-            case 2:
-                if (320 > width && width < 384) {
-                    textView.setTextSize(22);
-                }
-                else if(384 > width && width < 600) {
-                    textView.setTextSize(28);
-                }
-                else if(width > 600){
-                    textView.setTextSize(42);
-                }
-                textView.setMinHeight(
-                        DisplayUtilities.integerToDp(
-                                getContext(), 80));
-                textView.setTypeface(LatoLight);
-                textView.setTextColor(
-                        getResources().getColor(R.color.block_title));
-                int bP = DisplayUtilities.integerToDp(getContext(), 10);
-                textView.setPadding(0, bP, 0, bP);
-                return textView;
-            // SubBlock TextView
-            case 3:
-                if (320 > width && width < 384) {
-                    textView.setTextSize(20);
-                }
-                else {
-                    textView.setTextSize(22);
-                }
-                textView.setTypeface(LatoLight);
-                textView.setTextColor(
-                        getResources().getColor(R.color.subblock_title));
-                int bSP = DisplayUtilities.integerToDp(getContext(), 10);
-                textView.setPadding(0, bSP, 0, bSP);
-                return textView;
-            // Table TestView
-            case 4:
-                if (320 > width && width < 384) {
-                    textView.setTextSize(18);
-                }
-                else {
-                    textView.setTextSize(20);
-                }
-                textView.setTypeface(LatoLight);
-                textView.setTextColor(
-                        getResources().getColor(R.color.table_title));
-                int tP = DisplayUtilities.integerToDp(getContext(), 10);
-                textView.setPadding(0, tP, 0, tP);
-                textView.setBackgroundResource(
-                        R.drawable.top_border_orange);
-                return textView;
-            // Cell TextView
-            case 5:
-                textView.setGravity(Gravity.LEFT);
-                textView.setTextSize(16);
-                textView.setTypeface(LatoLight);
-                textView.setTextColor(
-                        getResources().getColor(R.color.table_cell));
-                int tabP = DisplayUtilities.integerToDp(getContext(), 10);
-                textView.setPadding(tabP/2, tabP, tabP, tabP);
-                // TODO : implement clicklistener
-                return textView;
-            default:
-                return textView;
-        }
-    }
-
-    private TextView setCellBackroundResource(TextView textView) {
-        // TODO : implement
-        return textView;
-    }*/
 }

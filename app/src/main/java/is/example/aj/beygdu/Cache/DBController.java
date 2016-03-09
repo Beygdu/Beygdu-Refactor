@@ -17,7 +17,16 @@ import is.example.aj.beygdu.Parser.Table;
 import is.example.aj.beygdu.Parser.WordResult;
 
 /**
- * Created by arnar on 2/23/2016.
+ * @author Jón Friðrik
+ * @since 14.02.15
+ * @version 1.0
+ *
+ * Modified by Arnar Jonsson 2.2016
+ *
+ * DBController is the controller for the apps database.
+ * It controlls the database by implementing the fetch and
+ * insert commands for the database.
+ *
  */
 public class DBController {
 

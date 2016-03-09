@@ -13,7 +13,13 @@ import java.util.ArrayList;
 import is.example.aj.beygdu.Utils.Bstring;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar Jonsson
+ * @since 24.01.2015
+ * @version 1.0
+ *
+ * Refactored 06.2015
+ *
+ * BParser - creates a Jsoup document from an url
  */
 public class BParser {
 

@@ -9,7 +9,11 @@ import is.example.aj.beygdu.Parser.WordResult;
 import is.example.aj.beygdu.Utils.NetworkListener;
 
 /**
- * Created by arnar on 2/10/2016.
+ * @author Arnar Jonsson
+ * @version 0.1
+ * @since 14.4.2015
+ *
+ * BinAsyncTask - creates result from the bin search
  */
 public class BinAsyncTask extends AsyncTask<String, Void, WordResult> {
 

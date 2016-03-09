@@ -9,7 +9,13 @@ import java.util.ArrayList;
 import is.example.aj.beygdu.Utils.Bstring;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar Jonsson
+ * @since 27.1.2015
+ * @version 0.4
+ *
+ * Refactored 6.2015
+ *
+ * Houses all possible results from a BIN search
  */
 public class WordResult implements Parcelable {
 

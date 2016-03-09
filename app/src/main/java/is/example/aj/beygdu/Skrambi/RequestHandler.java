@@ -8,7 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by arnar on 2/11/2016.
+ * @author Arnar Jonsson
+ * @since 10.3.2015
+ * @version 0.5
+ *
+ * A vanilla java post request handler
  */
 public class RequestHandler {
 

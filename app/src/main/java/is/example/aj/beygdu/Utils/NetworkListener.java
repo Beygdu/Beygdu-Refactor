@@ -21,6 +21,7 @@ public class NetworkListener {
 
     }
 
+    // TODO : find out why ConnectiviyManager returns null
     public boolean isActive() {
         //connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         //NetworkInfo info = connectivityManager.getActiveNetworkInfo();

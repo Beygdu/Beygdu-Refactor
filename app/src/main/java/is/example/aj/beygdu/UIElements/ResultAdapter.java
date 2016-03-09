@@ -29,6 +29,7 @@ import is.example.aj.beygdu.Utils.DisplayUtilities;
 
 /**
  * Created by arnar on 2/29/2016.
+ * @deprecated
  */
 public class ResultAdapter extends ArrayAdapter<ResultObject> {
 

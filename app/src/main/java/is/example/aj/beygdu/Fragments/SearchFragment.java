@@ -23,7 +23,13 @@ import is.example.aj.beygdu.FragmentCallback;
 import is.example.aj.beygdu.R;
 
 /**
- * SearchFragment - ? starting screen fragment
+ * @author Jón Friðrik, Arnar, Snær, Daniel
+ * @since 05.11.14
+ * @version 1.0
+ *
+ * Refactored by Arnar Jonsson 1.2016
+ *
+ * The initial fragment of the application. Handles user input for a BIN search
  *
  */
 public class SearchFragment extends Fragment {

@@ -2,6 +2,7 @@ package is.example.aj.beygdu.UIElements;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,10 @@ public class ResultItemAdapter extends BaseAdapter {
     private static final int TYPE_TITLE = 0;
     private static final int TYPE_TABLE = 1;
     private static final int TYPE_COUNT = 2;
+
+    private int titleSize = 30;
+    private int blockTitleSize = 25;
+    private int subBlockTitleSize = 23;
 
     private Context context;
     private ArrayList<ResultObject> objects;
@@ -84,7 +89,7 @@ public class ResultItemAdapter extends BaseAdapter {
                     convertView = inflater.inflate(R.layout.result_title, null);
                     //convertView.setLayoutParams(getLinearLayoutParams());
                     container.textView = (TextView) convertView.findViewById(R.id.result_textview);
-                    //container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
+                    container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
                     convertView.setTag(container);
                     break;
                 case TYPE_TABLE:
@@ -161,17 +166,19 @@ public class ResultItemAdapter extends BaseAdapter {
             // Page title
             case 0:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_BOLD));
-                textView.setTextSize(DisplayUtilities.integerToDp(context, 14));
+                textView.setTextSize(titleSize);
                 break;
             // Block title
             case 1:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
-                textView.setTextSize(DisplayUtilities.integerToDp(context, 10));
+                textView.setTextSize(blockTitleSize);
+                textView.setGravity(Gravity.CENTER);
+                //textView.setBackgroundColor();
                 break;
             // SubBlock title
             case 2:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
-                textView.setTextSize(DisplayUtilities.integerToDp(context, 8));
+                textView.setTextSize(subBlockTitleSize);
                 break;
             // case note
             case 3:

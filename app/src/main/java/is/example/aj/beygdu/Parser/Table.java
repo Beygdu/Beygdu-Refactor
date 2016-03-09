@@ -7,7 +7,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar Jonsson
+ * @since 21.11.2014
+ * @version 0.1
+ *
+ * Refactored 9.2.2016.
+ *
+ * Data representation of a Table.
+ * Houses a title, row and column headers, and content
  */
 public class Table implements Parcelable {
 

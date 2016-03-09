@@ -7,7 +7,11 @@ import is.example.aj.beygdu.Cache.DBController;
 import is.example.aj.beygdu.Parser.WordResult;
 
 /**
- * Created by arnar on 2/23/2016.
+ * @author Arnar Jonsson
+ * @version 0.1
+ * @since  23.2.2016.
+ *
+ * CacheAsyncTask - A UI thread which handles access to the in-app db
  */
 public class CacheAsyncTask extends AsyncTask<Object, Void, Object> {
 

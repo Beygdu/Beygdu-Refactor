@@ -48,27 +48,6 @@ public class DisplayUtilities {
         return heigth;
     }
 
-    // Helper for view id generation
-    private static final AtomicInteger nextGeneratedId = new AtomicInteger(1);
-
-    /**
-     * Creates a valid ID for a view subclass object
-     * Needed due to the fact that the targeted API of the application is 15
-     * In never versions this can be replaced by the call View.SetId()
-     * @return a valid id for a view subclass
-     */
-    public static int generateViewId() {
-        for (;;) {
-            final int result = nextGeneratedId.get();
-            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
-            int newValue = result + 1;
-            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
-            if (nextGeneratedId.compareAndSet(result, newValue)) {
-                return result;
-            }
-        }
-
-    }
 
     public static int integerToDp(Context context, int dpValue) {
         float d = context.getResources().getDisplayMetrics().density;

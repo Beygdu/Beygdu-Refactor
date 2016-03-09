@@ -11,7 +11,11 @@ import is.example.aj.beygdu.Async.SkrambiAsyncTask;
 import is.example.aj.beygdu.Utils.OutputValidator;
 
 /**
- * Created by arnar on 2/11/2016.
+ * @author Arnar Jonsson
+ * @since 10.3.2015
+ * @version 0.5
+ *
+ * Handles preparation from the Skrambi spell check post request callback
  */
 public class SkrambiWT {
 

@@ -7,7 +7,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by arnar on 2/9/2016.
+ * @author Arnar Jonsson
+ * @since 21.11.2014
+ * @version 0.1
+ *
+ * Refactored 6.2015
+ *
+ * A single result block.
+ * Houses a title and n-SubBlocks
  */
 public class Block implements Parcelable {
 
