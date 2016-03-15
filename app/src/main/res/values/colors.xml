@@ -38,6 +38,7 @@
     <color name="font_default">#4e5e6a</color>
     <color name="font_light">#858585</color>
     <color name="indigo">#3B6AA0</color>
+    <color name="light_gray">#d3d3d3</color>
 
     <!-- Table colors -->
     <color name="tableBackground">#f5f7f9</color>

@@ -1,6 +1,7 @@
 package is.example.aj.beygdu.UIElements;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class ResultItemAdapter extends BaseAdapter {
     private static final int TYPE_COUNT = 2;
 
     private int titleSize;
+    private int warningTextSize;
     private int blockTitleSize;
     private int subBlockTitleSize;
 
@@ -42,6 +44,7 @@ public class ResultItemAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         titleSize = getDp(12);
+        warningTextSize = getDp(5);
         blockTitleSize = getDp(10);
         subBlockTitleSize = getDp(9);
     }
@@ -96,7 +99,6 @@ public class ResultItemAdapter extends BaseAdapter {
                 case TYPE_TITLE:
                     convertView = inflater.inflate(R.layout.result_title, null);
                     container.textView = (TextView) convertView.findViewById(R.id.result_textview);
-                    //container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
                     convertView.setTag(container);
                     break;
                 case TYPE_TABLE:
@@ -112,9 +114,16 @@ public class ResultItemAdapter extends BaseAdapter {
 
         switch (type) {
             case TYPE_TITLE:
-                container.textView.setText(objects.get(position).getTitle());
-                container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
-                return convertView;
+                if(objects.get(position).getLayoutId() == 3) {
+                    container.textView.setText(Html.fromHtml(objects.get(position).getTitle()));
+                    container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
+                    return convertView;
+                }
+                else {
+                    container.textView.setText(objects.get(position).getTitle());
+                    container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
+                    return convertView;
+                }
             case TYPE_TABLE:
                 createTableLayouts(container.linearLayout, (ResultTable) objects.get(position));
                 return convertView;
@@ -148,7 +157,7 @@ public class ResultItemAdapter extends BaseAdapter {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(25, 0, 25, 0);
+        params.setMargins(getDp(5), 0, getDp(5), 0);
 
 
         for(LinearLayout layout : views) {
@@ -166,6 +175,8 @@ public class ResultItemAdapter extends BaseAdapter {
             case 0:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_BOLD));
                 textView.setTextSize(titleSize);
+                textView.setTextColor(context.getResources().getColor(R.color.white));
+                textView.setGravity(Gravity.CENTER);
                 textView.setLayoutParams(new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -176,12 +187,13 @@ public class ResultItemAdapter extends BaseAdapter {
             case 1:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
                 textView.setTextSize(blockTitleSize);
+                textView.setTextColor(context.getResources().getColor(R.color.white));
                 textView.setGravity(Gravity.CENTER);
                 RelativeLayout.LayoutParams blockParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
                 );
-                blockParams.setMargins(0, getDp(5), 0, getDp(5));
+                blockParams.setMargins(0, getDp(15), 0, 0);
                 textView.setLayoutParams(blockParams);
                 textView.setBackgroundResource(R.color.lightblue);
                 break;
@@ -189,17 +201,28 @@ public class ResultItemAdapter extends BaseAdapter {
             case 2:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_LIGHT));
                 textView.setTextSize(subBlockTitleSize);
+                textView.setTextColor(context.getResources().getColor(R.color.white));
+                textView.setGravity(Gravity.LEFT);
                 RelativeLayout.LayoutParams subBlockParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
                 );
-                subBlockParams.setMargins(getDp(5), getDp(5), getDp(5), getDp(5));
+                subBlockParams.setMargins(getDp(5), getDp(15), getDp(5), 0);
                 textView.setLayoutParams(subBlockParams);
                 textView.setBackgroundResource(R.color.lightblue);
                 break;
             // case note
             case 3:
                 // TODO : implement
+                textView.setTextSize(warningTextSize);
+                textView.setTextColor(context.getResources().getColor(R.color.black));
+                RelativeLayout.LayoutParams warningParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+                warningParams.setMargins(getDp(10), getDp(15), getDp(10), 0);
+                textView.setLayoutParams(warningParams);
+                textView.setBackgroundResource(R.color.light_gray);
                 break;
             default:
                 // Do nothing

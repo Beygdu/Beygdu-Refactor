@@ -1,7 +1,10 @@
 package is.example.aj.beygdu.Utils;
 
+import android.util.Log;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -807,14 +810,16 @@ public class DataPrep {
     }
 
     private WordResult manageAlertNode(WordResult wordResult, ArrayList<Element> selected) {
-        //TODO : fix, i dont like this
-        for( Element element : selected ) {
-            if( element.toString().contains("Athugið:")) {
-                wordResult.setWarning(element.toString());
-                return wordResult;
-            }
+
+        Document doc = bParser.getDocument();
+
+        if(doc.select("div[class=alert alert-info]").toString().length() > 1) {
+            wordResult.setWarning(doc.select("div[class=alert alert-info]").toString());
         }
-        wordResult.setWarning("");
+        else {
+            wordResult.setWarning("");
+        }
+
         return wordResult;
     }
 
