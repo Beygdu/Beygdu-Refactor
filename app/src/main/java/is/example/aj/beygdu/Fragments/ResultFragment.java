@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -110,6 +111,9 @@ public class ResultFragment extends Fragment {
         itemAdapter.addItems(objects);
         listView.setAdapter(itemAdapter);
 
+        //TextView footerView = createFooterView();
+        //listView.addFooterView(footerView);
+
         return v;
 
     }
@@ -160,6 +164,9 @@ public class ResultFragment extends Fragment {
 
             }
 
+            // Page footer
+            //list.add(ResultTitle.create(getContext().getResources().getString(R.string.search_footer_description), 4));
+
             return list;
         }
     }
@@ -208,6 +215,5 @@ public class ResultFragment extends Fragment {
         super.onDetach();
         fragmentCallback = null;
     }
-
 
 }

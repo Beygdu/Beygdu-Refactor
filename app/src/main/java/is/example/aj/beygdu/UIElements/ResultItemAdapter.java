@@ -32,6 +32,7 @@ public class ResultItemAdapter extends BaseAdapter {
     private int warningTextSize;
     private int blockTitleSize;
     private int subBlockTitleSize;
+    private int footerTextSize;
 
     private int dividerHeigth;
     private int warningPadding;
@@ -53,6 +54,7 @@ public class ResultItemAdapter extends BaseAdapter {
         warningTextSize = getDp(5);
         blockTitleSize = getDp(10);
         subBlockTitleSize = getDp(9);
+        footerTextSize = getDp(5);
 
         dividerHeigth = getDp(15);
 
@@ -248,6 +250,18 @@ public class ResultItemAdapter extends BaseAdapter {
                 warningParams.setMargins(warningPadding, 0, warningPadding, dividerHeigth);
                 textView.setLayoutParams(warningParams);
                 textView.setBackgroundResource(R.color.light_gray);
+                break;
+            case 4:
+                textView.setTextSize(footerTextSize);
+                textView.setTextColor(context.getResources().getColor(R.color.white));
+                RelativeLayout.LayoutParams footerParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+                footerParams.setMargins(0, getDp(3), 0, 0);
+                footerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                textView.setLayoutParams(footerParams);
+                textView.setBackgroundResource(R.color.colorPrimary);
                 break;
             default:
                 // Do nothing
