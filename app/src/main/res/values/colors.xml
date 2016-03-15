@@ -10,6 +10,7 @@
     <item name="orange" type="color">#FFFFBB33</item>
     <item name="red" type="color">#FFFF4444</item>
     <!-- Toolbar/Navigationbar color schemes -->
+
     <color name="toolbar_color">#3F51B5</color>
 
 
@@ -36,7 +37,7 @@
     <!-- Font colors -->
     <color name="font_default">#4e5e6a</color>
     <color name="font_light">#858585</color>
-
+    <color name="indigo">#3B6AA0</color>
 
     <!-- Table colors -->
     <color name="tableBackground">#f5f7f9</color>

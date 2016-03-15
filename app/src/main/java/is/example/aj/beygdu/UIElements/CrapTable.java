@@ -279,7 +279,7 @@ public class CrapTable {
                 ));
                 tV.setText(content.get(0));
                 tV.setTextSize(headerTextSize);
-                tV.setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+                //tV.setBackgroundColor(context.getResources().getColor(R.color.lightblue));
 
                 tableRows[0].addView(tV);
 

@@ -27,9 +27,9 @@ public class ResultItemAdapter extends BaseAdapter {
     private static final int TYPE_TABLE = 1;
     private static final int TYPE_COUNT = 2;
 
-    private int titleSize = 30;
-    private int blockTitleSize = 25;
-    private int subBlockTitleSize = 23;
+    private int titleSize;
+    private int blockTitleSize;
+    private int subBlockTitleSize;
 
     private Context context;
     private ArrayList<ResultObject> objects;
@@ -40,8 +40,16 @@ public class ResultItemAdapter extends BaseAdapter {
     public ResultItemAdapter(Context context) {
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        titleSize = getDp(12);
+        blockTitleSize = getDp(10);
+        subBlockTitleSize = getDp(9);
     }
 
+    /**
+     * Adds ResultObjects to the adapter
+     * @param objects ArrayList<ResultObject> objects
+     */
     public void addItems(ArrayList<ResultObject> objects) {
         this.objects = objects;
         itemTypes = new int[this.objects.size()];
@@ -87,9 +95,8 @@ public class ResultItemAdapter extends BaseAdapter {
             switch (type) {
                 case TYPE_TITLE:
                     convertView = inflater.inflate(R.layout.result_title, null);
-                    //convertView.setLayoutParams(getLinearLayoutParams());
                     container.textView = (TextView) convertView.findViewById(R.id.result_textview);
-                    container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
+                    //container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
                     convertView.setTag(container);
                     break;
                 case TYPE_TABLE:
@@ -98,7 +105,6 @@ public class ResultItemAdapter extends BaseAdapter {
                     convertView.setTag(container);
                     break;
             }
-            //convertView.setTag(container);
         }
         else {
             container = (ViewContainer) convertView.getTag();
@@ -107,10 +113,10 @@ public class ResultItemAdapter extends BaseAdapter {
         switch (type) {
             case TYPE_TITLE:
                 container.textView.setText(objects.get(position).getTitle());
+                container.textView = manageTextViewParams(container.textView, getItem(position).getLayoutId());
                 return convertView;
             case TYPE_TABLE:
                 createTableLayouts(container.linearLayout, (ResultTable) objects.get(position));
-                //notifyDataSetChanged();
                 return convertView;
             default:
                 return null;
@@ -120,19 +126,13 @@ public class ResultItemAdapter extends BaseAdapter {
 
     private void createTableLayouts(LinearLayout view, ResultTable item) {
 
+        // Removes current views from the recycled layout, if it has any
         if(view.getChildCount() > 0) {
             view.removeAllViews();
         }
 
 
         int rowCount = item.getRowNames().length;
-        int columnCount = item.getColumnNames().length;
-
-        Log.w("createTableLayouts", "Rows are :" + rowCount + " Cols are :" + columnCount);
-        String[] rowHeaders = item.getRowNames();
-        String[] columnHeaders = item.getColumnNames();
-
-        ArrayList<String> content = item.getContent();
 
         LinearLayout[] tableRows = new LinearLayout[rowCount];
 
@@ -140,19 +140,16 @@ public class ResultItemAdapter extends BaseAdapter {
             tableRows[q] = new LinearLayout(context);
         }
 
-        int rowCounter = 1;
-        int contentCounter = 0;
-
         CrapTable cp = new CrapTable(context);
         LinearLayout[] views = cp.getInstance(item.getTitle(), item.getRowNames(), item.getColumnNames(), item.getContent(), item.getLayoutId());
 
-        Log.w("Number of layouts : ", ""+views.length);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
         params.setMargins(25, 0, 25, 0);
+
 
         for(LinearLayout layout : views) {
             view.addView(layout, params);
@@ -163,28 +160,42 @@ public class ResultItemAdapter extends BaseAdapter {
 
     private TextView manageTextViewParams(TextView textView, int layoutId) {
 
-        textView.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        ));
 
         switch (layoutId) {
             // Page title
             case 0:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_BOLD));
                 textView.setTextSize(titleSize);
+                textView.setLayoutParams(new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                ));
+                textView.setBackgroundResource(R.color.colorPrimary);
                 break;
             // Block title
             case 1:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
                 textView.setTextSize(blockTitleSize);
                 textView.setGravity(Gravity.CENTER);
-                //textView.setBackgroundColor();
+                RelativeLayout.LayoutParams blockParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+                blockParams.setMargins(0, getDp(5), 0, getDp(5));
+                textView.setLayoutParams(blockParams);
+                textView.setBackgroundResource(R.color.lightblue);
                 break;
             // SubBlock title
             case 2:
-                textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
+                textView.setTypeface(FontManager.getFont(context, FontManager.LATO_LIGHT));
                 textView.setTextSize(subBlockTitleSize);
+                RelativeLayout.LayoutParams subBlockParams = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+                subBlockParams.setMargins(getDp(5), getDp(5), getDp(5), getDp(5));
+                textView.setLayoutParams(subBlockParams);
+                textView.setBackgroundResource(R.color.lightblue);
                 break;
             // case note
             case 3:
@@ -212,6 +223,13 @@ public class ResultItemAdapter extends BaseAdapter {
 
     }
 
+    /**
+     * @param i pixels
+     * @return i in dp
+     */
+    private int getDp(int i) {
+        return DisplayUtilities.integerToDp(context, i);
+    }
 
     static class ViewContainer {
         TextView textView;
