@@ -33,6 +33,12 @@ public class ResultItemAdapter extends BaseAdapter {
     private int blockTitleSize;
     private int subBlockTitleSize;
 
+    private int dividerHeigth;
+    private int warningPadding;
+    private int blockTitlePadding;
+    private int subBlockTitlePadding;
+    private int tablePadding;
+
     private Context context;
     private ArrayList<ResultObject> objects;
     private int[] itemTypes;
@@ -47,6 +53,13 @@ public class ResultItemAdapter extends BaseAdapter {
         warningTextSize = getDp(5);
         blockTitleSize = getDp(10);
         subBlockTitleSize = getDp(9);
+
+        dividerHeigth = getDp(15);
+
+        warningPadding = getDp(10);
+        blockTitlePadding = getDp(5);
+        subBlockTitlePadding = getDp(5);
+        tablePadding = getDp(5);
     }
 
     /**
@@ -157,13 +170,22 @@ public class ResultItemAdapter extends BaseAdapter {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(getDp(5), 0, getDp(5), 0);
+        params.setMargins(tablePadding, 0, tablePadding, 0);
 
+        LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        bottomParams.setMargins(tablePadding, 0, tablePadding, dividerHeigth);
 
-        for(LinearLayout layout : views) {
-            view.addView(layout, params);
+        for(int i = 0; i < views.length; i++) {
+            if(i != views.length-1) {
+                view.addView(views[i], params);
+            }
+            else {
+                view.addView(views[i], bottomParams);
+            }
         }
-
 
     }
 
@@ -177,23 +199,26 @@ public class ResultItemAdapter extends BaseAdapter {
                 textView.setTextSize(titleSize);
                 textView.setTextColor(context.getResources().getColor(R.color.white));
                 textView.setGravity(Gravity.CENTER);
-                textView.setLayoutParams(new RelativeLayout.LayoutParams(
+
+                RelativeLayout.LayoutParams pageTitleParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
-                ));
+                );
+                pageTitleParams.setMargins(0, 0, 0, dividerHeigth);
+                textView.setLayoutParams(pageTitleParams);
                 textView.setBackgroundResource(R.color.colorPrimary);
                 break;
             // Block title
             case 1:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_SEMIBOLD));
                 textView.setTextSize(blockTitleSize);
-                textView.setTextColor(context.getResources().getColor(R.color.white));
+                textView.setTextColor(context.getResources().getColor(R.color.dark_gray));
                 textView.setGravity(Gravity.CENTER);
                 RelativeLayout.LayoutParams blockParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
                 );
-                blockParams.setMargins(0, getDp(15), 0, 0);
+                blockParams.setMargins(0, 0, 0, dividerHeigth);
                 textView.setLayoutParams(blockParams);
                 textView.setBackgroundResource(R.color.lightblue);
                 break;
@@ -201,13 +226,13 @@ public class ResultItemAdapter extends BaseAdapter {
             case 2:
                 textView.setTypeface(FontManager.getFont(context, FontManager.LATO_LIGHT));
                 textView.setTextSize(subBlockTitleSize);
-                textView.setTextColor(context.getResources().getColor(R.color.white));
+                textView.setTextColor(context.getResources().getColor(R.color.dark_gray));
                 textView.setGravity(Gravity.LEFT);
                 RelativeLayout.LayoutParams subBlockParams = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
                 );
-                subBlockParams.setMargins(getDp(5), getDp(15), getDp(5), 0);
+                subBlockParams.setMargins(subBlockTitlePadding, 0, subBlockTitlePadding, dividerHeigth);
                 textView.setLayoutParams(subBlockParams);
                 textView.setBackgroundResource(R.color.lightblue);
                 break;
@@ -220,7 +245,7 @@ public class ResultItemAdapter extends BaseAdapter {
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
                 );
-                warningParams.setMargins(getDp(10), getDp(15), getDp(10), 0);
+                warningParams.setMargins(warningPadding, 0, warningPadding, dividerHeigth);
                 textView.setLayoutParams(warningParams);
                 textView.setBackgroundResource(R.color.light_gray);
                 break;
