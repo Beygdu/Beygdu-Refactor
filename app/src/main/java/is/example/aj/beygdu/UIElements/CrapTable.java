@@ -42,8 +42,9 @@ public class CrapTable {
 
     private int cellLayoutPadding;
 
-    private int titleTextSize = 20;
-    int headerTextSize = 18, cellTextSize = 16;
+    private int titleTextSize;
+    private int headerTextSize;
+    private int cellTextSize;
 
 
     /**
@@ -59,25 +60,16 @@ public class CrapTable {
         tableMargins = getDp(15);
 
         titleLayoutPadding = getDp(10);
+        headerLayoutPadding = getDp(3);
+        cellLayoutPadding = getDp(3);
 
-        headerLayoutPadding = getDp(5);
+        titleTextSize = getDp(7);
+        headerTextSize = getDp(6);
+        cellTextSize = getDp(5);
 
-        cellLayoutPadding = getDp(5);
-
-
-    }
-
-    public void setTitle(String title) {
 
     }
 
-    public void setTitleTextSize(int size) {
-        this.titleTextSize = size;
-    }
-
-    public void setTitleBackgroundResource(Color color) {
-
-    }
 
     private int setHeaderCellSize(String headerString) {
 
@@ -101,7 +93,10 @@ public class CrapTable {
     }
 
 
-
+    /**
+     * Creates tables who do not adhere the standard table layout
+     *
+     */
     private LinearLayout[] getSpecialInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content, int layoutId) {
 
         LinearLayout[] tableRows;
@@ -111,9 +106,7 @@ public class CrapTable {
         switch (layoutId) {
             // Verb big-block
             case Table.LAYOUT_VERB_BIGBLOCK:
-                Log.w("SpecialBIG", "Content length is " + content.size());
-                Log.w("SpecialBig", "rowHeaders are :"+rowHeaders.length);
-                Log.w("SpecialBIg", "columnHeaders are :"+columnHeaders.length);
+
                 int contentCounter = 0;
 
                 tableRows = new LinearLayout[rowHeaders.length+1]; // +1 for title
@@ -133,16 +126,17 @@ public class CrapTable {
                 for(int j = 0; j < tableRows.length; j++) {
                     // Title
                     if(j == 0) {
-                        TextView tV = new TextView(context);
-                        tV.setLayoutParams(new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                        ));
-                        tV.setPadding(titleLayoutPadding, titleLayoutPadding, titleLayoutPadding, titleLayoutPadding);
-                        tV.setTextSize(titleTextSize);
-                        tV.setText(title);
-                        tableRows[j].addView(tV);
-
+                        if (!title.equals("")) {
+                            TextView tV = new TextView(context);
+                            tV.setLayoutParams(new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                            ));
+                            tV.setPadding(titleLayoutPadding, titleLayoutPadding/4, titleLayoutPadding, titleLayoutPadding/4);
+                            tV.setTextSize(titleTextSize);
+                            tV.setText(title);
+                            tableRows[j].addView(tV);
+                        }
                     }
                     // Column headers
                     else if(j == 1) {
@@ -152,7 +146,7 @@ public class CrapTable {
                             if(i==0) {
                                 tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                         headerLayoutWidth,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                        LinearLayout.LayoutParams.MATCH_PARENT
                                 ));
 
                             }
@@ -160,12 +154,12 @@ public class CrapTable {
                             else {
                                 tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                         cellLayoutWidth,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                        LinearLayout.LayoutParams.MATCH_PARENT
                                 ));
-                                //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                                tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
                                 tVs[i].setTextSize(headerTextSize);
                                 tVs[i].setText(columnHeaders[i]); // first header is blank so no need for offset
-                                tVs[i].setBackgroundColor(context.getResources().getColor(R.color.green));
+                                tVs[i].setBackgroundResource(R.drawable.line_border_left);
                             }
                         }
                         addViews(tableRows[j], tVs);
@@ -178,25 +172,28 @@ public class CrapTable {
                             if(i==0) {
                                 tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                         headerLayoutWidth,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                        LinearLayout.LayoutParams.MATCH_PARENT
                                 ));
-                                //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
-                                tVs[i].setTextSize(headerTextSize);
+                                tVs[i].setPadding(cellLayoutPadding, cellLayoutPadding, cellLayoutPadding, cellLayoutPadding);
+                                tVs[i].setTextSize(cellTextSize);
                                 tVs[i].setText(rowHeaders[j - 1]); // offset
-                                if(j%2 == 0) tVs[i].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+                                if(j%2 == 0) tVs[i].setBackgroundResource(R.color.lightblue);
                             }
                             // Manage content
                             else {
                                 tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                         cellLayoutWidth,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                        LinearLayout.LayoutParams.MATCH_PARENT
                                 ));
-                                //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                                tVs[i].setPadding(cellLayoutPadding, cellLayoutPadding, cellLayoutPadding, cellLayoutPadding);
                                 tVs[i].setTextSize(cellTextSize);
                                 tVs[i].setText(content.get(contentCounter++));
-                                if(j%2 == 0) tVs[i].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+
+                                if (j % 2 == 0)
+                                    tVs[i].setBackgroundResource(R.drawable.line_border_left_lightblue);
+                                else tVs[i].setBackgroundResource(R.drawable.line_border_left);
+
                             }
-                            //addViews(tableRows[j], tVs);
                         }
                         addViews(tableRows[j], tVs);
 
@@ -205,10 +202,6 @@ public class CrapTable {
                 return tableRows;
             // Verb small-block
             case Table.LAYOUT_VERB_SMALLBLOCK:
-
-                Log.w("SpecialSmall", "rowHeaders are :"+rowHeaders.length);
-                Log.w("SpecialSmall", "columnHeaders are :"+columnHeaders.length);
-                Log.w("SpecialSmall", "content length is :"+content.size());
 
                 // TODO : fix for real in data preparation
                 if(content.size() == 1) {
@@ -239,10 +232,12 @@ public class CrapTable {
                             tVs[k-1] = new TextView(context);
                             tVs[k-1].setLayoutParams(new LinearLayout.LayoutParams(
                                     cellLayoutWidth,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                    LinearLayout.LayoutParams.MATCH_PARENT
                             ));
+                            tVs[k-1].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
                             tVs[k-1].setTextSize(headerTextSize);
                             tVs[k-1].setText(columnHeaders[k]);
+                            if(k > 1) tVs[k-1].setBackgroundResource(R.drawable.line_border_left);
                         }
                     }
                     else {
@@ -250,11 +245,13 @@ public class CrapTable {
                             tVs[k] = new TextView(context);
                             tVs[k].setLayoutParams(new LinearLayout.LayoutParams(
                                     cellLayoutWidth,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                    LinearLayout.LayoutParams.MATCH_PARENT
                             ));
-                            tVs[k].setTextSize(headerTextSize);
+                            tVs[k].setPadding(cellLayoutPadding, cellLayoutPadding, cellLayoutPadding, cellLayoutPadding);
+                            tVs[k].setTextSize(cellTextSize);
                             tVs[k].setText(content.get(k));
-                            tVs[k].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+                            if(k == 0)tVs[k].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+                            if(k == 1) tVs[k].setBackgroundResource(R.drawable.line_border_left_lightblue);
                         }
                     }
                     addViews(tableRows[j], tVs);
@@ -278,7 +275,7 @@ public class CrapTable {
                 TextView tV = new TextView(context);
                 tV.setLayoutParams(new LinearLayout.LayoutParams(
                         cellLayoutWidth,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                        LinearLayout.LayoutParams.MATCH_PARENT
                 ));
                 tV.setText(content.get(0));
                 tV.setTextSize(headerTextSize);
@@ -310,8 +307,9 @@ public class CrapTable {
                             tVs[k-1] = new TextView(context);
                             tVs[k-1].setLayoutParams(new LinearLayout.LayoutParams(
                                     cellLayoutWidth,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                    LinearLayout.LayoutParams.MATCH_PARENT
                             ));
+                            tVs[k-1].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
                             tVs[k-1].setTextSize(headerTextSize);
                             tVs[k-1].setText(columnHeaders[k]);
                         }
@@ -321,9 +319,10 @@ public class CrapTable {
                             tVs[k] = new TextView(context);
                             tVs[k].setLayoutParams(new LinearLayout.LayoutParams(
                                     cellLayoutWidth,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                    LinearLayout.LayoutParams.MATCH_PARENT
                             ));
-                            tVs[k].setTextSize(headerTextSize);
+                            tVs[k].setPadding(cellLayoutPadding, cellLayoutPadding, cellLayoutPadding, cellLayoutPadding);
+                            tVs[k].setTextSize(cellTextSize);
                             tVs[k].setText(content.get(k));
                             tVs[k].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
                         }
@@ -337,9 +336,17 @@ public class CrapTable {
         return null;
     }
 
+    /**
+     * Creates a standard table
+     * Row 0 - Title (if exists)
+     * Row 1 - column headers
+     * Row 2+ - Row header + content
+     *
+     * Size of content must be equal to (COLUMNHEADERS-1)*(ROWHEADERS-1)
+     *
+     */
     public LinearLayout[] getInstance(String title, String[] rowHeaders, String[] columnHeaders, ArrayList<String> content, int layoutId) {
 
-        // TODO : special cases
         if(layoutId != 0) {
             return getSpecialInstance(title, rowHeaders, columnHeaders, content, layoutId);
         }
@@ -370,15 +377,17 @@ public class CrapTable {
 
             // Manage title
             if(j == 0) {
-                TextView tV = new TextView(context);
-                tV.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                ));
-                tV.setPadding(titleLayoutPadding, titleLayoutPadding, titleLayoutPadding, titleLayoutPadding);
-                tV.setTextSize(titleTextSize);
-                tV.setText(title);
-                tableRows[j].addView(tV);
+                if(!title.equals("")) {
+                    TextView tV = new TextView(context);
+                    tV.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT
+                    ));
+                    tV.setPadding(titleLayoutPadding, titleLayoutPadding/4, titleLayoutPadding, titleLayoutPadding/4);
+                    tV.setTextSize(titleTextSize);
+                    tV.setText(title);
+                    tableRows[j].addView(tV);
+                }
             }
             // Manage column headers
             else if(j == 1) {
@@ -388,20 +397,19 @@ public class CrapTable {
                     if(i==0) {
                         tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                 headerLayoutWidth,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                LinearLayout.LayoutParams.MATCH_PARENT
                         ));
-
                     }
                     //columnHeaders
                     else {
                         tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                 cellLayoutWidth,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                LinearLayout.LayoutParams.MATCH_PARENT
                         ));
-                        //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                        tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
                         tVs[i].setTextSize(headerTextSize);
-                        tVs[i].setText(columnHeaders[i]); // first header is blank so no need for offset
-                        tVs[i].setBackgroundColor(context.getResources().getColor(R.color.green));
+                        tVs[i].setText(columnHeaders[i]);
+                        tVs[i].setBackgroundResource(R.drawable.line_border_left);
                     }
                 }
                 addViews(tableRows[j], tVs);
@@ -414,25 +422,25 @@ public class CrapTable {
                     if(i==0) {
                         tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                 headerLayoutWidth,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                LinearLayout.LayoutParams.MATCH_PARENT
                         ));
-                        //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
-                        tVs[i].setTextSize(headerTextSize);
+                        tVs[i].setTextSize(cellTextSize);
                         tVs[i].setText(rowHeaders[j - 1]); // offset
-                        if(j%2 == 0) tVs[i].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+                        if(j%2 == 0) tVs[i].setBackgroundResource(R.color.lightblue);
+
                     }
                     // Manage content
                     else {
                         tVs[i].setLayoutParams(new LinearLayout.LayoutParams(
                                 cellLayoutWidth,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                LinearLayout.LayoutParams.MATCH_PARENT
                         ));
-                        //tVs[i].setPadding(headerLayoutPadding, headerLayoutPadding, headerLayoutPadding, headerLayoutPadding);
+                        tVs[i].setPadding(cellLayoutPadding, cellLayoutPadding, cellLayoutPadding, cellLayoutPadding);
                         tVs[i].setTextSize(cellTextSize);
                         tVs[i].setText(content.get(contentCounter++));
-                        if(j%2 == 0) tVs[i].setBackgroundColor(context.getResources().getColor(R.color.lightblue));
+                        if(j%2 == 0) tVs[i].setBackgroundResource(R.drawable.line_border_left_lightblue);
+                        else tVs[i].setBackgroundResource(R.drawable.line_border_left);
                     }
-                    //addViews(tableRows[j], tVs);
                 }
                 addViews(tableRows[j], tVs);
 
@@ -440,17 +448,13 @@ public class CrapTable {
 
         }
 
-        //addViews(view ,tableRows);
         return tableRows;
     }
 
-    private void addViews(LinearLayout view, LinearLayout[] linearLayouts) {
-        for(LinearLayout layout : linearLayouts) {
-            layout.setGravity(Gravity.CENTER);
-            view.addView(layout);
-        }
-    }
 
+    /**
+     * Self explanatory?
+     */
     private void addViews(LinearLayout linearLayout, TextView[] textViews) {
         for(TextView view : textViews) {
             view.setGravity(Gravity.CENTER);
@@ -458,6 +462,11 @@ public class CrapTable {
         }
     }
 
+    /**
+     *
+     * @param columnCount Numbers of text views to be created
+     * @return TextView[columnCount]
+     */
     private TextView[] createTextViews(int columnCount) {
         TextView[] tVs = new TextView[columnCount];
         for(int i=0; i < columnCount; i++) {
@@ -466,10 +475,21 @@ public class CrapTable {
         return tVs;
     }
 
+    /**
+     * @param i pixels
+     * @return i in dp
+     */
     private int getDp(int i) {
         return DisplayUtilities.integerToDp(context, i);
     }
 
+    /**
+     * Calculates layout with
+     * @param screenWidth Width of screen in pixels
+     * @param headerLayoutWidth size of header layout (first column in each row)
+     * @param columnCount number of columns to be displayed, columnCount > 0
+     *
+     */
     private int calculateCellLayoutWith(int screenWidth, int headerLayoutWidth, int columnCount) {
         return (screenWidth - (2*tableMargins) - headerLayoutWidth )/ (columnCount == 1 ? 1 : columnCount-1);
     }

@@ -50,5 +50,6 @@
     <color name="table_title">#2b2b2b</color>
     <color name="table_cell">#2b2b2b</color>
     <color name="lightblue">#ADD8E6</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

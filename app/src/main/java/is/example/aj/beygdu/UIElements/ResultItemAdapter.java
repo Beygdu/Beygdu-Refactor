@@ -148,8 +148,14 @@ public class ResultItemAdapter extends BaseAdapter {
 
         Log.w("Number of layouts : ", ""+views.length);
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(25, 0, 25, 0);
+
         for(LinearLayout layout : views) {
-            view.addView(layout);
+            view.addView(layout, params);
         }
 
 
