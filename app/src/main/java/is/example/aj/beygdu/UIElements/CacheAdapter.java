@@ -28,20 +28,30 @@ public class CacheAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        CacheContainer container = null;
+
         if(convertView == null) {
-            v = inflater.inflate(R.layout.cache_item, parent, false);
+            container = new CacheContainer();
+
+            convertView = inflater.inflate(R.layout.cache_item, null);
+            container.textView = (TextView) convertView.findViewById(R.id.cache_item_textview);
+            container.imageView = (ImageView) convertView.findViewById(R.id.cache_item_imageview);
+            convertView.setTag(container);
         }
-        TextView textView = (TextView) v.findViewById(R.id.cache_item_textview);
-        ImageView imageView = (ImageView) v.findViewById(R.id.cache_item_imageview);
+        else {
+            container = (CacheContainer) convertView.getTag();
+        }
 
         String str = this.getItem(position);
 
-        textView.setText(str);
-        imageView.setImageResource(R.drawable.ic_menu_camera);
-
-        return v;
+        container.textView.setText(str);
+        container.imageView.setImageResource(R.drawable.ic_action_copy);
+        return convertView;
     }
 
+    static class CacheContainer {
+        TextView textView;
+        ImageView imageView;
+    }
 
 }
