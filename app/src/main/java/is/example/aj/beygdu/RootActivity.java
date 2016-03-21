@@ -104,6 +104,7 @@ public class RootActivity extends AppCompatActivity
 
         if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
             // Only the "home" fragment is in the stack
+            // TODO : implement quit notification
             finish();
             return;
         }
@@ -148,10 +149,8 @@ public class RootActivity extends AppCompatActivity
             selectItem(1);
         } else if (id == R.id.drawer_last_searches) {
             selectItem(2);
-        }  else if (id == R.id.drawer_authors) {
-            selectItem(3);
         } else if (id == R.id.drawer_contact) {
-            selectItem(4);
+            selectItem(3);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -163,9 +162,8 @@ public class RootActivity extends AppCompatActivity
      * 0 = SearchFragment
      * 1 = AboutFragment
      * 2 = CacheFragment
-     * 3 = AuthorFragment
-     * 4 = MailFragment (a badly named Contact-fragment)
-     * 5 = MapFragment (not in drawer)
+     * 3 = MailFragment (a badly named Contact-fragment)
+     * 4 = MapFragment (not in drawer)
      *
      * @param position Position id for the desired fragment to be shown
      */
@@ -173,17 +171,9 @@ public class RootActivity extends AppCompatActivity
 
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        makeToast("SupportFragment holds : " + getSupportFragmentManager().getBackStackEntryCount() + " fragments");
+        //makeToast("SupportFragment holds : " + getSupportFragmentManager().getBackStackEntryCount() + " fragments");
 
         if(position == 0) {
-            /*
-            ft.replace(R.id.frame_layout, SearchFragment.newInstance());
-            if(getFragmentManager().getBackStackEntryCount() != 0) {
-                // TODO : clear the stack
-                makeToast("Stack is not empty");
-            }
-            ft.addToBackStack(backStackTracer);
-            */
             if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 ft.replace(R.id.frame_layout, SearchFragment.newInstance());
                 ft.addToBackStack(backStackTracer);
@@ -210,10 +200,6 @@ public class RootActivity extends AppCompatActivity
             ft.addToBackStack(null);
         }
         else if(position == 3) {
-            ft.replace(R.id.frame_layout, AuthorFragment.newInstance());
-            ft.addToBackStack(null);
-        }
-        else if(position == 4) {
             ft.replace(R.id.frame_layout, MailFragment.newInstance());
             ft.addToBackStack(null);
         }

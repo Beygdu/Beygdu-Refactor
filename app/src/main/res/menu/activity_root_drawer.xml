@@ -15,10 +15,6 @@
             android:icon="@drawable/ic_placeholder_image"
             android:title="@string/drawer_last_searches" />
         <item
-            android:id="@+id/drawer_authors"
-            android:icon="@drawable/ic_placeholder_image"
-            android:title="@string/drawer_authors" />
-        <item
             android:id="@+id/drawer_contact"
             android:icon="@drawable/ic_placeholder_image"
             android:title="@string/drawer_contact" />
