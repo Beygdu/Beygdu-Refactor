@@ -49,6 +49,8 @@
 
     <!-- ContactFragment String constants -->
     <string name="contact_placeholder">PH-ContactFragment</string>
+    <string name="contact_okButton">Send</string>
+    <string name="contact_cancelButton">Cancel</string>
 
     <!-- CustomDialog String constants -->
     <string name="multiHitPrefix">PH-Ordid </string>
