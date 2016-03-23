@@ -56,6 +56,8 @@ import is.example.aj.beygdu.Utils.DisplayUtilities;
  */
 public class ResultFragment extends Fragment {
 
+    public static final int FRAGMENT_ID = 5;
+
     private FragmentCallback fragmentCallback;
 
     private TableLayout tableLayout;

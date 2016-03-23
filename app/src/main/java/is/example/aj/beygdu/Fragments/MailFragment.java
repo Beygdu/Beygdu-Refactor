@@ -14,6 +14,7 @@ import is.example.aj.beygdu.R;
 // TODO : implement
 public class MailFragment extends Fragment {
 
+    public static final int FRAGMENT_ID = 3;
 
     private FragmentCallback fragmentCallback;
 

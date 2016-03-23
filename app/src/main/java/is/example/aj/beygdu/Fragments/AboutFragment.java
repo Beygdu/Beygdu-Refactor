@@ -19,6 +19,8 @@ import is.example.aj.beygdu.R;
 // TODO: Implement
 public class AboutFragment extends Fragment {
 
+
+    public static final int FRAGMENT_ID = 1;
     // For the implementation of a "fake" back button
     private FragmentCallback fragmentCallback;
 

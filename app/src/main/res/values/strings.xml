@@ -2,6 +2,19 @@
     <string name="app_name">PH-Beygdu</string>
     <string name="action_settings">Settings</string>
 
+
+    <!-- RootActivity String constants -->
+
+    <!-- SearchFragment String constants -->
+
+    <!-- CacheFragment String constants -->
+
+    <!-- MailFragment String constants -->
+
+    <!-- MapFragment String constants -->
+
+    <!-- ResultFragment String constants -->
+
     <!-- Navigator Drawer Descriptions  -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,8 +23,15 @@
     <string name="drawer_search">Search</string>
     <string name="drawer_about">About Bin</string>
     <string name="drawer_last_searches">Last Searches</string>
-    <string name="drawer_authors">Authors</string>
     <string name="drawer_contact">Contact</string>
+
+    <!-- CustomDialog String constants -->
+    <string name="skrambi_title_prefix">The word</string>
+    <string name="skrambi_title_postfix">is incorrectly spelled, did you mean:</string>
+    <string name="multihit_title">More than one result was found for the word </string>
+    <string name="customdialog_cancel">Cancel</string>
+
+    <!-- NotificationDialog String constants -->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

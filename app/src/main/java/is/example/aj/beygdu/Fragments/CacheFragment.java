@@ -25,6 +25,8 @@ import is.example.aj.beygdu.UIElements.CacheAdapter;
 // TODO: implement
 public class CacheFragment extends Fragment {
 
+    public static final int FRAGMENT_ID = 2;
+
     // Layout objects
     private ListView listView;
 

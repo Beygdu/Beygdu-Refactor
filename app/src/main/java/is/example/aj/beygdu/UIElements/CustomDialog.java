@@ -7,6 +7,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import is.example.aj.beygdu.R;
+
 /**
  * Created by arnar on 2/8/2016.
  */
@@ -39,6 +41,13 @@ public class CustomDialog extends DialogFragment {
                 }
             }
         });
+
+        builder.setNeutralButton(getActivity().getBaseContext().getResources().getString(R.string.customdialog_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
 
         return builder.create();
     }

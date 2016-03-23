@@ -63,7 +63,7 @@ public class RootActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Shit-fix for orientation handling
-        int state = 0;
+        int state = SearchFragment.FRAGMENT_ID;
 
         // Handle orientation change
         if(savedInstanceState != null) {
@@ -100,6 +100,7 @@ public class RootActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            return;
         }
 
         if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
@@ -144,13 +145,13 @@ public class RootActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.drawer_search) {
-            selectItem(0);
+            selectItem(SearchFragment.FRAGMENT_ID);
         } else if (id == R.id.drawer_about) {
-            selectItem(1);
+            selectItem(AboutFragment.FRAGMENT_ID);
         } else if (id == R.id.drawer_last_searches) {
-            selectItem(2);
+            selectItem(CacheFragment.FRAGMENT_ID);
         } else if (id == R.id.drawer_contact) {
-            selectItem(3);
+            selectItem(MailFragment.FRAGMENT_ID);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -173,7 +174,7 @@ public class RootActivity extends AppCompatActivity
 
         //makeToast("SupportFragment holds : " + getSupportFragmentManager().getBackStackEntryCount() + " fragments");
 
-        if(position == 0) {
+        if(position == SearchFragment.FRAGMENT_ID) {
             if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 ft.replace(R.id.frame_layout, SearchFragment.newInstance());
                 ft.addToBackStack(backStackTracer);
@@ -184,11 +185,11 @@ public class RootActivity extends AppCompatActivity
                 ft.addToBackStack(backStackTracer);
             }
         }
-        else if(position == 1) {
+        else if(position == AboutFragment.FRAGMENT_ID) {
             ft.replace(R.id.frame_layout, AboutFragment.newInstance());
             ft.addToBackStack(null);
         }
-        else if(position == 2) {
+        else if(position == CacheFragment.FRAGMENT_ID) {
             CacheFragment cacheFragment = CacheFragment.newInstance();
 
             Bundle bundle = new Bundle();
@@ -199,12 +200,12 @@ public class RootActivity extends AppCompatActivity
             ft.replace(R.id.frame_layout, cacheFragment);
             ft.addToBackStack(null);
         }
-        else if(position == 3) {
+        else if(position == MailFragment.FRAGMENT_ID) {
             ft.replace(R.id.frame_layout, MailFragment.newInstance());
             ft.addToBackStack(null);
         }
         // Map
-        else if(position == 5) {
+        else if(position == MapFragment.FRAGMENT_ID) {
             ft.replace(R.id.frame_layout, MapFragment.newInstance());
             ft.addToBackStack(null);
         }
@@ -220,7 +221,7 @@ public class RootActivity extends AppCompatActivity
 
     /**
      *
-     * @return A list of result names gotten from the in-app database
+     * @return A list of result names gotten from the in-app database (if any exist)
      */
     private ArrayList<String> getCacheList() {
         try {
@@ -349,7 +350,7 @@ public class RootActivity extends AppCompatActivity
             if(possibleCorrections != null) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("state", 1);
-                bundle.putString("title", "I LIKE B..");
+                bundle.putString("title", getStr(R.string.skrambi_title_prefix) + " " + str + " " + getStr(R.string.skrambi_title_postfix));
                 bundle.putStringArray("arguments", possibleCorrections);
                 bundle.putIntArray("responses", null);
                 CustomDialog customDialog = new CustomDialog();
@@ -371,7 +372,7 @@ public class RootActivity extends AppCompatActivity
 
     private void prepareMultiHitSearch(WordResult wordResult) {
         Bundle bundle = new Bundle();
-        bundle.putString("title", R.string.multiHitPrefix + wordResult.getSearchWord() + R.string.multiHitPostFix);
+        bundle.putString("title", getStr(R.string.multihit_title)+ " " + wordResult.getSearchWord());
         bundle.putStringArray("arguments", wordResult.getMultiHitDescriptions());
         bundle.putIntArray("responses", wordResult.getMultiHitIds());
         CustomDialog customDialog = new CustomDialog();
@@ -445,6 +446,10 @@ public class RootActivity extends AppCompatActivity
         NotificationDialog dialog = new NotificationDialog();
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), tag);
+    }
+
+    private String getStr(int id) {
+        return getResources().getString(id);
     }
 
 }

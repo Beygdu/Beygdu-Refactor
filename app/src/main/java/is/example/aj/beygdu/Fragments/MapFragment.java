@@ -14,6 +14,8 @@ import is.example.aj.beygdu.R;
 // TODO : implement
 public class MapFragment extends Fragment {
 
+    public static final int FRAGMENT_ID = 4;
+
     private FragmentCallback fragmentCallback;
 
     private static final double longitude = -21.931015;

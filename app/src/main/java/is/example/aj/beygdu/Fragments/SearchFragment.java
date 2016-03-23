@@ -34,6 +34,7 @@ import is.example.aj.beygdu.R;
  */
 public class SearchFragment extends Fragment {
 
+    public static final int FRAGMENT_ID = 0;
     // Layout objects
     private EditText editText;
     private ImageButton imageButton;
