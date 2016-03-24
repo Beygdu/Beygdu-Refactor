@@ -8,12 +8,12 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:text="@string/search_toolbar_title"
+        android:text="@string/search_header"
         android:textColor="@color/white"
         android:background="@color/colorPrimary"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        android:textSize="30dp"
+        android:textSize="20sp"
         android:paddingTop="20dp"/>
 
 
@@ -27,19 +27,22 @@
 
         <TableRow
             android:id="@+id/search_row"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal">
             <EditText
                 android:id="@+id/search_edittext"
                 android:layout_height="50dp"
                 android:layout_weight="2"
                 android:background="@drawable/inputborder"
                 android:textColor="@color/font_light"
-                android:textSize="24dp"
+                android:textSize="20sp"
                 android:hint="@string/search_edittext_hint"
                 android:digits="@string/allowed_characters"
                 android:inputType="text"
                 android:paddingLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:paddingStart="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"/>
 
             <ImageButton
                 android:id="@+id/search_imagebutton"
@@ -54,7 +57,8 @@
 
         <TableRow
             android:id="@+id/extended_row"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal">
 
             <LinearLayout
                 android:id="@+id/search_checkbox_description_fix">
@@ -113,7 +117,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:padding="10dp"
-        android:gravity="left" >
+        android:gravity="start" >
 
         <TextView
             android:id="@+id/search_footer_textview"
@@ -142,7 +146,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:background="@drawable/ic_action_name"
-            android:layout_marginRight="40dp"/>
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"/>
     </RelativeLayout>
 
 

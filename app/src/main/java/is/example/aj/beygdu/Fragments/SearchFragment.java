@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,6 +79,7 @@ public class SearchFragment extends Fragment {
         if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
             TableLayout tableLayout = (TableLayout) v.findViewById(R.id.tableLayout1);
             tableLayout.setLayoutParams(setTableLayoutParams());
+            //tableLayout.setGravity(Gravity.CENTER);
 
             TextView textView = (TextView) v.findViewById(R.id.title);
             textView.setVisibility(View.GONE);
@@ -100,7 +102,7 @@ public class SearchFragment extends Fragment {
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onFragmentSwitch(5);
+                fragmentCallback.onFragmentSwitch(MapFragment.FRAGMENT_ID);
             }
         });
 
@@ -108,7 +110,7 @@ public class SearchFragment extends Fragment {
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentCallback.onFragmentSwitch(4);
+                fragmentCallback.onFragmentSwitch(MailFragment.FRAGMENT_ID);
             }
         });
 
@@ -162,6 +164,7 @@ public class SearchFragment extends Fragment {
                 RelativeLayout.LayoutParams.FILL_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
+
 
         params.setMargins(0, 20, 0, 0);
 

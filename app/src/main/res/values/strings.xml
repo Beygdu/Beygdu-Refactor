@@ -4,8 +4,19 @@
 
 
     <!-- RootActivity String constants -->
+    <string name="search_toolbar_title">PH-Toolbar_Title</string>
 
     <!-- SearchFragment String constants -->
+    <string name="search_header">PH-Header</string>
+    <string name="search_edittext_hint">PH-EditText_Hint</string>
+    <string name="allowed_characters">aábdðeéfghiíjklmnoóprstuúvxyýþæöAÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖwWzZcC</string>
+    <string name="search_button_description">PH-Button_Description</string>
+    <string name="search_checkbox_description">PH-CheckBox_Description</string>
+    <string name="search_BinBanner_description">PH-BinBanner</string>
+    <string name="search_SkrambiBanner_description">PH-SkrambiBanner</string>
+    <string name="search_footer_description">PH-Footer_Description</string>
+    <string name="search_footer_contactbutton">PH-ContactButton</string>
+    <string name="search_footer_mapbutton">PH-MapButton</string>
 
     <!-- CacheFragment String constants -->
 
@@ -40,22 +51,12 @@
     <string name="whitespace"> </string>
 
     <!-- SearchFragment String constants -->
-    <string name="search_toolbar_title">PH-Toolbar_Title</string>
-    <string name="search_header_description">PH-Header_Description</string>
-    <string name="search_footer_description">PH-Footer_Description</string>
 
-    <string name="search_edittext_hint">PH-EditText_Hint</string>
-    <string name="search_button_description">PH-Button_Description</string>
-    <string name="search_checkbox_description">PH-CheckBox_Description</string>
 
-    <string name="allowed_characters">aábdðeéfghiíjklmnoóprstuúvxyýþæöAÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖwWzZcC</string>
     <string name="copyright">© 2015 Stofnun Árna Magnússonar \n í íslenskum fræðum</string>
 
-    <string name="search_BinBanner_description">PH-BinBanner</string>
-    <string name="search_SkrambiBanner_description">PH-SkrambiBanner</string>
 
-    <string name="search_footer_contactbutton">PH-ContactButton</string>
-    <string name="search_footer_mapbutton">PH-MapButton</string>
+
 
     <!-- AboutFragment String constants -->
     <string name="about_placeholder">PH-AboutFragment</string>
