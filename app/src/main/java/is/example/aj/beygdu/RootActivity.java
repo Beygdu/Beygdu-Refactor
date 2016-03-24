@@ -225,7 +225,7 @@ public class RootActivity extends AppCompatActivity
      */
     private ArrayList<String> getCacheList() {
         try {
-            return (ArrayList<String>) new CacheAsyncTask(this).execute("1").get();
+            return (ArrayList<String>) new CacheAsyncTask(this).execute("2").get();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -304,6 +304,21 @@ public class RootActivity extends AppCompatActivity
     @Override
     public void onCacheCallback(Object item) {
         // TODO : implement
+        try {
+
+            WordResult cachePick = (WordResult) new CacheAsyncTask(getApplicationContext()).execute("1", (String) item).get();
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("WordResult", cachePick);
+            ResultFragment fragment = new ResultFragment();
+            fragment.setArguments(bundle);
+            ft.replace(R.id.frame_layout, fragment);
+            ft.commit();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            makeToast("CacheCallback failed");
+        }
         makeToast("CacheCallback");
     }
 

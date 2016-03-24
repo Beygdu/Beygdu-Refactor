@@ -5,6 +5,7 @@
 
     <!-- RootActivity String constants -->
     <string name="search_toolbar_title">PH-Toolbar_Title</string>
+    <string name="toolbar_header_description">PH-Toolbar-Header</string>
 
     <!-- SearchFragment String constants -->
     <string name="search_header">PH-Header</string>
@@ -19,7 +20,9 @@
     <string name="search_footer_mapbutton">PH-MapButton</string>
 
     <!-- CacheFragment String constants -->
-
+    <string name="cache_empty_fragment">PH-No past searches</string>
+    <string name="cache_imageview_description">WordCategoryImage</string>
+    <string name="cache_footer_description">PH-Footer_Description</string>
     <!-- MailFragment String constants -->
 
     <!-- MapFragment String constants -->
@@ -63,7 +66,6 @@
 
     <!-- CacheFragment String constants -->
     <string name="cache_placeholder">PH-CacheFragment</string>
-    <string name="cache_empty_fragment">PH-No past searches</string>
 
     <!-- AuthorFragment String constants -->
     <string name="author_placeholder">PH-AuthorFragment</string>

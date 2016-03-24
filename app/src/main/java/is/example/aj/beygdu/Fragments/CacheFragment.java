@@ -61,7 +61,7 @@ public class CacheFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.cache_listview);
         //listView.setEmptyView(v.findViewById(R.id.cache_empty));
 
-        ArrayList<String> wordResults = getArguments().getStringArrayList("arguments");
+        final ArrayList<String> wordResults = getArguments().getStringArrayList("arguments");
 
 
         if(wordResults != null) {
@@ -70,7 +70,7 @@ public class CacheFragment extends Fragment {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    fragmentCallback.onCacheCallback(null);
+                    fragmentCallback.onCacheCallback(wordResults.get(position));
                 }
 
             });
@@ -108,7 +108,7 @@ public class CacheFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle instanceState) {
 
-        // TODO : Save state involving the listview
+        // TODO : Save state involving the listview if needed
 
         super.onSaveInstanceState(instanceState);
     }

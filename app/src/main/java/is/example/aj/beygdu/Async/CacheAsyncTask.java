@@ -43,6 +43,11 @@ public class CacheAsyncTask extends AsyncTask<Object, Void, Object> {
                 return INSERT_FAILURE;
             }
         }
+        else if(params[0].equals("1")) {
+            DBController controller = new DBController(context);
+            WordResult result = controller.fetch((String) params[1]);
+            return result;
+        }
         else {
             try {
                 DBController controller = new DBController(context);

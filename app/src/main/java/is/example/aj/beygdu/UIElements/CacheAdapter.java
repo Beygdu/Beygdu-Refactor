@@ -45,7 +45,7 @@ public class CacheAdapter extends ArrayAdapter<String> {
         String str = this.getItem(position);
 
         container.textView.setText(str);
-        container.imageView.setImageResource(R.drawable.ic_action_copy);
+        container.imageView.setImageResource(R.drawable.ic_menu_camera);
         return convertView;
     }
 

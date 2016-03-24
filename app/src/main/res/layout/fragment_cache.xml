@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,4 +20,45 @@
         android:padding="16dp"
         android:text="@string/cache_empty_fragment" />
 
-</FrameLayout>
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:gravity="start" >
+
+        <TextView
+            android:id="@+id/cache_footer_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/cache_footer_description"
+            android:textColor="#FFF"
+            android:textSize="12sp" />
+        <!--
+        <ImageButton
+            android:id="@+id/search_footer_map"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/search_footer_mapbutton"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="#FFF"
+            android:background="@drawable/ic_launcher"/>
+        <ImageButton
+            android:id="@+id/search_footer_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/search_footer_contactbutton"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_action_name"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"/> -->
+    </RelativeLayout>
+
+</RelativeLayout>

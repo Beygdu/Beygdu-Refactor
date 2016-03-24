@@ -149,13 +149,20 @@ public class DBController {
      */
     public WordResult fetch(String title) {
         WordResult newWordResult;
-
+        /*
         if (!dB.isOpen()) {
             try {
                 open();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+        */
+        try {
+            open();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
         final String myQuery =
                 "SELECT * FROM wordresult " +
