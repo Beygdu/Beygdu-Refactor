@@ -23,7 +23,21 @@
     <string name="cache_empty_fragment">PH-No past searches</string>
     <string name="cache_imageview_description">WordCategoryImage</string>
     <string name="cache_footer_description">PH-Footer_Description</string>
+
     <!-- MailFragment String constants -->
+    <string name="mail_toBin">XXXX@XXXX.XX</string>
+    <string name="mail_toDev">DDDD@DDDD.DD</string>
+    <string-array name="mail_mailto">
+        <item>@string/mail_toBin</item>
+        <item>@string/mail_toDev</item>
+    </string-array>
+    <string name="mail_subject_hint">Subject</string>
+    <string name="mail_context_hint">Context</string>
+    <string name="mail_footer_description">PH-footer-desc</string>
+    <string name="mail_invalid_subject">Please type in a subject</string>
+    <string name="mail_invalid_subject_content">Please type in a subject and content</string>
+    <string name="mail_invalid_content">Please type in the content</string>
+    <string name="mail_email_client">Choose email client</string>
 
     <!-- MapFragment String constants -->
 

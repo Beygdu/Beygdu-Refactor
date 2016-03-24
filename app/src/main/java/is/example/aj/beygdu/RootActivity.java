@@ -329,6 +329,7 @@ public class RootActivity extends AppCompatActivity
      */
     @Override
     public void onFragmentSwitch(int state) {
+        if(state == -1) return;
         selectItem(state);
     }
 
